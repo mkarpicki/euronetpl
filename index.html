@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="eBankomaty, euronet, ATM" />
+
+    <meta name="MobileOptimized" content="width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9" />
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="css/application.css" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../../common.karpicki.com/front/lib/html5shiv.js"></script>
+    <![endif]-->
+
+    <title>Euronet Bankomaty</title>
+
+</head>
+<body>
+    <section id="search" class="view">
+        <form action="" method="get" onsubmit="return false;">
+            <fieldset>
+                <legend>Wyszukiwanie:</legend>
+                <input type="radio" id="search-gps">
+                <label for="search-gps">za pomocą GPS:</label>
+                <p id="search-gps-status">
+                    Wyszukiwanie ...
+                </p>
+                <input type="radio" id="search-manual">
+                <label for="search-manual">ręczne</label>
+                <input type="text" name="city" id="city" value="" />
+                <label for="city">Wpisz miasto:</label>
+                <button>
+                    <span>Szukaj</span>
+                </button>
+            </fieldset>
+        </form>
+    </section>
+    <section id="map" class="view" style="display:block;">
+        <div class="map-container"></div>
+        <ul class="bar">
+            <li><a href="#" class="zoom-in-button" title="Przybliż">Przybliź</a></li>
+            <li><a href="#" class="list-button" title="Lista" class="disabled">Lista</a></li>
+            <!--<li><a href="#" class="refreshButton" class="disabled"></a></li>-->
+            <li><a href="#" class="search-button" title="Wyszukiwanie">Wyszukiwanie</a></li>
+            <li><a href="#" class="zoom-out-button" title="Oddal">Oddal</a></li>
+        </ul>
+    </section>
+    <section id="list" class="view">
+        <ul></ul>
+    </section>
+
+    <!--<script charset="utf-8" type="text/javascript" src="http://api.maps.nokia.com/2.2.4/jsl.js?routing=none&positioning=none" ></script>-->
+    <!--<script charset="utf-8" type="text/javascript" src="application.js.php"></script>-->
+</body>
+</html>
