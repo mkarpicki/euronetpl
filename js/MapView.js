@@ -63,11 +63,11 @@ var MapView = function (params) {
         };
 
         search.onclick = function () {
-            customEvent.fire("searchIcoClick");
+            //customEvent.fire("searchIcoClick");
         };
 
         list.onclick = function () {
-            customEvent.fire("listIcoClick");
+            //customEvent.fire("listIcoClick");
         };
     };
 
