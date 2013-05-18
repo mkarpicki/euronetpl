@@ -21,13 +21,64 @@ ul {
 }
 
 .view {
-    background-color: red;
+    /*background-color: red;*/
     display: none;
+    height: 100%;
+    position: relative;
+}
+
+/*******
+ * Map View
+ *********/
+#map .map-container {
     height: 100%;
 }
 
-/******* Map View *********/
-#map .bar {
+/** map controls **/
+.map-control {
+    position: absolute;
+}
+
+.map-control.move {
+    background-image: url('../img/icons.png');
+    /*border:  1px solid blue;*/
+    display: block;
+    height: 25px;
+    width: 25px;
+}
+
+.map-control.move.top,
+.map-control.move.bottom {
+    left: 49%;
+}
+
+.map-control.move.left,
+.map-control.move.right {
+    top: 48%;
+}
+
+.map-control.move.top {
+    background-position: 76px 0;
+    top: 10px;
+}
+
+.map-control.move.bottom {
+    background-position: 25px 0;
+    bottom: 50px;
+}
+
+.map-control.move.left {
+    background-position: 127px 0;
+    left: 10px;
+}
+
+.map-control.move.right {
+    background-position: 178px 0;
+    right: 10px;
+}
+
+/** bar **/
+.bar {
     background: #000;
     display: inline-block;
     padding: 10px 0;

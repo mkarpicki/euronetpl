@@ -18,10 +18,10 @@ var Application = function (params) {
     /**
      * initialize views
      */
-    /*_mapView = new MapView({
+    _mapView = new MapView({
         view: document.getElementById("map"),
         appId: _appId,
         authToken: _authToken
-    });*/
+    });
 
 };
