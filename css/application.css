@@ -27,9 +27,9 @@ ul {
     position: relative;
 }
 
-/*******
+/*******************************************************************
  * Map View
- *********/
+ ********************************************************************/
 #map .map-container {
     height: 100%;
 }
@@ -41,6 +41,7 @@ ul {
 
 .map-control.move {
     background-image: url('../img/icons.png');
+    border: 0;
     /*border:  1px solid blue;*/
     display: block;
     height: 25px;

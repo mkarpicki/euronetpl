@@ -3,6 +3,9 @@
  *
  * @param params
  * param.serviceUrl {String} - url that points to service which wil provide JSONP with results
+ *
+ * @require global object common.karpicki.com/front/customEvent
+ * @require global object common.karpicki.com/browser
  */
 var Application = function (params) {
 
