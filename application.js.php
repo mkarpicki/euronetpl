@@ -12,7 +12,10 @@
     require_once("js/DetailContainer.js");
     require_once("js/SearchForm.js");
     */
+    require_once("../../common.karpicki.com/front/util/customEvent.js");
+
     require_once("js/MapView.js");
+    require_once("js/ListView.js");
     require_once("js/Application.js");
     require_once("js/init.js");
 ?>

@@ -21,10 +21,15 @@ var Application = function (params) {
     /**
      * initialize views
      */
+
     _mapView = new MapView({
         view: document.getElementById("map"),
         appId: _appId,
         authToken: _authToken
+    });
+
+    _listView = new ListView({
+        view: document.getElementById("list")
     });
 
 };

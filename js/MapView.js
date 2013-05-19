@@ -5,6 +5,7 @@
  * params.appId {String} HERE.com developer's account App ID
  * params.authToken {String} HERE.com developer's account App Token
  * @requires HERE JavaScript API (http://developer.here.com)
+ * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  */
 var MapView = function (params) {
 
@@ -16,10 +17,34 @@ var MapView = function (params) {
 
         _map,
 
+        clearMap,
+        renderMarkers,
+
+        hide,
+        show,
+
         initialize,
         initializeBarControls,
+        initializeCustomListeners,
         initializeMap,
         initializeMapControls;
+
+    /**
+     * clears map from all rendered markers
+     */
+    clearMap = function () {
+        console.log("mapview.clearmap");
+    };
+
+    /**
+     * initializes custom event listeners
+     */
+    initializeCustomListeners = function () {
+        util.customEvent.addListeners({
+            onSearchClicked: clearMap,
+            onSearchFound: renderMarkers
+        });
+    };
 
     /**
      * creates and return map object
@@ -38,6 +63,11 @@ var MapView = function (params) {
         });
     };
 
+    /**
+     * initializes move controls (pan controls)
+     * @todo if borwser supports touch events - hide
+     * @param map {nokia.maps.map.Display)
+     */
     initializeBarControls = function (map) {
 
         var bar = _view.getElementsByClassName("bar")[0],
@@ -63,11 +93,17 @@ var MapView = function (params) {
         };
 
         search.onclick = function () {
-            //customEvent.fire("searchIcoClick");
+
+            hide();
+
+            util.customEvent.fire("searchIconClick");
         };
 
         list.onclick = function () {
-            //customEvent.fire("listIcoClick");
+
+            hide();
+
+            util.customEvent.fire("listIconClick");
         };
     };
 
@@ -123,6 +159,27 @@ var MapView = function (params) {
 
         initializeBarControls(_map);
 
+        initializeCustomListeners();
+
+    };
+
+    renderMarkers = function (items) {
+        console.log("Mapview.rendermarkers");
+        console.log(items);
+    };
+
+    /**
+     * hides view
+     */
+    hide = function () {
+        _view.style.display = "none";
+    };
+
+    /**
+     * Shoes view
+     */
+    show = function () {
+        _view.style.display = "block";
     };
     
     initialize();
