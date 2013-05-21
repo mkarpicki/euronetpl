@@ -59,22 +59,22 @@ ul {
 }
 
 .map-control.move.top {
-    background-position: 76px 0;
+    background-position: 148px 0;
     top: 10px;
 }
 
 .map-control.move.bottom {
-    background-position: 25px 0;
+    background-position: 97px 0;
     bottom: 50px;
 }
 
 .map-control.move.left {
-    background-position: 127px 0;
+    background-position: 200px 0;
     left: 10px;
 }
 
 .map-control.move.right {
-    background-position: 178px 0;
+    background-position: 250px 0;
     right: 10px;
 }
 
@@ -143,5 +143,13 @@ ul {
 
 .bar .zoom-out-button.disabled {
     background-position: -200px -24px;
+}
+
+.bar .maph-button {
+    background-position: -454px 0;
+}
+
+.bar .map-button.disabled {
+    background-position: -454px -24px;
 }
 
