@@ -9,10 +9,11 @@ html {
 }
 
 body {
-    margin: 0;
-    padding: 0;
     height:100%;
+    margin: 0;
     max-height: 100%;
+    padding: 0;
+    position: relative;
 }
 
 ul {
@@ -79,7 +80,7 @@ ul {
 }
 
 /** bar **/
-.bar {
+#bar {
     background: #000;
     display: inline-block;
     padding: 10px 0;
@@ -90,13 +91,13 @@ ul {
     bottom: 0
 }
 
-.bar li {
+#bar li {
     display: inline-block;
     list-style: none outside none;
     margin: 0 10px;
 }
 
-.bar a {
+#bar a {
     background-image: url('../img/icons.png');
     background-repeat: no-repeat;
     display: inline-block;
@@ -105,51 +106,51 @@ ul {
     width: 24px;
 }
 
-.bar .zoom-in-button {
+#bar .zoom-in-button {
     background-position: 0 0;
 }
 
-.bar .zoom-in-button.disabled {
+#bar .zoom-in-button.disabled {
     background-position: 0 -24px;
 }
 
-.bar .list-button {
+#bar .list-button {
     background-position: -50px 0;
 }
 
-.bar .list-button.disabled {
+#bar .list-button.disabled {
     background-position: -50px -24px;
 }
 
-.bar .refresh-button {
+#bar .refresh-button {
     background-position: -100px 0;
 }
 
-.bar .refresh-button.disabled {
+#bar .refresh-button.disabled {
     background: url(../img/ico_reload.gif) no-repeat 0 0;
 }
 
-.bar .search-button {
+#bar .search-button {
     background-position: -150px 0;
 }
 
-.bar .search-button.disabled {
+#bar .search-button.disabled {
     background-position: -150px -24px;
 }
 
-.bar .zoom-out-button {
+#bar .zoom-out-button {
     background-position: -200px 0;
 }
 
-.bar .zoom-out-button.disabled {
+#bar .zoom-out-button.disabled {
     background-position: -200px -24px;
 }
 
-.bar .maph-button {
+#bar .map-button {
     background-position: -454px 0;
 }
 
-.bar .map-button.disabled {
+#bar .map-button.disabled {
     background-position: -454px -24px;
 }
 

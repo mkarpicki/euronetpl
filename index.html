@@ -23,7 +23,7 @@
 </head>
 <body>
     <section id="search" class="view">
-        <form action="" method="get" onsubmit="return false;">
+        <form action="/search" method="get" onsubmit="return false;">
             <fieldset>
                 <legend>Wyszukiwanie:</legend>
                 <input type="radio" id="search-gps">
@@ -49,20 +49,20 @@
         <a href="#" class="map-control move bottom"></a>
         <a href="#" class="map-control move left"></a>
 
-        <ul class="bar">
-            <li><a href="#" class="zoom-in-button" title="Przybliż">Przybliź</a></li>
-            <li><a href="#" class="list-button" title="Lista" class="disabled">Lista</a></li>
-            <!--<li><a href="#" class="refreshButton" class="disabled"></a></li>-->
-            <li><a href="#" class="search-button" title="Wyszukiwanie">Wyszukiwanie</a></li>
-            <li><a href="#" class="zoom-out-button" title="Oddal">Oddal</a></li>
-        </ul>
     </section>
     <section id="list" class="view">
         <ul class="items"></ul>
-        <ul class="bar">
-            <li><a href="#" class="search-button" title="Wyszukiwanie">Wyszukiwanie</a></li>
-        </ul>
     </section>
+    <nav id="bar">
+        <ul>
+            <li><a href="#" class="zoom-in-button" title="Przybliż">Przybliź</a></li>
+            <li><a href="#" class="list-button disabled" title="Lista">Lista</a></li>
+            <!--<li><a href="#" class="refreshButton" class="disabled"></a></li>-->
+            <li><a href="#" class="search-button" title="Wyszukiwanie">Wyszukiwanie</a></li>
+            <li><a href="#" class="zoom-out-button" title="Oddal">Oddal</a></li>
+            <li><a href="#" class="map-button" title="Mapa">Mapa</a></li>
+        </ul>
+    </nav>
 
     <script charset="utf-8" type="text/javascript" src="http://api.maps.nokia.com/2.2.4/jsl.js?routing=none&positioning=none" ></script>
     <script charset="utf-8" type="text/javascript" src="application.js.php"></script>

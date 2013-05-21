@@ -6,7 +6,7 @@
  */
 var ListView = function (params) {
 
-    var _view = params.view,
+    var _node = params.node,
 
         clearList,
         renderList,
@@ -36,14 +36,14 @@ var ListView = function (params) {
      * hides view
      */
     hide = function () {
-        _view.style.display = "none";
+        _node.style.display = "none";
     };
 
     /**
      * Shoes view
      */
     show = function () {
-        _view.style.display = "block";
+        _node.style.display = "block";
     };
 
     initialize();

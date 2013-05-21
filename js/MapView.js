@@ -10,10 +10,14 @@
 var MapView = function (params) {
 
     var JUMP = 50,
-        _view = params.view,
-        _mapContainer = _view.getElementsByClassName("map-container")[0],
+
+        _node = params.node,
+        _mapContainer = _node.getElementsByClassName("map-container")[0],
         _appId = params.appId,
         _authToken = params.authToken,
+
+        _zoomLevelProp = "zoomLevel",
+        _zoomLevelVal,
 
         _map,
 
@@ -22,6 +26,8 @@ var MapView = function (params) {
 
         hide,
         show,
+        zoomIn,
+        zoomOut,
 
         initialize,
         initializeBarControls,
@@ -42,7 +48,9 @@ var MapView = function (params) {
     initializeCustomListeners = function () {
         util.customEvent.addListeners({
             onSearchClicked: clearMap,
-            onSearchFound: renderMarkers
+            onSearchFound: renderMarkers,
+            zoomInBtnClick: zoomIn,
+            zoomOutBtnClick: zoomOut
         });
     };
 
@@ -64,80 +72,40 @@ var MapView = function (params) {
     };
 
     /**
-     * initializes move controls (pan controls)
-     * @todo if borwser supports touch events - hide
-     * @param map {nokia.maps.map.Display)
-     */
-    initializeBarControls = function (map) {
-
-        var bar = _view.getElementsByClassName("bar")[0],
-            zoomIn = bar.getElementsByClassName("zoom-in-button")[0],
-            zoomOut = bar.getElementsByClassName("zoom-out-button")[0],
-            list = bar.getElementsByClassName("list-button")[0],
-            search = bar.getElementsByClassName("search-button")[0],
-            zoomLevelProp = "zoomLevel",
-            zoomLevelVal;
-
-        zoomIn.onclick = function () {
-
-            zoomLevelVal = map.get(zoomLevelProp);
-
-            map.set(zoomLevelProp, zoomLevelVal + 1);
-        };
-
-        zoomOut.onclick = function () {
-
-            zoomLevelVal = map.get(zoomLevelProp);
-
-            map.set(zoomLevelProp, zoomLevelVal - 1);
-        };
-
-        search.onclick = function () {
-
-            hide();
-
-            util.customEvent.fire("searchIconClick");
-        };
-
-        list.onclick = function () {
-
-            hide();
-
-            util.customEvent.fire("listIconClick");
-        };
-    };
-
-    /**
      * initializes an action onclick on each move control
      * @todo - depending on browser hide controls?
      * @param map
      */
     initializeMapControls = function (map) {
 
-        var moveTop = _view.getElementsByClassName("move top")[0],
-            moveRight = _view.getElementsByClassName("move right")[0],
-            moveBottom = _view.getElementsByClassName("move bottom")[0],
-            moveLeft = _view.getElementsByClassName("move left")[0],
+        var moveTop = _node.getElementsByClassName("move top")[0],
+            moveRight = _node.getElementsByClassName("move right")[0],
+            moveBottom = _node.getElementsByClassName("move bottom")[0],
+            moveLeft = _node.getElementsByClassName("move left")[0],
             panType = "default";
 
         moveTop.onclick = function () {
 
             map.pan(0, 0 , 0, -JUMP, panType);
+            return false;
         };
 
         moveRight.onclick = function () {
 
             map.pan(0, 0 , JUMP, 0, panType);
+            return false;
         };  
 
         moveBottom.onclick = function () {
 
             map.pan(0, 0 , 0, JUMP, panType);
+            return false;
         };
 
         moveLeft.onclick = function () {
 
             map.pan(0, 0 , -JUMP, 0, panType);
+            return false;
         };
 
     };
@@ -157,8 +125,6 @@ var MapView = function (params) {
 
         initializeMapControls(_map);
 
-        initializeBarControls(_map);
-
         initializeCustomListeners();
 
     };
@@ -172,14 +138,33 @@ var MapView = function (params) {
      * hides view
      */
     hide = function () {
-        _view.style.display = "none";
+        _node.style.display = "none";
     };
 
     /**
      * Shoes view
      */
     show = function () {
-        _view.style.display = "block";
+        _node.style.display = "block";
+    };
+
+    zoomIn = function () {
+
+        _zoomLevelVal = _map.get(_zoomLevelProp);
+
+        _map.set(_zoomLevelProp, _zoomLevelVal + 1);
+
+        console.log(_zoomLevelVal);
+    };
+
+    zoomOut = function () {
+
+        _zoomLevelVal = _map.get(_zoomLevelProp);
+
+        _map.set(_zoomLevelProp, _zoomLevelVal - 1);
+
+
+        console.log(_zoomLevelVal);
     };
     
     initialize();

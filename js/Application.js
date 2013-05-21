@@ -13,6 +13,7 @@ var Application = function (params) {
         _appId = params.hereCom.appId,
         _authToken = params.hereCom.authToken,
 
+        _bar,
         _listView,
         _mapView,
         _searchView;
@@ -23,13 +24,17 @@ var Application = function (params) {
      */
 
     _mapView = new MapView({
-        view: document.getElementById("map"),
+        node: document.getElementById("map"),
         appId: _appId,
         authToken: _authToken
     });
 
     _listView = new ListView({
-        view: document.getElementById("list")
+        node: document.getElementById("list")
+    });
+
+    _bar = new Bar({
+        node: document.getElementById("bar")
     });
 
 };
