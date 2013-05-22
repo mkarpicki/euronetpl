@@ -16,7 +16,7 @@
 
     require_once("js/MapView.js");
     require_once("js/ListView.js");
-    require_once("js/Application.js");
     require_once("js/Bar.js");
+    require_once("js/Application.js");
     require_once("js/init.js");
 ?>
