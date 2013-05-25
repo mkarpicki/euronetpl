@@ -23,6 +23,10 @@ var Application = function (params) {
      * initialize views
      */
 
+    _searchView = new SearchView({
+        node: document.getElementById("search")
+    });
+
     _mapView = new MapView({
         node: document.getElementById("map"),
         appId: _appId,

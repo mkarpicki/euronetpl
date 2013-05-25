@@ -11,6 +11,8 @@ var MapView = function (params) {
 
     var JUMP = 50,
 
+        _customEvent = util.customEvent,
+
         _node = params.node,
         _mapContainer = _node.getElementsByClassName("map-container")[0],
         _appId = params.appId,
@@ -30,7 +32,6 @@ var MapView = function (params) {
         zoomOut,
 
         initialize,
-        initializeBarControls,
         initializeCustomListeners,
         initializeMap,
         initializeMapControls;
@@ -39,16 +40,21 @@ var MapView = function (params) {
      * clears map from all rendered markers
      */
     clearMap = function () {
-        console.log("mapview.clearmap");
+        //console.log("mapview.clearmap");
     };
 
     /**
      * initializes custom event listeners
      */
     initializeCustomListeners = function () {
-        util.customEvent.addListeners({
-            onSearchClicked: clearMap,
-            onSearchFound: renderMarkers,
+        _customEvent.addListeners({
+            mapBtnClick: show,
+            
+            searchViewOpened: hide,
+            listViewOpened: hide,
+
+            searchClicked: clearMap,
+            searchFound: renderMarkers,
             zoomInBtnClick: zoomIn,
             zoomOutBtnClick: zoomOut
         });
@@ -130,8 +136,8 @@ var MapView = function (params) {
     };
 
     renderMarkers = function (items) {
-        console.log("Mapview.rendermarkers");
-        console.log(items);
+        //console.log("Mapview.rendermarkers");
+        //console.log(items);
     };
 
     /**
@@ -146,6 +152,7 @@ var MapView = function (params) {
      */
     show = function () {
         _node.style.display = "block";
+        _customEvent.fire("mapViewOpened");
     };
 
     zoomIn = function () {
@@ -154,7 +161,6 @@ var MapView = function (params) {
 
         _map.set(_zoomLevelProp, _zoomLevelVal + 1);
 
-        console.log(_zoomLevelVal);
     };
 
     zoomOut = function () {
@@ -163,8 +169,6 @@ var MapView = function (params) {
 
         _map.set(_zoomLevelProp, _zoomLevelVal - 1);
 
-
-        console.log(_zoomLevelVal);
     };
     
     initialize();

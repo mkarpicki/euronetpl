@@ -94,7 +94,6 @@ ul {
 #bar li {
     display: inline-block;
     list-style: none outside none;
-    margin: 0 10px;
 }
 
 #bar a {
@@ -102,6 +101,7 @@ ul {
     background-repeat: no-repeat;
     display: inline-block;
     height: 24px;
+    margin: 0 10px;
     text-indent: -9999px;
     width: 24px;
 }

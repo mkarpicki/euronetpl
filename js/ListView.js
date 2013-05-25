@@ -7,6 +7,7 @@
 var ListView = function (params) {
 
     var _node = params.node,
+        _customEvent = util.customEvent,
 
         clearList,
         renderList,
@@ -25,10 +26,13 @@ var ListView = function (params) {
      * initializes custom event listeners
      */
     initializeCustomListeners = function () {
-        util.customEvent.addListeners({
-            onSearchClicked: clearList,
-            onSearchFound: renderList,
-            listIconClick: show
+        _customEvent.addListeners({
+            searchClicked: clearList,
+            searchFound: renderList,
+            listBtnClick: show,
+
+            searchViewOpened: hide,
+            mapViewOpened: hide
         });
     };
 
@@ -44,6 +48,7 @@ var ListView = function (params) {
      */
     show = function () {
         _node.style.display = "block";
+        _customEvent.fire("listViewOpened");
     };
 
     initialize();
