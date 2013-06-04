@@ -9,11 +9,16 @@ html {
 }
 
 body {
+    font-family: 'Verdana', 'Arial';
     height:100%;
     margin: 0;
     max-height: 100%;
     padding: 0;
     position: relative;
+}
+
+button {
+    border: 1px solid grey;
 }
 
 ul {
@@ -154,3 +159,10 @@ ul {
     background-position: -454px -24px;
 }
 
+/**************************************************
+ * Search View
+ *************************************************/
+#search {
+    background: #000;
+    color: #FFF;
+}

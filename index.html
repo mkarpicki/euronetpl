@@ -22,26 +22,28 @@
 
 </head>
 <body>
-    <section id="search" class="view">
+    <section id="search" class="view" style="display:block;">
         <form action="/search" method="get" onsubmit="return false;">
             <fieldset>
                 <legend>Wyszukiwanie:</legend>
-                <input type="radio" id="search-gps">
+                <input type="radio" id="search-gps" name="search-type" checked>
                 <label for="search-gps">za pomocą GPS:</label>
                 <p id="search-gps-status">
-                    Wyszukiwanie ...
+                    wyszukiwanie ...
                 </p>
-                <input type="radio" id="search-manual">
+                <input type="radio" id="search-manual"  name="search-type">
                 <label for="search-manual">ręczne</label>
-                <input type="text" name="city" id="city" value="" />
-                <label for="city">Wpisz miasto:</label>
+                <div>
+                    <label for="city">podaj miasto:</label>
+                    <input type="text" name="city" id="city" value="" />
+                </div>
                 <button>
-                    <span>Szukaj</span>
+                    <span>szukaj</span>
                 </button>
             </fieldset>
         </form>
     </section>
-    <section id="map" class="view" style="display:block;">
+    <section id="map" class="view">
         <div class="map-container"></div>
 
         <a href="#" class="map-control move top"></a>
