@@ -1,3 +1,4 @@
+
 /**
  * Bar with links
  * @param params
@@ -18,6 +19,7 @@ var Bar = function (params) {
         initialize,
         initializeNodeListeners,
         initializeCustomListeners,
+        isDisabled,
 
         onSearchViewOpened,
         onMapViewOpened,
@@ -49,33 +51,49 @@ var Bar = function (params) {
         var customEvent = util.customEvent;
 
         _zoomInBtn.onclick = function () {
-            customEvent.fire("zoomInBtnClick");
+            if (!isDisabled(this)) {
+                customEvent.fire("zoomInBtnClick");
+            }
             return false;
         };
 
         _zoomOutBtn.onclick = function () {
-            customEvent.fire("zoomOutBtnClick");
+            if (!isDisabled(this)) {
+                customEvent.fire("zoomOutBtnClick");
+            }
             return false;
         };
 
         _searchBtn.onclick = function () {
-            customEvent.fire("searchBtnClick");
+            if (!isDisabled(this)) {
+                customEvent.fire("searchBtnClick");
+            }
             return false;
         };
 
         _listBtn.onclick = function () {
-            customEvent.fire("listBtnClick");
+            if (!isDisabled(this)) {
+                customEvent.fire("listBtnClick");
+            }
             return false;
         };
 
         _mapBtn.onclick = function () {
-            customEvent.fire("mapBtnClick");
+            if (!isDisabled(this)) {
+                customEvent.fire("mapBtnClick");
+            }
             return false;
         };
 
         _refreshBtn.onclick = function () {
-            return false;
+            if (!isDisabled(this)) {
+                return false;
+            }
         };
+    };
+
+    isDisabled = function (elem) {
+        return util.dom.hasClass(elem, "disabled");
     };
 
     onSearchViewOpened = function () {
@@ -113,7 +131,7 @@ var Bar = function (params) {
      * @param element {DOMNode}
      */
     show = function (element) {
-        element.style.display = "block";
+        util.dom.removeClass(element, "disabled");
     };
 
     /**
@@ -121,7 +139,7 @@ var Bar = function (params) {
      * @param element {DOMNode}
      */
     hide = function (element) {
-        element.style.display = "none";
+        util.dom.addClass(element, "disabled");
     };
 
     initialize();

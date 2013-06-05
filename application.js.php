@@ -9,6 +9,7 @@
 
     */
     require_once("../../common.karpicki.com/front/util/customEvent.js");
+    require_once("../../common.karpicki.com/front/util/dom.js");
 
     require_once("js/MapView.js");
     require_once("js/ListView.js");

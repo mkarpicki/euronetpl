@@ -18,7 +18,7 @@ body {
 }
 
 button {
-    border: 1px solid grey;
+    border: 1px solid gray;
 }
 
 ul {
@@ -132,6 +132,10 @@ ul {
 }
 
 #bar .refresh-button.disabled {
+    background-position: -100px -24px;
+}
+
+#bar .refresh-button.spinning {
     background: url(../img/ico_reload.gif) no-repeat 0 0;
 }
 
