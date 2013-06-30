@@ -6,170 +6,198 @@
  * params.authToken {String} HERE.com developer's account App Token
  * @requires HERE JavaScript API (http://developer.here.com)
  * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
+ * @todo move nokia's objects as a dependencies
  */
-var MapView = function (params) {
+(function (NS, util){
 
-    var JUMP = 50,
+    var _customEvent = util.customEvent;
 
-        _customEvent = util.customEvent,
+    NS.MapView = function (params) {
 
-        _node = params.node,
-        _mapContainer = _node.getElementsByClassName("map-container")[0],
-        _appId = params.appId,
-        _authToken = params.authToken,
+        var JUMP = 50,
 
-        _zoomLevelProp = "zoomLevel",
-        _zoomLevelVal,
+            _node = params.node,
+            _mapContainer = _node.getElementsByClassName("map-container")[0],
+            _appId = params.appId,
+            _authToken = params.authToken,
 
-        _map,
+            _zoomLevelProp = "zoomLevel",
+            _zoomLevelVal,
 
-        clearMap,
-        renderMarkers,
+            _map,
 
-        hide,
-        show,
-        zoomIn,
-        zoomOut,
+            clearMap,
+            renderMarkers,
 
-        initialize,
-        initializeCustomListeners,
-        initializeMap,
-        initializeMapControls;
+            hide,
+            show,
+            zoomIn,
+            zoomOut,
 
-    /**
-     * clears map from all rendered markers
-     */
-    clearMap = function () {
-        //console.log("mapview.clearmap");
-    };
+            initialize,
+            initializeCustomListeners,
+            initializeMap,
+            initializeMapControls,
 
-    /**
-     * initializes custom event listeners
-     */
-    initializeCustomListeners = function () {
-        _customEvent.addListeners({
-            mapBtnClick: show,
-            
-            searchViewOpened: hide,
-            listViewOpened: hide,
+            updateUserMarker,
 
-            searchClicked: clearMap,
-            searchFound: renderMarkers,
-            zoomInBtnClick: zoomIn,
-            zoomOutBtnClick: zoomOut
-        });
-    };
+            onViewRequired;
 
-    /**
-     * creates and return map object
-     * @return nokia.maps.map.Display
-     */
-    initializeMap = function () {
-        return new nokia.maps.map.Display(_mapContainer, {
-
-            // initial center and zoom level of the map
-            center: [52.51, 13.4],
-            components: [
-                new nokia.maps.map.component.Behavior()
-            ],
-            zoomLevel: 10
-
-        });
-    };
-
-    /**
-     * initializes an action onclick on each move control
-     * @todo - depending on browser hide controls?
-     * @param map
-     */
-    initializeMapControls = function (map) {
-
-        var moveTop = _node.getElementsByClassName("move top")[0],
-            moveRight = _node.getElementsByClassName("move right")[0],
-            moveBottom = _node.getElementsByClassName("move bottom")[0],
-            moveLeft = _node.getElementsByClassName("move left")[0],
-            panType = "default";
-
-        moveTop.onclick = function () {
-
-            map.pan(0, 0 , 0, -JUMP, panType);
-            return false;
+        /**
+         * clears map from all rendered markers
+         */
+        clearMap = function () {
+            //console.log("mapview.clearmap");
         };
 
-        moveRight.onclick = function () {
+        /**
+         * initializes custom event listeners
+         */
+        initializeCustomListeners = function () {
+            _customEvent.addListeners({
 
-            map.pan(0, 0 , JUMP, 0, panType);
-            return false;
-        };  
+                viewRequired: onViewRequired,
+                mapBtnClick: show,
 
-        moveBottom.onclick = function () {
+                geoLocationFound: updateUserMarker,
 
-            map.pan(0, 0 , 0, JUMP, panType);
-            return false;
+                //searchViewOpened: hide,
+                //listViewOpened: hide,
+
+                searchClicked: clearMap,
+                searchFound: renderMarkers,
+                zoomInBtnClick: zoomIn,
+                zoomOutBtnClick: zoomOut
+            });
         };
 
-        moveLeft.onclick = function () {
+        /**
+         * creates and return map object
+         * @return nokia.maps.map.Display
+         */
+        initializeMap = function () {
+            return new nokia.maps.map.Display(_mapContainer, {
 
-            map.pan(0, 0 , -JUMP, 0, panType);
-            return false;
+                // initial center and zoom level of the map
+                center: [52.51, 13.4],
+                components: [
+                    new nokia.maps.map.component.Behavior()
+                ],
+                zoomLevel: 10
+
+            });
         };
 
+        /**
+         * initializes an action onclick on each move control
+         * @todo - depending on browser hide controls?
+         * @param map
+         */
+        initializeMapControls = function (map) {
+
+            var moveTop = _node.getElementsByClassName("move top")[0],
+                moveRight = _node.getElementsByClassName("move right")[0],
+                moveBottom = _node.getElementsByClassName("move bottom")[0],
+                moveLeft = _node.getElementsByClassName("move left")[0],
+                panType = "default";
+
+            moveTop.onclick = function () {
+
+                map.pan(0, 0 , 0, -JUMP, panType);
+                return false;
+            };
+
+            moveRight.onclick = function () {
+
+                map.pan(0, 0 , JUMP, 0, panType);
+                return false;
+            };
+
+            moveBottom.onclick = function () {
+
+                map.pan(0, 0 , 0, JUMP, panType);
+                return false;
+            };
+
+            moveLeft.onclick = function () {
+
+                map.pan(0, 0 , -JUMP, 0, panType);
+                return false;
+            };
+
+        };
+
+        /**
+         * @constructor
+         * sets configuration for library
+         * creates map object.
+         * @todo if there will be any different view / service depending on nokia lib move seeting of appclient to application js
+         */
+        initialize = function () {
+
+            nokia.Settings.set("appId", _appId);
+            nokia.Settings.set("authenticationToken", _authToken);
+            nokia.Settings.set("defaultLanguage", "pl-PL");
+
+            _map = initializeMap();
+
+            initializeMapControls(_map);
+
+            initializeCustomListeners();
+
+        };
+
+        onViewRequired = function (event) {
+
+            if (event.params.viewName === "map") {
+                show();
+            } else {
+                hide();
+            }
+
+        };
+
+        renderMarkers = function (items) {
+            //console.log("Mapview.rendermarkers");
+            //console.log(items);
+        };
+
+        /**
+         * hides view
+         */
+        hide = function () {
+            _node.style.display = "none";
+        };
+
+        /**
+         * Shoes view
+         */
+        show = function () {
+            _node.style.display = "block";
+            _customEvent.fire("mapViewOpened");
+        };
+
+        updateUserMarker = function () {
+
+        };
+
+        zoomIn = function () {
+
+            _zoomLevelVal = _map.get(_zoomLevelProp);
+
+            _map.set(_zoomLevelProp, _zoomLevelVal + 1);
+
+        };
+
+        zoomOut = function () {
+
+            _zoomLevelVal = _map.get(_zoomLevelProp);
+
+            _map.set(_zoomLevelProp, _zoomLevelVal - 1);
+
+        };
+
+        initialize();
     };
 
-    /**
-     * @constructor
-     * sets configuration for library
-     * creates map object.
-     * @todo if there will be any different view / service depending on nokia lib move seeting of appclient to application js
-     */
-    initialize = function () {
-
-        nokia.Settings.set("appId", _appId);
-        nokia.Settings.set("authenticationToken", _authToken);
-
-        _map = initializeMap();
-
-        initializeMapControls(_map);
-
-        initializeCustomListeners();
-
-    };
-
-    renderMarkers = function (items) {
-        //console.log("Mapview.rendermarkers");
-        //console.log(items);
-    };
-
-    /**
-     * hides view
-     */
-    hide = function () {
-        _node.style.display = "none";
-    };
-
-    /**
-     * Shoes view
-     */
-    show = function () {
-        _node.style.display = "block";
-        _customEvent.fire("mapViewOpened");
-    };
-
-    zoomIn = function () {
-
-        _zoomLevelVal = _map.get(_zoomLevelProp);
-
-        _map.set(_zoomLevelProp, _zoomLevelVal + 1);
-
-    };
-
-    zoomOut = function () {
-
-        _zoomLevelVal = _map.get(_zoomLevelProp);
-
-        _map.set(_zoomLevelProp, _zoomLevelVal - 1);
-
-    };
-    
-    initialize();
-};
+}(window, util));

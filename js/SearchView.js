@@ -2,53 +2,58 @@
  *
  * @param param
  */
-var SearchView = function (params) {
+(function (NS, util) {
 
-    var _node = params.node,
-        _customEvent = util.customEvent,
+    var _customEvent = util.customEvent;
 
-        initialize,
-        initializeCustomListeners,
+    NS.SearchView = function (params) {
 
-        hide,
-        show;
+        var _node = params.node,
 
-    /**
-     * @constructor
-     */
-    initialize = function () {
+            initialize,
+            initializeCustomListeners,
 
-        initializeCustomListeners();
+            hide,
+            show;
+
+        /**
+         * @constructor
+         */
+        initialize = function () {
+
+            initializeCustomListeners();
+        };
+
+        /**
+         * initialize custom event listeners
+         */
+        initializeCustomListeners = function () {
+
+            _customEvent.addListeners({
+                searchBtnClick: show,
+
+                listViewOpened: hide,
+                mapViewOpened: hide
+            });
+        };
+
+        /**
+         * show view
+         */
+        show = function () {
+            _node.style.display = "block";
+            _customEvent.fire("searchViewOpened");
+        };
+
+        /**
+         * hides view
+         */
+        hide = function () {
+            _node.style.display = "none";
+        };
+
+        initialize();
+
     };
 
-    /**
-     * initialize custom event listeners
-     */
-    initializeCustomListeners = function () {
-
-        _customEvent.addListeners({
-            searchBtnClick: show,
-            
-            listViewOpened: hide,
-            mapViewOpened: hide
-        });
-    };
-
-    /**
-     * show view
-     */
-    show = function () {
-        _node.style.display = "block";
-        _customEvent.fire("searchViewOpened");
-    };
-
-    /**
-     * hides view
-     */
-    hide = function () {
-        _node.style.display = "none";
-    };
-
-    initialize();
-
-};
+} (window, util));

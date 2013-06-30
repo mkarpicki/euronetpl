@@ -28,9 +28,12 @@ ul {
 
 .view {
     /*background-color: red;*/
+    bottom: 44px;
     display: none;
-    height: 100%;
-    position: relative;
+    /*height: 100%;*/
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 /*******************************************************************
@@ -71,7 +74,7 @@ ul {
 
 .map-control.move.bottom {
     background-position: 97px 0;
-    bottom: 50px;
+    bottom: 10px;
 }
 
 .map-control.move.left {
