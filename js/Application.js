@@ -22,8 +22,10 @@
             _authToken = params.hereCom.authToken,
 
             init,
+
             initializeEventsListeners,
             initializeListenersForBarButtons,
+
             findUserPosition,
             showError,
 
@@ -63,6 +65,7 @@
         geoLocationFound = function (position) {
             _customEvent.fire("geoLocationFound", position);
         };
+
 
         initializeListenersForBarButtons = function () {
 

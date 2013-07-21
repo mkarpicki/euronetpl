@@ -26,6 +26,11 @@
             _zoomLevelVal,
 
             _map,
+            _userMarker,
+            _userLayer,
+
+            createMarker,
+             initializeUserMarker,
 
             clearMap,
             renderMarkers,
@@ -40,6 +45,7 @@
             initializeMap,
             initializeMapControls,
 
+            userPositionRequired,
             updateUserMarker,
 
             onViewRequired;
@@ -51,6 +57,20 @@
             //console.log("mapview.clearmap");
         };
 
+        createMarker = function (params) {
+            var Marker = params.icon ? nokia.maps.map.Marker : nokia.maps.map.StandardMarker;
+
+            return new Marker(
+                new nokia.maps.geo.Coordinate(params.position.latitude, params.position.longitude),{
+                text: params.text || "",
+                visibility: params.visibility,
+                icon: params.icon,
+                // Offset the top left icon corner so that it's
+                // Centered above the coordinate
+                anchor: new nokia.maps.util.Point(params.anchor.left || 12, params.anchor.top || 32)
+            });
+        };
+
         /**
          * initializes custom event listeners
          */
@@ -60,7 +80,9 @@
                 viewRequired: onViewRequired,
 
                 mapZoomInRequired: zoomIn,
-                mapZoomOutRequired: zoomOut
+                mapZoomOutRequired: zoomOut,
+
+                geoLocationFound: userPositionRequired
                 //mapBtnClick: show,
 
                 //geoLocationFound: updateUserMarker,
@@ -132,6 +154,37 @@
         };
 
         /**
+         * @return map object
+         */
+        initializeUserMarker = function (position) {
+
+            var marker,
+                params = {
+                    position: {
+                        latitude: position.latitude,
+                        longitude: position.longitude
+                    },
+                    title: "me",
+                    visibility: true,
+                    icon: "img/user-marker.png",
+                    anchor: {
+                        top: 16,
+                        left: 16
+                    }
+                };
+
+            marker = createMarker(params);
+
+            _userLayer = new nokia.maps.map.Container();
+
+            _userLayer.objects.add(marker);
+
+            _map.objects.add(_userLayer);
+
+            return marker;
+        };
+
+        /**
          * @constructor
          * sets configuration for library
          * creates map object.
@@ -181,8 +234,22 @@
             _customEvent.fire("mapViewOpened");
         };
 
-        updateUserMarker = function (position) {
-            console.log(position);
+        updateUserMarker = function (coordinates) {
+            _userMarker.set("coordinate", coordinates)
+        };
+
+        /**
+         * @param event
+         */
+        userPositionRequired = function (event) {
+
+            var coords = event.params.coords;
+
+            if (!_userMarker) {
+                _userMarker = initializeUserMarker(coords);
+            }
+
+            updateUserMarker(coords);
         };
 
         zoomIn = function () {
