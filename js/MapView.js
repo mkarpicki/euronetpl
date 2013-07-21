@@ -7,6 +7,7 @@
  * @requires HERE JavaScript API (http://developer.here.com)
  * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  * @todo move nokia's objects as a dependencies
+ * @todo if browser supports touch events - hide controls*
  */
 (function (NS, util){
 
@@ -57,17 +58,20 @@
             _customEvent.addListeners({
 
                 viewRequired: onViewRequired,
-                mapBtnClick: show,
 
-                geoLocationFound: updateUserMarker,
+                mapZoomInRequired: zoomIn,
+                mapZoomOutRequired: zoomOut
+                //mapBtnClick: show,
+
+                //geoLocationFound: updateUserMarker,
 
                 //searchViewOpened: hide,
                 //listViewOpened: hide,
 
-                searchClicked: clearMap,
-                searchFound: renderMarkers,
-                zoomInBtnClick: zoomIn,
-                zoomOutBtnClick: zoomOut
+                //searchClicked: clearMap,
+                //searchFound: renderMarkers
+                //zoomInBtnClick: zoomIn,
+                //zoomOutBtnClick: zoomOut
             });
         };
 
@@ -177,8 +181,8 @@
             _customEvent.fire("mapViewOpened");
         };
 
-        updateUserMarker = function () {
-
+        updateUserMarker = function (position) {
+            console.log(position);
         };
 
         zoomIn = function () {

@@ -9,7 +9,7 @@
  * @require global service common.karpicki.com/front/service/mobileGeoLocation.js
  * @require message object
  */
-(function (doc, NS, util, service) {
+(function (document, NS, util, service) {
 
     var _customEvent = util.customEvent,
         _geoLocation = service.geoLocation,
@@ -21,12 +21,9 @@
             _appId = params.hereCom.appId,
             _authToken = params.hereCom.authToken,
 
-            _bar,
-            _listView,
-            _mapView,
-            _searchView,
-
             init,
+            initializeEventsListeners,
+            initializeListenersForBarButtons,
             findUserPosition,
             showError,
 
@@ -67,29 +64,87 @@
             _customEvent.fire("geoLocationFound", position);
         };
 
+        initializeListenersForBarButtons = function () {
+
+            /**
+             * @todo
+             * bar - think about having events fired directly from object : bar.on('listButtonClick')
+             * instead of populating it to global events system
+             */
+            _customEvent.on("zoomInBtnClick", function () {
+                _customEvent.fire("mapZoomInRequired");
+            });
+
+            _customEvent.on("zoomOutBtnClick", function () {
+                _customEvent.fire("mapZoomOutRequired");
+            });
+
+            _customEvent.on("searchBtnClick", function () {
+                _customEvent.fire("viewRequired", {
+                    viewName: "search"
+                });
+            });
+
+            _customEvent.on("listBtnClick", function () {
+                _customEvent.fire("viewRequired", {
+                    viewName: "list"
+                });
+            });
+
+            _customEvent.on("mapBtnClick", function () {
+                _customEvent.fire("viewRequired", {
+                    viewName: "map"
+                });
+            });
+
+        };
+
+        /**
+         * initialize listeners for some custom events (merge actions and reactions)
+         * implement concept that Application as a main Class matches global events and listeners together so
+         * modules (components) don't have to know about each other - just listen to something and fire something -
+         * Application is connecting logic(s)
+         */
+        initializeEventsListeners = function () {
+
+            initializeListenersForBarButtons();
+
+            //_customEvent.on("geoLocationFound", function () {
+               //_customEvent.fire("geoLocationFound")
+            //});
+        };
+
         /**
          * @constructor
          */
         init = function () {
 
+            var _bar,
+                _listModule,
+                _mapModule,
+                _searchModule;
+
             //initialize views
-            _searchView = new NS.SearchView({
-                node: doc.getElementById("search")
+            _searchModule = new NS.SearchView({
+                node: document.getElementById("search")
             });
 
-            _mapView = new NS.MapView({
-                node: doc.getElementById("map"),
+            _mapModule = new NS.MapView({
+                node: document.getElementById("map"),
                 appId: _appId,
                 authToken: _authToken
             });
 
-            _listView = new NS.ListView({
-                node: doc.getElementById("list")
+            _listModule = new NS.ListView({
+                node: document.getElementById("list")
             });
 
             _bar = new NS.Bar({
-                node: doc.getElementById("bar")
+                node: document.getElementById("bar")
             });
+
+            //match events and listeners
+            initializeEventsListeners();
 
             //initialize position service
             findUserPosition();

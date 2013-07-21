@@ -3,7 +3,6 @@
  * Bar with links
  * @param params
  * params.node {DOMNode}
- * @todo if browser supports touch events - hide
  */
 (function (NS, util) {
 
@@ -30,6 +29,8 @@
             onMapViewOpened,
             onListViewOpened,
 
+            onViewRequired,
+
             show,
             hide;
 
@@ -45,9 +46,7 @@
         initializeCustomListeners = function (){
 
             _customEvent.addListeners({
-                searchViewOpened: onSearchViewOpened,
-                mapViewOpened: onMapViewOpened,
-                listViewOpened: onListViewOpened
+                onViewRequired: onViewRequired
             });
         };
 
@@ -97,6 +96,20 @@
 
         isDisabled = function (elem) {
             return _dom.hasClass(elem, "disabled");
+        };
+
+        onViewRequired = function (event) {
+
+            var viewName = event.params.viewName;
+
+            if (viewName === "map") {
+                onMapViewOpened();
+            } else if (viewName === "search") {
+                onSearchViewOpened();
+            } else if (viewName === "list") {
+                onListViewOpened();
+            }
+
         };
 
         onSearchViewOpened = function () {
