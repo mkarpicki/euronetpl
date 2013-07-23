@@ -19,8 +19,6 @@
 
             _node = params.node,
             _mapContainer = _node.getElementsByClassName("map-container")[0],
-            _appId = params.appId,
-            _authToken = params.authToken,
 
             _zoomLevelProp = "zoomLevel",
             _zoomLevelVal,
@@ -83,17 +81,6 @@
                 mapZoomOutRequired: zoomOut,
 
                 geoLocationFound: userPositionRequired
-                //mapBtnClick: show,
-
-                //geoLocationFound: updateUserMarker,
-
-                //searchViewOpened: hide,
-                //listViewOpened: hide,
-
-                //searchClicked: clearMap,
-                //searchFound: renderMarkers
-                //zoomInBtnClick: zoomIn,
-                //zoomOutBtnClick: zoomOut
             });
         };
 
@@ -192,10 +179,6 @@
          */
         initialize = function () {
 
-            nokia.Settings.set("appId", _appId);
-            nokia.Settings.set("authenticationToken", _authToken);
-            nokia.Settings.set("defaultLanguage", "pl-PL");
-
             _map = initializeMap();
 
             initializeMapControls(_map);
@@ -243,7 +226,7 @@
          */
         userPositionRequired = function (event) {
 
-            var coords = event.params.coords;
+            var coords = event.params.position.coords;
 
             if (!_userMarker) {
                 _userMarker = initializeUserMarker(coords);

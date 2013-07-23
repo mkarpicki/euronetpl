@@ -9,7 +9,11 @@
         },
         warning: {
             fillData: "Należy wpisać adres."
+        },
+        saerchModule: {
+            geoLocationFailed: "Wystąpił problem podczas ustalania lokacji",
+            geoLocationNotFound: "Nie ustalono lokacji"
         }
     };
     
-})(window.mapApp || {});
+})(window);

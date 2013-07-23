@@ -2,18 +2,22 @@
  *
  * @param param
  */
-(function (NS, util) {
+(function (document, NS, util, messages) {
 
-    var _customEvent = util.customEvent;
+    var _customEvent = util.customEvent,
+        _messages = messages;
 
     NS.SearchModule = function (params) {
 
         var _node = params.node,
+            _geoAddressNode = document.getElementById("search-gps-status"),
 
             initialize,
             initializeCustomListeners,
 
             onModuleRequired,
+            onSearchByPositionSucceed,
+            onSearchByPositionFailed,
 
             hide,
             show;
@@ -32,12 +36,9 @@
         initializeCustomListeners = function () {
 
             _customEvent.addListeners({
-                moduleRequired: onModuleRequired
-                //searchBtnClick: show,
-
-                //listViewOpened: hide,
-                //mapViewOpened: hide
-
+                moduleRequired: onModuleRequired,
+                searchByPositionSucceed: onSearchByPositionSucceed,
+                searchByPositionFailed: onSearchByPositionFailed
             });
         };
 
@@ -49,6 +50,21 @@
                 hide();
             }
 
+        };
+
+        onSearchByPositionSucceed = function (event) {
+
+            var locations = event.params.locations;
+
+            if (locations.length > 0) {
+                _geoAddressNode.innerHTML = locations[0].address.text;
+            } else {
+                _geoAddressNode.innerHTML = _messages.saerchModule.geoLocationNotFound;
+            }
+        };
+
+        onSearchByPositionFailed = function () {
+            _geoAddressNode.innerHTML = _messages.saerchModule.geoLocationFailed;
         };
 
         /**
@@ -70,4 +86,4 @@
 
     };
 
-} (window, util));
+} (document, window, util, messages));

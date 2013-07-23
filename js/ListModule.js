@@ -33,12 +33,7 @@
         initializeCustomListeners = function () {
             _customEvent.addListeners({
                 moduleRequired: onModuleRequired
-                //searchClicked: clearList,
-                //searchFound: renderList,
-                //listBtnClick: show
 
-                //searchViewOpened: hide,
-                //mapViewOpened: hide
             });
         };
 
