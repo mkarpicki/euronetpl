@@ -25,11 +25,11 @@
             initializeCustomListeners,
             isDisabled,
 
-            onSearchViewOpened,
-            onMapViewOpened,
-            onListViewOpened,
+            onSearchModuleOpened,
+            onMapModuleOpened,
+            onListModuleOpened,
 
-            onViewRequired,
+            onModuleRequired,
 
             show,
             hide;
@@ -46,7 +46,7 @@
         initializeCustomListeners = function (){
 
             _customEvent.addListeners({
-                onViewRequired: onViewRequired
+                onModuleRequired: onModuleRequired
             });
         };
 
@@ -98,21 +98,21 @@
             return _dom.hasClass(elem, "disabled");
         };
 
-        onViewRequired = function (event) {
+        onModuleRequired = function (event) {
 
-            var viewName = event.params.viewName;
+            var moduleName = event.params.moduleName;
 
-            if (viewName === "map") {
-                onMapViewOpened();
-            } else if (viewName === "search") {
-                onSearchViewOpened();
-            } else if (viewName === "list") {
-                onListViewOpened();
+            if (moduleName === "map") {
+                onMapModuleOpened();
+            } else if (moduleName === "search") {
+                onSearchModuleOpened();
+            } else if (moduleName === "list") {
+                onListModuleOpened();
             }
 
         };
 
-        onSearchViewOpened = function () {
+        onSearchModuleOpened = function () {
 
             hide(_zoomInBtn);
             hide(_zoomOutBtn);
@@ -122,7 +122,7 @@
             hide(_refreshBtn);
         };
 
-        onMapViewOpened = function () {
+        onMapModuleOpened = function () {
 
             show(_zoomInBtn);
             show(_zoomOutBtn);
@@ -132,7 +132,7 @@
             show(_refreshBtn); //when results?
         };
 
-        onListViewOpened = function () {
+        onListModuleOpened = function () {
 
             hide(_zoomInBtn);
             hide(_zoomOutBtn);

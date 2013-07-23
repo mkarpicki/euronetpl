@@ -8,7 +8,7 @@
 
     var _customEvent = util.customEvent;
 
-    NS.ListView = function (params) {
+    NS.ListModule = function (params) {
 
         var _node = params.node,
 
@@ -18,7 +18,9 @@
             hide,
 
             initialize,
-            initializeCustomListeners;
+            initializeCustomListeners,
+
+            onModuleRequired;
 
         initialize = function () {
 
@@ -30,13 +32,24 @@
          */
         initializeCustomListeners = function () {
             _customEvent.addListeners({
-                searchClicked: clearList,
-                searchFound: renderList,
-                listBtnClick: show,
+                moduleRequired: onModuleRequired
+                //searchClicked: clearList,
+                //searchFound: renderList,
+                //listBtnClick: show
 
-                searchViewOpened: hide,
-                mapViewOpened: hide
+                //searchViewOpened: hide,
+                //mapViewOpened: hide
             });
+        };
+
+        onModuleRequired = function (event) {
+
+            if (event.params.moduleName === "list") {
+                show();
+            } else {
+                hide();
+            }
+
         };
 
         /**
@@ -51,7 +64,7 @@
          */
         show = function () {
             _node.style.display = "block";
-            _customEvent.fire("listViewOpened");
+            //_customEvent.fire("listModuleOpened");
         };
 
         initialize();

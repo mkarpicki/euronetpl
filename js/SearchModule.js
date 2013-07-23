@@ -6,12 +6,14 @@
 
     var _customEvent = util.customEvent;
 
-    NS.SearchView = function (params) {
+    NS.SearchModule = function (params) {
 
         var _node = params.node,
 
             initialize,
             initializeCustomListeners,
+
+            onModuleRequired,
 
             hide,
             show;
@@ -30,11 +32,23 @@
         initializeCustomListeners = function () {
 
             _customEvent.addListeners({
-                searchBtnClick: show,
+                moduleRequired: onModuleRequired
+                //searchBtnClick: show,
 
-                listViewOpened: hide,
-                mapViewOpened: hide
+                //listViewOpened: hide,
+                //mapViewOpened: hide
+
             });
+        };
+
+        onModuleRequired = function (event) {
+
+            if (event.params.moduleName === "search") {
+                show();
+            } else {
+                hide();
+            }
+
         };
 
         /**
@@ -42,7 +56,7 @@
          */
         show = function () {
             _node.style.display = "block";
-            _customEvent.fire("searchViewOpened");
+            //_customEvent.fire("searchModuleOpened");
         };
 
         /**

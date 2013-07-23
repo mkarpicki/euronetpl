@@ -13,7 +13,7 @@
 
     var _customEvent = util.customEvent;
 
-    NS.MapView = function (params) {
+    NS.MapModule = function (params) {
 
         var JUMP = 50,
 
@@ -48,7 +48,7 @@
             userPositionRequired,
             updateUserMarker,
 
-            onViewRequired;
+            onModuleRequired;
 
         /**
          * clears map from all rendered markers
@@ -77,7 +77,7 @@
         initializeCustomListeners = function () {
             _customEvent.addListeners({
 
-                viewRequired: onViewRequired,
+                moduleRequired: onModuleRequired,
 
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
@@ -204,9 +204,9 @@
 
         };
 
-        onViewRequired = function (event) {
+        onModuleRequired = function (event) {
 
-            if (event.params.viewName === "map") {
+            if (event.params.moduleName === "map") {
                 show();
             } else {
                 hide();
@@ -231,7 +231,7 @@
          */
         show = function () {
             _node.style.display = "block";
-            _customEvent.fire("mapViewOpened");
+            //_customEvent.fire("mapModuleOpened");
         };
 
         updateUserMarker = function (coordinates) {

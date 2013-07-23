@@ -14,9 +14,9 @@
     require_once("../../common.karpicki.com/front/util/dom.js");
 
     require_once("js/messages.js");
-    require_once("js/MapView.js");
-    require_once("js/ListView.js");
-    require_once("js/SearchView.js");
+    require_once("js/MapModule.js");
+    require_once("js/ListModule.js");
+    require_once("js/SearchModule.js");
     require_once("js/Bar.js");
     require_once("js/Application.js");
     require_once("js/init.js");

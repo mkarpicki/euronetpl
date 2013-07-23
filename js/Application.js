@@ -83,20 +83,20 @@
             });
 
             _customEvent.on("searchBtnClick", function () {
-                _customEvent.fire("viewRequired", {
-                    viewName: "search"
+                _customEvent.fire("moduleRequired", {
+                    moduleName: "search"
                 });
             });
 
             _customEvent.on("listBtnClick", function () {
-                _customEvent.fire("viewRequired", {
-                    viewName: "list"
+                _customEvent.fire("moduleRequired", {
+                    moduleName: "list"
                 });
             });
 
             _customEvent.on("mapBtnClick", function () {
-                _customEvent.fire("viewRequired", {
-                    viewName: "map"
+                _customEvent.fire("moduleRequired", {
+                    moduleName: "map"
                 });
             });
 
@@ -128,17 +128,17 @@
                 _searchModule;
 
             //initialize views
-            _searchModule = new NS.SearchView({
+            _searchModule = new NS.SearchModule({
                 node: document.getElementById("search")
             });
 
-            _mapModule = new NS.MapView({
+            _mapModule = new NS.MapModule({
                 node: document.getElementById("map"),
                 appId: _appId,
                 authToken: _authToken
             });
 
-            _listModule = new NS.ListView({
+            _listModule = new NS.ListModule({
                 node: document.getElementById("list")
             });
 
@@ -153,8 +153,8 @@
             findUserPosition();
 
             //request for default View
-            _customEvent.fire("viewRequired", {
-                viewName: "map"
+            _customEvent.fire("moduleRequired", {
+                moduleName: "map"
             });
         };
 
