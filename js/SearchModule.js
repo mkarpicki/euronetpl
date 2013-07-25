@@ -54,10 +54,10 @@
 
         onSearchByPositionSucceed = function (event) {
 
-            var locations = event.params.locations;
+            var location = event.params.location;
 
-            if (locations.length > 0) {
-                _geoAddressNode.innerHTML = locations[0].address.text;
+            if (location) {
+                _geoAddressNode.innerHTML = location.address.text;
             } else {
                 _geoAddressNode.innerHTML = _messages.saerchModule.geoLocationNotFound;
             }

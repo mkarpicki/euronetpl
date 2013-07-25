@@ -5,7 +5,10 @@
 (function (NS) {
 
     var config = {
-        serviceUrl: "http://services.karpicki.com/euronetpl/get-new.php?client_type=web",
+        clientId: "euronetpl",
+        lang: "pl-PL",
+        //serviceUrl: "http://services.karpicki.local/euronetpl/get.php?client_type=web",
+        serviceUrl: "http://services.karpicki.local/cashgroupde/get.php?client_type=web",
         hereCom: {
             appId: "AEhWqyOrNFeSEuZR13yC",
             authToken: "I5XkyHg6aLM_8w_a346hPA"

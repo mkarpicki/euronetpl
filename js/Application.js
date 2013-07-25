@@ -12,14 +12,14 @@
 (function (document, NS, util, service) {
 
     var _customEvent = util.customEvent,
-        _geoLocation = service.geoLocation,
-        _message = NS.message;
+        _geoLocation = service.geoLocation;
 
     NS.Application = function (params) {
 
         var _serviceUrl = params.serviceUrl,
             _appId = params.hereCom.appId,
             _authToken = params.hereCom.authToken,
+            _clientId = params.clientId,
             _lang = params.lang || "en-GB",
 
             init,
@@ -29,15 +29,16 @@
             initializeLibrary,
 
             findUserPosition,
-            showError,
 
-            searchByPosiiton,
-            searchByPosiitonComplete,
+            searchByPosition,
+            searchByPositionComplete,
 
             firstGeoLocationFailed,
             firstGeoLocationFound,
             geoLocationFailed,
-            geoLocationFound;
+            geoLocationFound,
+
+            useService;
 
 
         /**
@@ -57,7 +58,7 @@
         };
 
         /**
-         *
+         * @todo - merge this and next method ?
          */
         firstGeoLocationFailed = function () {
             //showError(_message.error.positioningFailed);
@@ -69,6 +70,7 @@
         };
 
         /**
+         * @todo try to merge this and next method
          * @todo - spy if updating location info is not to often here ...
          * @param position
          */
@@ -77,7 +79,7 @@
                 position: position
             });
 
-            searchByPosiiton(position, searchByPosiitonComplete);
+            searchByPosition(position, searchByPositionComplete);
         };
 
         firstGeoLocationFound = function (position) {
@@ -85,12 +87,17 @@
                 position: position
             });
 
-            searchByPosiiton(position, function (data, requestStatus, requestId) {
-                searchByPosiitonComplete(data, requestStatus, requestId, true);
+            searchByPosition(position, function (data, requestStatus, requestId) {
+                searchByPositionComplete(data, requestStatus, requestId, true);
             });
         };
 
-        searchByPosiiton = function (position, callback) {
+        /**
+         * Uses HERE's library to get address by ge position (lat , lon)
+         * @param position <Object>
+         * @param callback <Function>
+         */
+        searchByPosition = function (position, callback) {
             nokia.places.search.manager.reverseGeoCode({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -98,25 +105,86 @@
             });
         };
 
-        searchByPosiitonComplete = function (data, requestStatus, requestId, searchForItems) {
+        /**
+         * Callback for completed reverse geocode call. Fires an event depending if call succeed or failed.
+         * Optional param trigger search in delivered service for items (as a default results for first app view)
+         * @param data <Object>
+         * @param requestStatus <String>
+         * @param requestId <String>
+         * @param searchForItems (optional) <Boolean>
+         */
+        searchByPositionComplete = function (data, requestStatus, requestId, searchForItems) {
 
             if (requestStatus === "OK") {
 
                 var locations = data.results ? data.results.items : [data.location];
 
                 _customEvent.fire("searchByPositionSucceed", {
-                    locations: locations
+                    location: locations[0]
                 });
 
                 if (searchForItems) {
-                    //call some funcion
-                    //that will do ajax for
-                    //_serviceUrl + locations[0]
+                    useService(locations[0]);
                 }
 
             } else {
                 _customEvent.fire("searchByPositionFailed");
             }
+        };
+
+        /**
+         *
+         * @param address <Object>
+         * @param stopOnError <Boolean>
+         */
+        useService = function (locationObject, stopOnError) {
+
+            var address = locationObject.address,
+                city = address.city,
+                postalCode = address.postalCode,
+                request,
+                street = address.street,
+                params;
+
+            //city = "Berlin";
+            //street = "Simon-Dach-Str";
+            //postalCode = "10245";
+
+            params = encodeURI("&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city);
+
+            debugger;
+
+            request = new util.Request({
+                dataType: "json",
+                url: _serviceUrl + params,
+                onSuccess: function (result) {
+
+                    debugger;
+
+                    var response = result.response || {},
+                        error = response.error,
+                        items = response.items,
+                        item;
+
+                    if (error) {
+                        //known eror
+                        //try one more time
+                        if (!stopOnError) {
+                            useService(address, true) ;
+                        } else {
+                            alert(_message.error.serviceError);
+                        }
+                    } else if (items.length > 0) {
+                        console.log("show results");
+                    } else {
+                        console.log("no results");
+                    }
+                },
+                onError: function (error) {
+                    debugger;
+                }
+            });
+
         };
 
         initializeListenersForBarButtons = function () {
@@ -155,6 +223,7 @@
         };
 
         /**
+         * Sets settings to register application in HERE library and set language
          * @todo make lang a param delivered to App in constructor (default one set to en-GB)
          */
         initializeLibrary = function () {
@@ -180,6 +249,10 @@
 
         /**
          * @constructor
+         * Initializes Modules
+         * Initialize matches between custom events and listeners (@todo re think that idea)
+         * Initialize saerching for user's position
+         * Requests for default module
          */
         init = function () {
 
