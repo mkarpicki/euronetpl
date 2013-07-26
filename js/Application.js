@@ -9,10 +9,11 @@
  * @require global service common.karpicki.com/front/service/mobileGeoLocation.js
  * @require message object
  */
-(function (document, NS, util, service) {
+(function (document, NS, util, service, messages) {
 
     var _customEvent = util.customEvent,
-        _geoLocation = service.geoLocation;
+        _geoLocation = service.geoLocation,
+        _messages = messages;
 
     NS.Application = function (params) {
 
@@ -32,6 +33,7 @@
 
             searchByPosition,
             searchByPositionComplete,
+            searchForItemsFinished,
 
             firstGeoLocationFailed,
             firstGeoLocationFound,
@@ -124,7 +126,7 @@
                 });
 
                 if (searchForItems) {
-                    useService(locations[0]);
+                    useService(locations[0], false, {});
                 }
 
             } else {
@@ -133,51 +135,59 @@
         };
 
         /**
+         * If items found sort if position was set and inform the world,otherwise just inform world that no results found
+         * @param items
+         */
+        searchForItemsFinished = function (items, userPositions) {
+            if (items.length > 0) {
+                for (var i = 0; i < items.length; i++) {
+                    console.log(items[i]);
+                }
+            } else {
+                _customEvent.fire("itemsNotFound");
+            }
+        };
+
+        /**
          *
          * @param address <Object>
          * @param stopOnError <Boolean>
          */
-        useService = function (locationObject, stopOnError) {
+        useService = function (locationObject, stopOnError, userPositions) {
 
             var address = locationObject.address,
-                city = address.city,
-                postalCode = address.postalCode,
+                city = encodeURI(address.city),
+                postalCode = encodeURI(address.postalCode),
                 request,
-                street = address.street,
+                street = encodeURI(address.street),
                 params;
 
-            //city = "Berlin";
-            //street = "Simon-Dach-Str";
-            //postalCode = "10245";
+            city = "Berlin";
+            street = "Simon-Dach-Str";
+            postalCode = "10245";
 
-            params = encodeURI("&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city);
-
-            debugger;
+            params = "&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city;
 
             request = new util.Request({
-                dataType: "json",
+                dataType: "jsonp",
                 url: _serviceUrl + params,
                 onSuccess: function (result) {
 
-                    debugger;
-
-                    var response = result.response || {},
-                        error = response.error,
-                        items = response.items,
-                        item;
+                    var error = result.error,
+                        items = result.items || [];
 
                     if (error) {
                         //known eror
                         //try one more time
                         if (!stopOnError) {
-                            useService(address, true) ;
+                            useService({
+                                address: address
+                            }, true, userPositions) ;
                         } else {
-                            alert(_message.error.serviceError);
+                            alert(_messages.error.serviceError);
                         }
-                    } else if (items.length > 0) {
-                        console.log("show results");
                     } else {
-                        console.log("no results");
+                        searchForItemsFinished(items, userPositions);
                     }
                 },
                 onError: function (error) {
@@ -297,4 +307,4 @@
 
     };
 
-})(document, window, util, service);
+})(document, window, util, service, window.messages);

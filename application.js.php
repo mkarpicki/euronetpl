@@ -9,7 +9,7 @@
     */
     require_once("../../common.karpicki.com/front/service/geoLocation.js");
 
-    require_once("../../common.karpicki.com/front/util/Request.js");
+    require_once("../../common.karpicki.com/front/util/Request2.js");
     require_once("../../common.karpicki.com/front/util/customEvent.js");
     require_once("../../common.karpicki.com/front/util/dom.js");
 
