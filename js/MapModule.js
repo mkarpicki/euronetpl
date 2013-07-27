@@ -46,6 +46,8 @@
             userPositionRequired,
             updateUserMarker,
 
+            updateMapPosition,
+
             onModuleRequired;
 
         /**
@@ -80,7 +82,15 @@
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
 
-                geoLocationFound: userPositionRequired
+                //searchByPositionSucceed
+
+                geoLocationFound: function (event) {
+
+                    var coords = event.params.position.coords;
+
+                    updateMapPosition(coords);
+                    userPositionRequired(coords);
+                }
             });
         };
 
@@ -221,12 +231,15 @@
             _userMarker.set("coordinate", coordinates)
         };
 
+        updateMapPosition = function (coords) {
+
+            _map.set("center", coords);
+        };
+
         /**
          * @param event
          */
-        userPositionRequired = function (event) {
-
-            var coords = event.params.position.coords;
+        userPositionRequired = function (coords) {
 
             if (!_userMarker) {
                 _userMarker = initializeUserMarker(coords);

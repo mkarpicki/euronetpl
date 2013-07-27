@@ -135,25 +135,28 @@
         };
 
         /**
-         * If items found sort if position was set and inform the world,otherwise just inform world that no results found
+         * If items found sort if position was set and inform the world,
+         * otherwise just inform world that no results found
          * @param items
          */
-        searchForItemsFinished = function (items, userPositions) {
+        searchForItemsFinished = function (items) {
+
             if (items.length > 0) {
                 for (var i = 0; i < items.length; i++) {
                     console.log(items[i]);
                 }
+                _customEvent.fire("itemsFound", items);
             } else {
                 _customEvent.fire("itemsNotFound");
             }
         };
 
         /**
-         *
+         * @todo implement error handling here
          * @param address <Object>
          * @param stopOnError <Boolean>
          */
-        useService = function (locationObject, stopOnError, userPositions) {
+        useService = function (locationObject, stopOnError, userPosition) {
 
             var address = locationObject.address,
                 city = encodeURI(address.city),
@@ -162,9 +165,9 @@
                 street = encodeURI(address.street),
                 params;
 
-            city = "Berlin";
-            street = "Simon-Dach-Str";
-            postalCode = "10245";
+            //city = "Berlin";
+            //street = "Simon-Dach-Str";
+            //postalCode = "10245";
 
             params = "&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city;
 
@@ -182,12 +185,12 @@
                         if (!stopOnError) {
                             useService({
                                 address: address
-                            }, true, userPositions) ;
+                            }, true, userPosition) ;
                         } else {
                             alert(_messages.error.serviceError);
                         }
                     } else {
-                        searchForItemsFinished(items, userPositions);
+                        searchForItemsFinished(items);
                     }
                 },
                 onError: function (error) {
