@@ -5,6 +5,7 @@
 (function (document, NS, util, messages) {
 
     var _customEvent = util.customEvent,
+        _domUtil = util.dom,
         _messages = messages;
 
     NS.SearchModule = function (params) {
@@ -42,6 +43,10 @@
             });
         };
 
+        /**
+         *
+         * @param event
+         */
         onModuleRequired = function (event) {
 
             if (event.params.moduleName === "search") {
@@ -71,7 +76,7 @@
          * show view
          */
         show = function () {
-            _node.style.display = "block";
+            _domUtil.showNode(_node);
             //_customEvent.fire("searchModuleOpened");
         };
 
@@ -79,7 +84,7 @@
          * hides view
          */
         hide = function () {
-            _node.style.display = "none";
+            _domUtil.hideNode(_node);
         };
 
         initialize();

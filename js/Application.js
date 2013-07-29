@@ -1,15 +1,18 @@
 /**
  * Main Application Class
  *
+ * @todo move nokia lib as dependency
+ * rethink how to define dependencies instead of util.something - maybe something directly
+ *
  * @param params
  * param.serviceUrl {String} - url that points to service which wil provide JSONP with results
  *
  * @require global object common.karpicki.com/front/util/customEvent
  * @require global object common.karpicki.com/front/util/browser
  * @require global service common.karpicki.com/front/service/mobileGeoLocation.js
- * @require message object
+ * @require messages object
  */
-(function (document, NS, util, service, messages) {
+(function (document, NS, util, service, messages, dataUtil) {
 
     var _customEvent = util.customEvent,
         _geoLocation = service.geoLocation,
@@ -28,6 +31,9 @@
             initializeEventsListeners,
             initializeListenersForBarButtons,
             initializeLibrary,
+            initializeModules,
+
+            itemsSortHelper,
 
             findUserPosition,
 
@@ -85,6 +91,7 @@
         };
 
         firstGeoLocationFound = function (position) {
+
             _customEvent.fire("geoLocationFound", {
                 position: position
             });
@@ -92,6 +99,13 @@
             searchByPosition(position, function (data, requestStatus, requestId) {
                 searchByPositionComplete(data, requestStatus, requestId, true);
             });
+        };
+
+        itemsSortHelper = function (item1, item2) {
+            var distance1 = dataUtil.getDistance(item1),
+                distance2 = dataUtil.getDistance(item2);
+
+            return distance1 > distance2;
         };
 
         /**
@@ -108,6 +122,7 @@
         };
 
         /**
+         * @todo - think about removing last param and make it depended on some flag in that class
          * Callback for completed reverse geocode call. Fires an event depending if call succeed or failed.
          * Optional param trigger search in delivered service for items (as a default results for first app view)
          * @param data <Object>
@@ -142,10 +157,12 @@
         searchForItemsFinished = function (items) {
 
             if (items.length > 0) {
-                for (var i = 0; i < items.length; i++) {
-                    console.log(items[i]);
-                }
-                _customEvent.fire("itemsFound", items);
+
+                items.sort(itemsSortHelper);
+
+                _customEvent.fire("itemsFound", {
+                    items: items
+                });
             } else {
                 _customEvent.fire("itemsNotFound");
             }
@@ -194,7 +211,7 @@
                     }
                 },
                 onError: function (error) {
-                    debugger;
+
                 }
             });
 
@@ -236,47 +253,16 @@
         };
 
         /**
-         * Sets settings to register application in HERE library and set language
-         * @todo make lang a param delivered to App in constructor (default one set to en-GB)
+         * Initialize modules
+         * currently we do not need any references to modules so keep instances only in that method
          */
-        initializeLibrary = function () {
-            nokia.Settings.set("appId", _appId);
-            nokia.Settings.set("authenticationToken", _authToken);
-            nokia.Settings.set("defaultLanguage", "pl-PL");
-        };
-
-        /**
-         * initialize listeners for some custom events (merge actions and reactions)
-         * implement concept that Application as a main Class matches global events and listeners together so
-         * modules (components) don't have to know about each other - just listen to something and fire something -
-         * Application is connecting logic(s)
-         */
-        initializeEventsListeners = function () {
-
-            initializeListenersForBarButtons();
-
-            //_customEvent.on("geoLocationFound", function () {
-               //_customEvent.fire("geoLocationFound")
-            //});
-        };
-
-        /**
-         * @constructor
-         * Initializes Modules
-         * Initialize matches between custom events and listeners (@todo re think that idea)
-         * Initialize saerching for user's position
-         * Requests for default module
-         */
-        init = function () {
+        initializeModules = function () {
 
             var _bar,
                 _listModule,
                 _mapModule,
                 _searchModule;
 
-            initializeLibrary();
-
-            //initialize views
             _searchModule = new NS.SearchModule({
                 node: document.getElementById("search")
             });
@@ -292,7 +278,43 @@
             _bar = new NS.Bar({
                 node: document.getElementById("bar")
             });
+        };
 
+        /**
+         * Sets settings to register application in HERE library and set language
+         * @todo make lang a param delivered to App in constructor (default one set to en-GB)
+         */
+        initializeLibrary = function () {
+            nokia.Settings.set("appId", _appId);
+            nokia.Settings.set("authenticationToken", _authToken);
+            nokia.Settings.set("defaultLanguage", _lang);
+        };
+
+        /**
+         * initialize listeners for some custom events (merge actions and reactions)
+         * implement concept that Application as a main Class matches global events and listeners together so
+         * modules (components) don't have to know about each other - just listen to something and fire something -
+         * Application is connecting logic(s)
+         */
+        initializeEventsListeners = function () {
+
+            initializeListenersForBarButtons();
+
+        };
+
+        /**
+         * @constructor
+         * Initializes Modules
+         * Initialize matches between custom events and listeners (@todo re think that idea)
+         * Initialize saerching for user's position
+         * Requests for default module
+         */
+        init = function () {
+
+            initializeLibrary();
+
+            //initialize modules
+            initializeModules();
 
             //match events and listeners
             initializeEventsListeners();
@@ -310,4 +332,4 @@
 
     };
 
-})(document, window, util, service, window.messages);
+}(document, window, util, service, window.messages, window.cashGroupDeUtil));

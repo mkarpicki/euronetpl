@@ -11,12 +11,14 @@
  */
 (function (NS, util){
 
-    var _customEvent = util.customEvent;
+    var _customEvent = util.customEvent,
+        _domUtil = util.dom;
 
     NS.MapModule = function (params) {
 
         var JUMP = 50,
 
+            _firstPositionUsage = true,
             _node = params.node,
             _mapContainer = _node.getElementsByClassName("map-container")[0],
 
@@ -88,7 +90,10 @@
 
                     var coords = event.params.position.coords;
 
-                    updateMapPosition(coords);
+                    if (_firstPositionUsage) {
+                        _firstPositionUsage = false;
+                        updateMapPosition(coords);
+                    }
                     userPositionRequired(coords);
                 }
             });
@@ -216,14 +221,14 @@
          * hides view
          */
         hide = function () {
-            _node.style.display = "none";
+            _domUtil.hideNode(_node);
         };
 
         /**
          * Shoes view
          */
         show = function () {
-            _node.style.display = "block";
+            _domUtil.showNode(_node);
             //_customEvent.fire("mapModuleOpened");
         };
 
@@ -232,7 +237,6 @@
         };
 
         updateMapPosition = function (coords) {
-
             _map.set("center", coords);
         };
 
