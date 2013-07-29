@@ -91,8 +91,6 @@
 
                 item = items[i];
 
-                console.log(item);
-
                 listItem = document.createElement("li");
                 link = document.createElement("a");
                 link.setAttribute("href", "#");

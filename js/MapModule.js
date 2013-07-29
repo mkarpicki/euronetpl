@@ -50,7 +50,11 @@
 
             updateMapPosition,
 
-            onModuleRequired;
+            onModuleRequired,
+            onGeoLocationFound,
+
+            onItemsFound,
+            onItemsNotFound;
 
         /**
          * clears map from all rendered markers
@@ -84,18 +88,12 @@
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
 
+                itemsFound: onItemsFound,
+                itemsNotFound: onItemsNotFound,
+
                 //searchByPositionSucceed
 
-                geoLocationFound: function (event) {
-
-                    var coords = event.params.position.coords;
-
-                    if (_firstPositionUsage) {
-                        _firstPositionUsage = false;
-                        updateMapPosition(coords);
-                    }
-                    userPositionRequired(coords);
-                }
+                geoLocationFound: onGeoLocationFound
             });
         };
 
@@ -212,9 +210,50 @@
 
         };
 
+        onItemsFound = function (event) {
+            //clear container
+            renderMarkers(event.params.items);
+        };
+
+        onItemsNotFound = function () {
+            //clear container
+        };
+
+        onGeoLocationFound = function (event) {
+
+            var coords = event.params.position.coords;
+
+            if (_firstPositionUsage) {
+                _firstPositionUsage = false;
+                
+                updateMapPosition(coords);
+            }
+            userPositionRequired(coords);
+        };
+
         renderMarkers = function (items) {
-            //console.log("Mapview.rendermarkers");
-            //console.log(items);
+
+            var item;
+
+            for (var i = 0, len = items.length; i < len; i++) {
+
+                item = items[i];
+
+                console.log(item);
+                /*createMarker({
+                    position: {
+                        latitude: position.latitude,
+                        longitude: position.longitude
+                    },
+                    title: "me",
+                    visibility: true,
+                    icon: "img/user-marker.png",
+                    anchor: {
+                        top: 16,
+                        left: 16
+                    }
+                });*/
+            }
         };
 
         /**
