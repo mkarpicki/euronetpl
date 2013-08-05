@@ -10,6 +10,10 @@
  */
 (function (NS, domUtil, customEvent) {
 
+    /**
+     * @param params {Object}
+     * @param.container {DOM Object} - node that will be container for a map object
+     */ 
     NS.Bar = function (params) {
 
         var _node = params.node,
@@ -25,6 +29,9 @@
             initializeNodeListeners,
             initializeCustomListeners,
             isDisabled,
+
+            onSearchSpinningMode,
+            offSearchSpinningMode,
 
             onSearchModuleOpened,
             onMapModuleOpened,
@@ -47,7 +54,10 @@
         initializeCustomListeners = function (){
 
             customEvent.addListeners({
-                onModuleRequired: onModuleRequired
+                onModuleRequired: onModuleRequired,
+                itemsFound: offSearchSpinningMode,
+                itemsNotFound: offSearchSpinningMode,
+                itemsFailed: offSearchSpinningMode
             });
         };
 
@@ -90,13 +100,23 @@
 
             _refreshBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    return false;
+                    //do something
+                    //return false;
                 }
+                return false;
             };
         };
 
         isDisabled = function (elem) {
             return domUtil.hasClass(elem, "disabled");
+        };
+
+        onSearchSpinningMode = function () {
+            domUtil.addClass(_refreshBtn, "spinning");
+        };
+
+        offSearchSpinningMode = function () {
+            domUtil.removeClass(_refreshBtn, "spinning");
         };
 
         onModuleRequired = function (event) {

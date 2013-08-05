@@ -216,6 +216,7 @@
                              * todo remove me
                              */
                             console.log(messages.error.serviceError);
+                            customEvent.fire("itemsFailed");
                         }
                     } else {
                         searchForItemsFinished(items);
