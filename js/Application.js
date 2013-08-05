@@ -168,11 +168,11 @@
 
                 items.sort(itemsSortHelper);
 
-                customEvent.fire("itemsFound", {
+                customEvent.fire("searchItemsFound", {
                     items: items
                 });
             } else {
-                customEvent.fire("itemsNotFound");
+                customEvent.fire("searchItemsNotFound");
             }
         };
 
@@ -216,7 +216,7 @@
                              * todo remove me
                              */
                             console.log(messages.error.serviceError);
-                            customEvent.fire("itemsFailed");
+                            customEvent.fire("searchItemsFailed");
                         }
                     } else {
                         searchForItemsFinished(items);

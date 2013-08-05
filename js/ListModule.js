@@ -29,8 +29,8 @@
             initialize,
             initializeCustomListeners,
 
-            onItemsFound,
-            onItemsNotFound,
+            onSearchItemsFound,
+            onSearchItemsNotFound,
             onModuleRequired;
 
         initialize = function () {
@@ -44,12 +44,13 @@
         initializeCustomListeners = function () {
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
-                itemsFound: onItemsFound,
-                itemsNotFound: onItemsNotFound
+                searchItemsFound: onSearchItemsFound,
+                searchItemsNotFound: onSearchItemsNotFound,
+                searchItemsFailed: onSearchItemsNotFound
             });
         };
 
-        onItemsFound = function (event) {
+        onSearchItemsFound = function (event) {
 
             show(_resultsNode);
             hide(_noResultsNode);
@@ -58,7 +59,7 @@
             renderList(event.params.items);
         };
 
-        onItemsNotFound = function () {
+        onSearchItemsNotFound = function () {
 
             show(_noResultsNode);
             hide(_resultsNode);

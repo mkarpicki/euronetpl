@@ -54,10 +54,10 @@
         initializeCustomListeners = function (){
 
             customEvent.addListeners({
-                onModuleRequired: onModuleRequired,
-                itemsFound: offSearchSpinningMode,
-                itemsNotFound: offSearchSpinningMode,
-                itemsFailed: offSearchSpinningMode
+                moduleRequired: onModuleRequired,
+                searchItemsFound: offSearchSpinningMode,
+                searchItemsNotFound: offSearchSpinningMode,
+                searchItemsFailed: offSearchSpinningMode
             });
         };
 

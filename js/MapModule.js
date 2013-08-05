@@ -59,8 +59,8 @@
             onModuleRequired,
             onGeoLocationFound,
 
-            onItemsFound,
-            onItemsNotFound;
+            onSearchItemsFound,
+            onSearchItemsNotFound;
 
         /**
          * clears map from all rendered markers
@@ -94,10 +94,9 @@
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
 
-                itemsFound: onItemsFound,
-                itemsNotFound: onItemsNotFound,
-
-                //searchByPositionSucceed
+                searchItemsFound: onSearchItemsFound,
+                searchItemsNotFound: onSearchItemsNotFound,
+                searchItemsFailed: onSearchItemsNotFound,
 
                 geoLocationFound: onGeoLocationFound
             });
@@ -221,14 +220,14 @@
 
         };
 
-        onItemsFound = function (event) {
+        onSearchItemsFound = function (event) {
             //clear container
             var items = event.params.items;
 
             renderMarkers(event.params.items);
         };
 
-        onItemsNotFound = function () {
+        onSearchItemsNotFound = function () {
             //clear container
         };
 
