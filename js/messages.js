@@ -1,3 +1,7 @@
+/**
+ * @param NS - object used as a namespace
+ * object with messages (polish version)
+ */
 (function (NS) {
 
     NS.messages = {

@@ -1,3 +1,10 @@
+/**
+ * @param NS - object used as a namespace
+ * Util object with public methods that will be used via modules
+ * @implement interface
+ * - getFullAddress
+ * - getDistance
+ */
 (function (NS) {
 
     NS.cashGroupDeUtil = {

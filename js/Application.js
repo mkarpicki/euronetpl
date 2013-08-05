@@ -3,21 +3,30 @@
  *
  * @todo move nokia lib as dependency
  * rethink how to define dependencies instead of util.something - maybe something directly
- *
- * @param params
- * param.serviceUrl {String} - url that points to service which wil provide JSONP with results
- *
- * @require global object common.karpicki.com/front/util/customEvent
- * @require global object common.karpicki.com/front/util/browser
- * @require global service common.karpicki.com/front/service/mobileGeoLocation.js
- * @require messages object
+
+ * @param document - HTML Document Object
+ * @param NS - {Object} namespace that module should live in
+ * @param customEvent - object that delivers support for handling custom events
+ * @param geoLocationService {Object}
+ * @param messages {Object} delivered messasges to be displayed
+ * @param dataUtil - customized object with implemented methods for proper displaying data info*
+
+ * @require {util.customEvent} (http://common.karpicki.com/front/util/customEvent.js)
+ * @require {service.geoLocation} common.karpicki.com/front/service/mobileGeoLocation.js
+ * @requires HERE JavaScript API (http://developer.here.com)*
  */
-(function (document, NS, util, service, messages, dataUtil) {
+(function (document, NS, customEvent, geoLocationService, messages, dataUtil) {
 
-    var _customEvent = util.customEvent,
-        _geoLocation = service.geoLocation,
-        _messages = messages;
-
+    /**
+     * Main Class. Controller that connects to external search services and set state via custom events
+     * @param serviceUrl <String> url to REST service which will provide items to be find
+     * @param hereCom {Object} {
+     * - appId <String> identifier for application for here.com library
+     * - authToken <String> token for application
+     * }
+     * @param clientId <String> identifier for application
+     * @param lang <String> language e.g "en-GR"
+     */
     NS.Application = function (params) {
 
         var _serviceUrl = params.serviceUrl,
@@ -28,7 +37,6 @@
 
             init,
 
-            initializeEventsListeners,
             initializeListenersForBarButtons,
             initializeLibrary,
             initializeModules,
@@ -54,11 +62,11 @@
          */
         findUserPosition = function () {
 
-            if (_geoLocation) {
-                if (!_geoLocation.isSearching()) {
-                    _geoLocation.setPeriod(20);
-                    _geoLocation.getCurrentPosition(firstGeoLocationFound, firstGeoLocationFailed);
-                    _geoLocation.watchPosition(geoLocationFound, geoLocationFailed);
+            if (geoLocationService) {
+                if (!geoLocationService.isSearching()) {
+                    geoLocationService.setPeriod(20);
+                    geoLocationService.getCurrentPosition(firstGeoLocationFound, firstGeoLocationFailed);
+                    geoLocationService.watchPosition(geoLocationFound, geoLocationFailed);
                 }
             } else {
                 firstGeoLocationFailed();
@@ -70,11 +78,11 @@
          */
         firstGeoLocationFailed = function () {
             //showError(_message.error.positioningFailed);
-            _customEvent.fire("geoLocationFailed");
+            customEvent.fire("geoLocationFailed");
         };
 
         geoLocationFailed = function () {
-            _customEvent.fire("geoLocationFailed");
+            customEvent.fire("geoLocationFailed");
         };
 
         /**
@@ -83,7 +91,7 @@
          * @param position
          */
         geoLocationFound = function (position) {
-            _customEvent.fire("geoLocationFound", {
+            customEvent.fire("geoLocationFound", {
                 position: position
             });
 
@@ -92,7 +100,7 @@
 
         firstGeoLocationFound = function (position) {
 
-            _customEvent.fire("geoLocationFound", {
+            customEvent.fire("geoLocationFound", {
                 position: position
             });
 
@@ -136,7 +144,7 @@
 
                 var locations = data.results ? data.results.items : [data.location];
 
-                _customEvent.fire("searchByPositionSucceed", {
+                customEvent.fire("searchByPositionSucceed", {
                     location: locations[0]
                 });
 
@@ -145,7 +153,7 @@
                 }
 
             } else {
-                _customEvent.fire("searchByPositionFailed");
+                customEvent.fire("searchByPositionFailed");
             }
         };
 
@@ -160,11 +168,11 @@
 
                 items.sort(itemsSortHelper);
 
-                _customEvent.fire("itemsFound", {
+                customEvent.fire("itemsFound", {
                     items: items
                 });
             } else {
-                _customEvent.fire("itemsNotFound");
+                customEvent.fire("itemsNotFound");
             }
         };
 
@@ -204,14 +212,17 @@
                                 address: address
                             }, true, userPosition) ;
                         } else {
-                            alert(_messages.error.serviceError);
+                            /**
+                             * todo remove me
+                             */
+                            console.log(messages.error.serviceError);
                         }
                     } else {
                         searchForItemsFinished(items);
                     }
                 },
                 onError: function (error) {
-
+                    console.log(error);
                 }
             });
 
@@ -224,28 +235,28 @@
              * bar - think about having events fired directly from object : bar.on('listButtonClick')
              * instead of populating it to global events system
              */
-            _customEvent.on("zoomInBtnClick", function () {
-                _customEvent.fire("mapZoomInRequired");
+            customEvent.on("zoomInBtnClick", function () {
+                customEvent.fire("mapZoomInRequired");
             });
 
-            _customEvent.on("zoomOutBtnClick", function () {
-                _customEvent.fire("mapZoomOutRequired");
+            customEvent.on("zoomOutBtnClick", function () {
+                customEvent.fire("mapZoomOutRequired");
             });
 
-            _customEvent.on("searchBtnClick", function () {
-                _customEvent.fire("moduleRequired", {
+            customEvent.on("searchBtnClick", function () {
+                customEvent.fire("moduleRequired", {
                     moduleName: "search"
                 });
             });
 
-            _customEvent.on("listBtnClick", function () {
-                _customEvent.fire("moduleRequired", {
+            customEvent.on("listBtnClick", function () {
+                customEvent.fire("moduleRequired", {
                     moduleName: "list"
                 });
             });
 
-            _customEvent.on("mapBtnClick", function () {
-                _customEvent.fire("moduleRequired", {
+            customEvent.on("mapBtnClick", function () {
+                customEvent.fire("moduleRequired", {
                     moduleName: "map"
                 });
             });
@@ -291,22 +302,10 @@
         };
 
         /**
-         * initialize listeners for some custom events (merge actions and reactions)
-         * implement concept that Application as a main Class matches global events and listeners together so
-         * modules (components) don't have to know about each other - just listen to something and fire something -
-         * Application is connecting logic(s)
-         */
-        initializeEventsListeners = function () {
-
-            initializeListenersForBarButtons();
-
-        };
-
-        /**
          * @constructor
          * Initializes Modules
          * Initialize matches between custom events and listeners (@todo re think that idea)
-         * Initialize saerching for user's position
+         * Initialize searching for user's position
          * Requests for default module
          */
         init = function () {
@@ -316,14 +315,19 @@
             //initialize modules
             initializeModules();
 
-            //match events and listeners
-            initializeEventsListeners();
+            /**
+             * initialize listeners for some custom events (merge actions and reactions)
+             * implement concept that Application as a main Class matches global events and listeners together so
+             * modules (components) don't have to know about each other - just listen to something and fire something -
+             * Application is connecting logic(s)
+             */
+            initializeListenersForBarButtons();
 
             //initialize position service
             findUserPosition();
 
             //request for default View
-            _customEvent.fire("moduleRequired", {
+            customEvent.fire("moduleRequired", {
                 moduleName: "map"
             });
         };
@@ -332,4 +336,4 @@
 
     };
 
-}(document, window, util, service, window.messages, window.cashGroupDeUtil));
+}(document, window, util.customEvent, service.geoLocation, window.messages, window.cashGroupDeUtil));

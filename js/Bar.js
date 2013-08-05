@@ -1,13 +1,14 @@
 
 /**
  * Bar with links
- * @param params
- * params.node {DOMNode}
+ * @param NS - namespace in which object will live in
+ * @param domUtil - util object with methods for DOM manipulation
+ * @param customEvent - object that delivers support for handling custom events
+ *
+ * @require util.dom (http://common.karpicki.com/front/util/dom.js)
+ * @require util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (NS, util) {
-
-    var _customEvent = util.customEvent,
-        _dom = util.dom;
+(function (NS, domUtil, customEvent) {
 
     NS.Bar = function (params) {
 
@@ -45,7 +46,7 @@
 
         initializeCustomListeners = function (){
 
-            _customEvent.addListeners({
+            customEvent.addListeners({
                 onModuleRequired: onModuleRequired
             });
         };
@@ -54,35 +55,35 @@
 
             _zoomInBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    _customEvent.fire("zoomInBtnClick");
+                    customEvent.fire("zoomInBtnClick");
                 }
                 return false;
             };
 
             _zoomOutBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    _customEvent.fire("zoomOutBtnClick");
+                    customEvent.fire("zoomOutBtnClick");
                 }
                 return false;
             };
 
             _searchBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    _customEvent.fire("searchBtnClick");
+                    customEvent.fire("searchBtnClick");
                 }
                 return false;
             };
 
             _listBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    _customEvent.fire("listBtnClick");
+                    customEvent.fire("listBtnClick");
                 }
                 return false;
             };
 
             _mapBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    _customEvent.fire("mapBtnClick");
+                    customEvent.fire("mapBtnClick");
                 }
                 return false;
             };
@@ -95,7 +96,7 @@
         };
 
         isDisabled = function (elem) {
-            return _dom.hasClass(elem, "disabled");
+            return domUtil.hasClass(elem, "disabled");
         };
 
         onModuleRequired = function (event) {
@@ -147,7 +148,7 @@
          * @param element {DOMNode}
          */
         show = function (element) {
-            _dom.removeClass(element, "disabled");
+            domUtil.removeClass(element, "disabled");
         };
 
         /**
@@ -155,10 +156,10 @@
          * @param element {DOMNode}
          */
         hide = function (element) {
-            _dom.addClass(element, "disabled");
+            domUtil.addClass(element, "disabled");
         };
 
         initialize();
     };
 
-}(window, util));
+}(window, util.dom, util.customEvent));

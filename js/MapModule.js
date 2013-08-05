@@ -1,19 +1,22 @@
 /**
  * Map View. View shows map and menu bar
- * @param params {Object}
- * params.container {DOM Object} - node that will be container for a map object
- * params.appId {String} HERE.com developer's account App ID
- * params.authToken {String} HERE.com developer's account App Token
+ *
+ * @param document - HTML Document Object
+ * @param NS - {Object} namespace that module should live in
+ * @param customEvent - object that delivers support for handling custom events
+ *
  * @requires HERE JavaScript API (http://developer.here.com)
  * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
+ *
  * @todo move nokia's objects as a dependencies
  * @todo if browser supports touch events - hide controls*
  */
-(function (NS, util){
+(function (NS, domUtil, customEvent){
 
-    var _customEvent = util.customEvent,
-        _domUtil = util.dom;
-
+    /**
+     * @param params {Object}
+     * @param.container {DOM Object} - node that will be container for a map object
+     */
     NS.MapModule = function (params) {
 
         var JUMP = 50,
@@ -29,8 +32,10 @@
             _userMarker,
             _userLayer,
 
+            _resultsLayer,
+
             createMarker,
-             initializeUserMarker,
+            initializeUserMarker,
 
             clearMap,
             renderMarkers,
@@ -44,6 +49,7 @@
             initializeCustomListeners,
             initializeMap,
             initializeMapControls,
+            initializeLayers,
 
             userPositionRequired,
             updateUserMarker,
@@ -81,7 +87,7 @@
          * initializes custom event listeners
          */
         initializeCustomListeners = function () {
-            _customEvent.addListeners({
+            customEvent.addListeners({
 
                 moduleRequired: onModuleRequired,
 
@@ -153,6 +159,14 @@
 
         };
 
+        initializeLayers = function (map) {
+            _userLayer = new nokia.maps.map.Container();
+            _resultsLayer = new nokia.maps.map.Container();
+
+            map.objects.add(_userLayer);
+            map.objects.add(_resultsLayer);
+        };
+
         /**
          * @return map object
          */
@@ -164,7 +178,6 @@
                         latitude: position.latitude,
                         longitude: position.longitude
                     },
-                    title: "me",
                     visibility: true,
                     icon: "img/user-marker.png",
                     anchor: {
@@ -175,11 +188,7 @@
 
             marker = createMarker(params);
 
-            _userLayer = new nokia.maps.map.Container();
-
             _userLayer.objects.add(marker);
-
-            _map.objects.add(_userLayer);
 
             return marker;
         };
@@ -193,6 +202,8 @@
         initialize = function () {
 
             _map = initializeMap();
+
+            initializeLayers(_map);
 
             initializeMapControls(_map);
 
@@ -212,6 +223,8 @@
 
         onItemsFound = function (event) {
             //clear container
+            var items = event.params.items;
+
             renderMarkers(event.params.items);
         };
 
@@ -233,26 +246,29 @@
 
         renderMarkers = function (items) {
 
-            var item;
+            var item,
+                marker;
 
             for (var i = 0, len = items.length; i < len; i++) {
 
                 item = items[i];
 
-                console.log(item);
-                /*createMarker({
+                //console.log(item);
+                marker = createMarker({
                     position: {
-                        latitude: position.latitude,
-                        longitude: position.longitude
+                        latitude: item.position.latitude,
+                        longitude: item.position.longitude
                     },
-                    title: "me",
+                    text: i + 1,
                     visibility: true,
-                    icon: "img/user-marker.png",
+                    //icon: "img/user-marker.png",
                     anchor: {
                         top: 16,
                         left: 16
                     }
-                });*/
+                });
+
+                _resultsLayer.objects.add(marker);
             }
         };
 
@@ -260,15 +276,15 @@
          * hides view
          */
         hide = function () {
-            _domUtil.hideNode(_node);
+            domUtil.hideNode(_node);
         };
 
         /**
          * Shoes view
          */
         show = function () {
-            _domUtil.showNode(_node);
-            //_customEvent.fire("mapModuleOpened");
+            domUtil.showNode(_node);
+            //customEvent.fire("mapModuleOpened");
         };
 
         updateUserMarker = function (coordinates) {
@@ -310,4 +326,4 @@
         initialize();
     };
 
-}(window, util));
+}(window, util.dom, util.customEvent));

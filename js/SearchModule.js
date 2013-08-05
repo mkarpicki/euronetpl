@@ -1,13 +1,19 @@
 /**
+ * @param document - HTML Document Object
+ * @param NS - {Object} namespace that module should live in
+ * @param domUtil - util object with DOM manipulation support
+ * @param customEvent - object that delivers support for handling custom events
+ * @param messages {Object} delivered messasges to be displayed
  *
- * @param param
+ * @require {util.dom} (http://common.karpicki.com/front/util/dom.js)
+ * @require {util.customEvent} (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (document, NS, util, messages) {
+(function (document, NS, domUtil, customEvent, messages) {
 
-    var _customEvent = util.customEvent,
-        _domUtil = util.dom,
-        _messages = messages;
-
+    /**
+     * @param params {Object}
+     * @param.container {DOM Object} - node that will be container for a map object
+     */ 
     NS.SearchModule = function (params) {
 
         var _node = params.node,
@@ -15,6 +21,7 @@
 
             initialize,
             initializeCustomListeners,
+            insertHtml,
 
             onModuleRequired,
             onSearchByPositionSucceed,
@@ -36,11 +43,20 @@
          */
         initializeCustomListeners = function () {
 
-            _customEvent.addListeners({
+            customEvent.addListeners({
                 moduleRequired: onModuleRequired,
                 searchByPositionSucceed: onSearchByPositionSucceed,
                 searchByPositionFailed: onSearchByPositionFailed
             });
+        };
+
+        /**
+         * inserts text into node
+         * @param node
+         * @param text
+         */
+        insertHtml = function (node, text) {
+            node.innerHTML = text;
         };
 
         /**
@@ -62,33 +78,33 @@
             var location = event.params.location;
 
             if (location) {
-                _geoAddressNode.innerHTML = location.address.text;
+                insertHtml(_geoAddressNode, location.address.text);
             } else {
-                _geoAddressNode.innerHTML = _messages.saerchModule.geoLocationNotFound;
+                insertHtml(_geoAddressNode, messages.saerchModule.geoLocationNotFound);
             }
         };
 
         onSearchByPositionFailed = function () {
-            _geoAddressNode.innerHTML = _messages.saerchModule.geoLocationFailed;
+            insertHtml(_geoAddressNode, messages.saerchModule.geoLocationFailed);
         };
 
         /**
          * show view
          */
         show = function () {
-            _domUtil.showNode(_node);
-            //_customEvent.fire("searchModuleOpened");
+            domUtil.showNode(_node);
+            //customEvent.fire("searchModuleOpened");
         };
 
         /**
          * hides view
          */
         hide = function () {
-            _domUtil.hideNode(_node);
+            domUtil.hideNode(_node);
         };
 
         initialize();
 
     };
 
-} (document, window, util, messages));
+} (document, window, util.dom, util.customEvent, window.messages));
