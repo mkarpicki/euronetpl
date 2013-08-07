@@ -55,6 +55,7 @@
 
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
+                searchItemsFired: onSearchSpinningMode,
                 searchItemsFound: offSearchSpinningMode,
                 searchItemsNotFound: offSearchSpinningMode,
                 searchItemsFailed: offSearchSpinningMode
@@ -100,6 +101,7 @@
 
             _refreshBtn.onclick = function () {
                 if (!isDisabled(this)) {
+                    customEvent.fire("refreshBtnClick");
                     //do something
                     //return false;
                 }

@@ -34,9 +34,12 @@
             _authToken = params.hereCom.authToken,
             _clientId = params.clientId,
             _lang = params.lang || "en-GB",
+            _firstGeoPositionFound = false,
+            _currentPosition = null,
 
             init,
 
+            initializeCustomListeners,
             initializeListenersForBarButtons,
             initializeLibrary,
             initializeModules,
@@ -95,7 +98,7 @@
                 position: position
             });
 
-            searchByPosition(position, searchByPositionComplete);
+            //searchByPosition(position, searchByPositionComplete);
         };
 
         firstGeoLocationFound = function (position) {
@@ -104,9 +107,12 @@
                 position: position
             });
 
-            searchByPosition(position, function (data, requestStatus, requestId) {
-                searchByPositionComplete(data, requestStatus, requestId, true);
-            });
+            //customEvent.fire("searchForItemsRequired", {
+            //    position: position
+            //});
+            //searchByPosition(position, function (data, requestStatus, requestId) {
+            //    searchByPositionComplete(data, requestStatus, requestId, true);
+            //});
         };
 
         itemsSortHelper = function (item1, item2) {
@@ -126,6 +132,7 @@
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 onComplete: callback
+                //fire event here ?
             });
         };
 
@@ -149,7 +156,9 @@
                 });
 
                 if (searchForItems) {
-                    useService(locations[0], false, {});
+                    customEvent.fire("searchForItemsRequired", {
+                        address: locations[0]
+                    });
                 }
 
             } else {
@@ -194,6 +203,8 @@
             //street = "Simon-Dach-Str";
             //postalCode = "10245";
 
+            customEvent.fire("searchItemsFired");
+
             params = "&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city;
 
             request = new util.Request({
@@ -229,6 +240,42 @@
 
         };
 
+        initializeCustomListeners = function () {
+
+            customEvent.on("geoLocationFound", function (event) {
+
+                _currentPosition = event.params.position;
+
+                /**
+                 * todo - think if always do that ?
+                 */
+                customEvent.fire("searchForAddressRequired", {
+                    position: _currentPosition
+                });
+
+            });
+
+            customEvent.on("searchForAddressRequired", function () {
+
+                if (!_firstGeoPositionFound) {
+                    _firstGeoPositionFound= true;
+
+                    searchByPosition(_currentPosition, function (data, requestStatus, requestId) {
+                        searchByPositionComplete(data, requestStatus, requestId, true);
+                    });
+                } else {
+
+                    searchByPosition(_currentPosition, searchByPositionComplete);
+                }
+            });
+
+            customEvent.on("searchForItemsRequired", function (event) {
+
+                useService(event.params.address, false, {});
+
+            });
+        };
+
         initializeListenersForBarButtons = function () {
 
             /**
@@ -260,6 +307,15 @@
                 customEvent.fire("moduleRequired", {
                     moduleName: "map"
                 });
+            });
+
+            customEvent.on("refreshBtnClick", function () {
+                //get current position
+                //ask for useService ?
+
+                //customEvent.fire("moduleRequired", {
+                //    moduleName: "map"
+                //});
             });
 
         };
@@ -316,6 +372,7 @@
             //initialize modules
             initializeModules();
 
+            initializeCustomListeners();
             /**
              * initialize listeners for some custom events (merge actions and reactions)
              * implement concept that Application as a main Class matches global events and listeners together so
