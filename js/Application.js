@@ -98,7 +98,6 @@
                 position: position
             });
 
-            //searchForAddressByPosition(position, searchForAddressByPositionCompleted);
         };
 
         firstGeoLocationFound = function (position) {
@@ -107,12 +106,6 @@
                 position: position
             });
 
-            //customEvent.fire("searchForItemsRequired", {
-            //    position: position
-            //});
-            //searchForAddressByPosition(position, function (data, requestStatus, requestId) {
-            //    searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
-            //});
         };
 
         itemsSortHelper = function (item1, item2) {
@@ -255,17 +248,19 @@
 
             });
 
-            customEvent.on("searchForAddressRequired", function () {
+            customEvent.on("searchForAddressRequired", function (event) {
+
+                var position = event.params.position;
 
                 if (!_firstGeoPositionFound) {
                     _firstGeoPositionFound= true;
 
-                    searchForAddressByPosition(_currentPosition, function (data, requestStatus, requestId) {
+                    searchForAddressByPosition(position, function (data, requestStatus, requestId) {
                         searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
                     });
                 } else {
 
-                    searchForAddressByPosition(_currentPosition, searchForAddressByPositionCompleted);
+                    searchForAddressByPosition(position, searchForAddressByPositionCompleted);
                 }
             });
 

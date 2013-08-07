@@ -25,6 +25,8 @@
             _mapBtn = _node.getElementsByClassName("map-button")[0],
             _refreshBtn = _node.getElementsByClassName("refresh-button")[0],
 
+            _itemsFound = false,
+
             initialize,
             initializeNodeListeners,
             initializeCustomListeners,
@@ -36,11 +38,15 @@
             onSearchModuleOpened,
             onMapModuleOpened,
             onListModuleOpened,
+            onSearchItemsFound,
+            onSearchItemsNotFound,
+            onSearchForItemsFired,
+            onSearchItemsFailed,
 
             onModuleRequired,
 
-            show,
-            hide;
+            enable,
+            disable;
 
         /**
          * @constructor
@@ -55,10 +61,10 @@
 
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
-                searchForItemsFired: onSearchSpinningMode,
-                searchItemsFound: offSearchSpinningMode,
-                searchItemsNotFound: offSearchSpinningMode,
-                searchItemsFailed: offSearchSpinningMode
+                searchForItemsFired: onSearchForItemsFired,
+                searchItemsFound: onSearchItemsFound,
+                searchItemsNotFound: onSearchItemsNotFound,
+                searchItemsFailed: onSearchItemsFailed
             });
         };
 
@@ -113,6 +119,24 @@
             return domUtil.hasClass(elem, "disabled");
         };
 
+        onSearchItemsFound = function () {
+            _itemsFound = true;
+            enable(_listBtn);
+            offSearchSpinningMode();
+        };
+        onSearchItemsNotFound = function () {
+            _itemsFound = false;
+            offSearchSpinningMode();
+        };
+        onSearchForItemsFired = function () {
+            _itemsFound = false;
+            onSearchSpinningMode();
+        };
+        onSearchItemsFailed = function () {
+            _itemsFound = false;
+            offSearchSpinningMode();
+        };
+
         onSearchSpinningMode = function () {
             domUtil.addClass(_refreshBtn, "spinning");
         };
@@ -137,47 +161,51 @@
 
         onSearchModuleOpened = function () {
 
-            hide(_zoomInBtn);
-            hide(_zoomOutBtn);
-            hide(_searchBtn);
-            //hide(_listBtn); when no results ?
-            show(_mapBtn);
-            hide(_refreshBtn);
+            disable(_zoomInBtn);
+            disable(_zoomOutBtn);
+            disable(_searchBtn);
+            if (_itemsFound) {
+                enable(_listBtn);
+            }
+            enable(_mapBtn);
+            disable(_refreshBtn);
         };
 
         onMapModuleOpened = function () {
 
-            show(_zoomInBtn);
-            show(_zoomOutBtn);
-            show(_searchBtn);
-            //show(_listBtn); when results ?
-            hide(_mapBtn);
-            show(_refreshBtn); //when results?
+            enable(_zoomInBtn);
+            enable(_zoomOutBtn);
+            enable(_searchBtn);
+            if (_itemsFound) {
+                enable(_listBtn);
+            }
+            disable(_mapBtn);
+            enable(_refreshBtn); //when results?
         };
 
         onListModuleOpened = function () {
 
-            hide(_zoomInBtn);
-            hide(_zoomOutBtn);
-            show(_searchBtn);
-            hide(_listBtn);
-            show(_mapBtn);
-            hide(_refreshBtn);
+            disable(_zoomInBtn);
+            disable(_zoomOutBtn);
+            enable(_searchBtn);
+            disable(_listBtn);
+            enable(_mapBtn);
+            disable(_refreshBtn);
         };
 
         /**
-         * show element (button)
+         * enable element (button)
          * @param element {DOMNode}
          */
-        show = function (element) {
+        enable = function (element) {
             domUtil.removeClass(element, "disabled");
         };
 
         /**
-         * hide element (button}
+         * disable element (button}
          * @param element {DOMNode}
          */
-        hide = function (element) {
+        disable = function (element) {
             domUtil.addClass(element, "disabled");
         };
 
