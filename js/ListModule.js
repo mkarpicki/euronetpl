@@ -44,7 +44,7 @@
         initializeCustomListeners = function () {
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
-                searchItemsFired: onSearchItemsNotFound,
+                searchForItemsFired: onSearchItemsNotFound,
                 searchItemsFound: onSearchItemsFound,
                 searchItemsNotFound: onSearchItemsNotFound,
                 searchItemsFailed: onSearchItemsNotFound

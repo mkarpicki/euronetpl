@@ -55,7 +55,7 @@
 
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
-                searchItemsFired: onSearchSpinningMode,
+                searchForItemsFired: onSearchSpinningMode,
                 searchItemsFound: offSearchSpinningMode,
                 searchItemsNotFound: offSearchSpinningMode,
                 searchItemsFailed: offSearchSpinningMode

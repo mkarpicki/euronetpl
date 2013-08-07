@@ -48,8 +48,8 @@
 
             findUserPosition,
 
-            searchByPosition,
-            searchByPositionComplete,
+            searchForAddressByPosition,
+            searchForAddressByPositionCompleted,
             searchForItemsFinished,
 
             firstGeoLocationFailed,
@@ -98,7 +98,7 @@
                 position: position
             });
 
-            //searchByPosition(position, searchByPositionComplete);
+            //searchForAddressByPosition(position, searchForAddressByPositionCompleted);
         };
 
         firstGeoLocationFound = function (position) {
@@ -110,8 +110,8 @@
             //customEvent.fire("searchForItemsRequired", {
             //    position: position
             //});
-            //searchByPosition(position, function (data, requestStatus, requestId) {
-            //    searchByPositionComplete(data, requestStatus, requestId, true);
+            //searchForAddressByPosition(position, function (data, requestStatus, requestId) {
+            //    searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
             //});
         };
 
@@ -127,7 +127,7 @@
          * @param position <Object>
          * @param callback <Function>
          */
-        searchByPosition = function (position, callback) {
+        searchForAddressByPosition = function (position, callback) {
             nokia.places.search.manager.reverseGeoCode({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -145,7 +145,7 @@
          * @param requestId <String>
          * @param searchForItems (optional) <Boolean>
          */
-        searchByPositionComplete = function (data, requestStatus, requestId, searchForItems) {
+        searchForAddressByPositionCompleted = function (data, requestStatus, requestId, searchForItems) {
 
             if (requestStatus === "OK") {
 
@@ -203,7 +203,7 @@
             //street = "Simon-Dach-Str";
             //postalCode = "10245";
 
-            customEvent.fire("searchItemsFired");
+            customEvent.fire("searchForItemsFired");
 
             params = "&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city;
 
@@ -216,12 +216,12 @@
                         items = result.items || [];
 
                     if (error) {
-                        //known eror
-                        //try one more time
+
+                        //service sometimes fails -> try one more time
                         if (!stopOnError) {
-                            useService({
-                                address: address
-                            }, true, userPosition) ;
+
+                            useService({address: address }, true, userPosition);
+
                         } else {
                             /**
                              * todo remove me
@@ -260,12 +260,12 @@
                 if (!_firstGeoPositionFound) {
                     _firstGeoPositionFound= true;
 
-                    searchByPosition(_currentPosition, function (data, requestStatus, requestId) {
-                        searchByPositionComplete(data, requestStatus, requestId, true);
+                    searchForAddressByPosition(_currentPosition, function (data, requestStatus, requestId) {
+                        searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
                     });
                 } else {
 
-                    searchByPosition(_currentPosition, searchByPositionComplete);
+                    searchForAddressByPosition(_currentPosition, searchForAddressByPositionCompleted);
                 }
             });
 
