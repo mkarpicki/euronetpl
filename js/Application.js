@@ -305,42 +305,6 @@
                 }
             });
 
-            /*
-            customEvent.on("zoomInBtnClick", function () {
-                customEvent.fire("mapZoomInRequired");
-            });
-
-            customEvent.on("zoomOutBtnClick", function () {
-                customEvent.fire("mapZoomOutRequired");
-            });
-
-            customEvent.on("searchBtnClick", function () {
-                customEvent.fire("moduleRequired", {
-                    moduleName: "search"
-                });
-            });
-
-            customEvent.on("listBtnClick", function () {
-                customEvent.fire("moduleRequired", {
-                    moduleName: "list"
-                });
-            });
-
-            customEvent.on("mapBtnClick", function () {
-                customEvent.fire("moduleRequired", {
-                    moduleName: "map"
-                });
-            });
-
-            customEvent.on("refreshBtnClick", function () {
-                //get current position
-                //ask for useService ?
-
-                //customEvent.fire("moduleRequired", {
-                //    moduleName: "map"
-                //});
-            });
-            */
         };
 
         /**
@@ -402,7 +366,7 @@
              * modules (components) don't have to know about each other - just listen to something and fire something -
              * Application is connecting logic(s)
              */
-            initializeListenersForBarButtons();
+            //initializeListenersForBarButtons();
 
             //initialize position service
             findUserPosition();

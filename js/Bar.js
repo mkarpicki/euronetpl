@@ -72,42 +72,53 @@
 
             _zoomInBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("zoomInBtnClick");
+                    //customEvent.fire("zoomInBtnClick");
+                    customEvent.fire("mapZoomInRequired");
                 }
                 return false;
             };
 
             _zoomOutBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("zoomOutBtnClick");
+                    //customEvent.fire("zoomOutBtnClick");
+                    customEvent.fire("mapZoomOutRequired");
                 }
                 return false;
             };
 
             _searchBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("searchBtnClick");
+                    //customEvent.fire("searchBtnClick");
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "search"
+                    });
                 }
                 return false;
             };
 
             _listBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("listBtnClick");
+                    //customEvent.fire("listBtnClick");
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "list"
+                    });
                 }
                 return false;
             };
 
             _mapBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("mapBtnClick");
+                    //customEvent.fire("mapBtnClick");
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "map"
+                    });
                 }
                 return false;
             };
 
             _refreshBtn.onclick = function () {
                 if (!isDisabled(this)) {
-                    customEvent.fire("refreshBtnClick");
+                    //customEvent.fire("refreshBtnClick");
                     //do something
                     //return false;
                 }
