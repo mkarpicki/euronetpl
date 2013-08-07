@@ -32,6 +32,8 @@
             initializeCustomListeners,
             isDisabled,
 
+            moduleRequired,
+
             onSearchSpinningMode,
             offSearchSpinningMode,
 
@@ -89,9 +91,7 @@
             _searchBtn.onclick = function () {
                 if (!isDisabled(this)) {
                     //customEvent.fire("searchBtnClick");
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "search"
-                    });
+                    moduleRequired("search");
                 }
                 return false;
             };
@@ -99,9 +99,7 @@
             _listBtn.onclick = function () {
                 if (!isDisabled(this)) {
                     //customEvent.fire("listBtnClick");
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "list"
-                    });
+                    moduleRequired("list");
                 }
                 return false;
             };
@@ -109,9 +107,7 @@
             _mapBtn.onclick = function () {
                 if (!isDisabled(this)) {
                     //customEvent.fire("mapBtnClick");
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "map"
-                    });
+                    moduleRequired("map");
                 }
                 return false;
             };
@@ -202,6 +198,12 @@
             disable(_listBtn);
             enable(_mapBtn);
             disable(_refreshBtn);
+        };
+
+        moduleRequired = function (moduleName) {
+            customEvent.fire("moduleRequired", {
+                moduleName: moduleName
+            });
         };
 
         /**
