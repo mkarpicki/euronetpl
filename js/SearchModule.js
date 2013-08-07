@@ -93,7 +93,6 @@
          */
         show = function () {
             domUtil.showNode(_node);
-            //customEvent.fire("searchModuleOpened");
         };
 
         /**

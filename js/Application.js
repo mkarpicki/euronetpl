@@ -278,6 +278,34 @@
              * bar - think about having events fired directly from object : bar.on('listButtonClick')
              * instead of populating it to global events system
              */
+            customEvent.addListeners({
+                zoomInBtnClick: function () {
+                    customEvent.fire("mapZoomInRequired");
+                },
+                zoomOutBtnClick: function () {
+                    customEvent.fire("mapZoomOutRequired");
+                },
+                searchBtnClick: function () {
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "search"
+                    });
+                },
+                listBtnClick: function () {
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "list"
+                    });
+                },
+                mapBtnClick: function () {
+                    customEvent.fire("moduleRequired", {
+                        moduleName: "map"
+                    });
+                },
+                refreshBtnClick: function () {
+
+                }
+            });
+
+            /*
             customEvent.on("zoomInBtnClick", function () {
                 customEvent.fire("mapZoomInRequired");
             });
@@ -312,7 +340,7 @@
                 //    moduleName: "map"
                 //});
             });
-
+            */
         };
 
         /**

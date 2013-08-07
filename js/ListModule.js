@@ -126,7 +126,6 @@
          */
         showNode = function (node) {
             domUtil.showNode(node);
-            //customEvent.fire("listModuleOpened");
         };
 
         initialize();
