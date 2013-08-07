@@ -23,8 +23,8 @@
 
             clearList,
             renderList,
-            show,
-            hide,
+            showNode,
+            hideNode,
 
             initialize,
             initializeCustomListeners,
@@ -53,8 +53,8 @@
 
         onSearchItemsFound = function (event) {
 
-            show(_resultsNode);
-            hide(_noResultsNode);
+            showNode(_resultsNode);
+            hideNode(_noResultsNode);
 
             clearList();
             renderList(event.params.items);
@@ -62,8 +62,8 @@
 
         onSearchItemsNotFound = function () {
 
-            show(_noResultsNode);
-            hide(_resultsNode);
+            showNode(_noResultsNode);
+            hideNode(_resultsNode);
 
             clearList();
         };
@@ -71,9 +71,9 @@
         onModuleRequired = function (event) {
 
             if (event.params.moduleName === "list") {
-                show();
+                showNode(_node);
             } else {
-                hide();
+                hideNode(_node);
             }
 
         };
@@ -117,18 +117,15 @@
             }
         };
 
-        /**
-         * hides view
-         */
-        hide = function () {
-            domUtil.hideNode(_node);
+        hideNode = function (node) {
+            domUtil.hideNode(node);
         };
 
         /**
          * Shoes view
          */
-        show = function () {
-            domUtil.showNode(_node);
+        showNode = function (node) {
+            domUtil.showNode(node);
             //customEvent.fire("listModuleOpened");
         };
 

@@ -121,7 +121,7 @@
 
         onSearchItemsFound = function () {
             _itemsFound = true;
-            enable(_listBtn);
+            //enable(_listBtn);
             offSearchSpinningMode();
         };
         onSearchItemsNotFound = function () {
@@ -164,9 +164,9 @@
             disable(_zoomInBtn);
             disable(_zoomOutBtn);
             disable(_searchBtn);
-            if (_itemsFound) {
+            //if (_itemsFound) {
                 enable(_listBtn);
-            }
+            //}
             enable(_mapBtn);
             disable(_refreshBtn);
         };
@@ -176,9 +176,9 @@
             enable(_zoomInBtn);
             enable(_zoomOutBtn);
             enable(_searchBtn);
-            if (_itemsFound) {
+            //if (_itemsFound) {
                 enable(_listBtn);
-            }
+            //}
             disable(_mapBtn);
             enable(_refreshBtn); //when results?
         };
