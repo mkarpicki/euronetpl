@@ -31,6 +31,7 @@
             initializeNodeListeners,
             initializeCustomListeners,
             isDisabled,
+            isSpinning,
 
             moduleRequired,
 
@@ -113,7 +114,8 @@
             };
 
             _refreshBtn.onclick = function () {
-                if (!isDisabled(this)) {
+                if (!isDisabled(this) && !isSpinning(this)) {
+                    customEvent.on("searchForItemsRequired");
                     //customEvent.fire("refreshBtnClick");
                     //do something
                     //return false;
@@ -124,6 +126,10 @@
 
         isDisabled = function (elem) {
             return domUtil.hasClass(elem, "disabled");
+        };
+
+        isSpinning = function (elem) {
+            return domUtil.hasClass(elem, "spinning");
         };
 
         onSearchItemsFound = function () {

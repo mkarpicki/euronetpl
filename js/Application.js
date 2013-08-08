@@ -36,11 +36,11 @@
             _lang = params.lang || "en-GB",
             _firstGeoPositionFound = false,
             _currentPosition = null,
+            _currentAddress = null,
 
             init,
 
             initializeCustomListeners,
-            initializeListenersForBarButtons,
             initializeLibrary,
             initializeModules,
 
@@ -144,13 +144,15 @@
 
                 var locations = data.results ? data.results.items : [data.location];
 
+                _currentAddress = locations[0];
+
                 customEvent.fire("searchByPositionSucceed", {
-                    location: locations[0]
+                    location: _currentAddress
                 });
 
                 if (searchForItems) {
                     customEvent.fire("searchForItemsRequired", {
-                        address: locations[0]
+                        address: _currentAddress
                     });
                 }
 
@@ -239,9 +241,6 @@
 
                 _currentPosition = event.params.position;
 
-                /**
-                 * todo - think if always do that ?
-                 */
                 customEvent.fire("searchForAddressRequired", {
                     position: _currentPosition
                 });
@@ -250,61 +249,29 @@
 
             customEvent.on("searchForAddressRequired", function (event) {
 
-                var position = event.params.position;
+                var position = event.params.position || _currentPosition; // ;
 
-                if (!_firstGeoPositionFound) {
-                    _firstGeoPositionFound= true;
+                if (position) {
 
-                    searchForAddressByPosition(position, function (data, requestStatus, requestId) {
-                        searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
-                    });
-                } else {
+                    if (!_firstGeoPositionFound) {
+                        _firstGeoPositionFound= true;
 
-                    searchForAddressByPosition(position, searchForAddressByPositionCompleted);
+                        searchForAddressByPosition(position, function (data, requestStatus, requestId) {
+                            searchForAddressByPositionCompleted(data, requestStatus, requestId, true);
+                        });
+                    } else {
+
+                        searchForAddressByPosition(position, searchForAddressByPositionCompleted);
+                    }
                 }
             });
 
             customEvent.on("searchForItemsRequired", function (event) {
 
-                useService(event.params.address, false, {});
+                var address = event.params.address || _currentAddress;
 
+                useService(address, false, {});
             });
-        };
-
-        initializeListenersForBarButtons = function () {
-
-            /**
-             * @todo
-             * bar - think about having events fired directly from object : bar.on('listButtonClick')
-             * instead of populating it to global events system
-             */
-            customEvent.addListeners({
-                zoomInBtnClick: function () {
-                    customEvent.fire("mapZoomInRequired");
-                },
-                zoomOutBtnClick: function () {
-                    customEvent.fire("mapZoomOutRequired");
-                },
-                searchBtnClick: function () {
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "search"
-                    });
-                },
-                listBtnClick: function () {
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "list"
-                    });
-                },
-                mapBtnClick: function () {
-                    customEvent.fire("moduleRequired", {
-                        moduleName: "map"
-                    });
-                },
-                refreshBtnClick: function () {
-
-                }
-            });
-
         };
 
         /**
@@ -360,13 +327,6 @@
             initializeModules();
 
             initializeCustomListeners();
-            /**
-             * initialize listeners for some custom events (merge actions and reactions)
-             * implement concept that Application as a main Class matches global events and listeners together so
-             * modules (components) don't have to know about each other - just listen to something and fire something -
-             * Application is connecting logic(s)
-             */
-            //initializeListenersForBarButtons();
 
             //initialize position service
             findUserPosition();
