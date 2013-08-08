@@ -57,7 +57,9 @@
             geoLocationFailed,
             geoLocationFound,
 
-            useService;
+            useService,
+
+            showError;
 
 
         /**
@@ -180,6 +182,10 @@
             }
         };
 
+        showError = function (message) {
+            console.log(message);
+        };
+
         /**
          * @todo implement error handling here
          * @param address <Object>
@@ -221,7 +227,7 @@
                             /**
                              * todo remove me
                              */
-                            console.log(messages.error.serviceError);
+                            showError(messages.error.serviceError);
                             customEvent.fire("searchItemsFailed");
                         }
                     } else {
@@ -229,7 +235,7 @@
                     }
                 },
                 onError: function (error) {
-                    console.log(error);
+                    showError(messages.error.serviceError);
                 }
             });
 

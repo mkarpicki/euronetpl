@@ -114,8 +114,9 @@
             };
 
             _refreshBtn.onclick = function () {
+
                 if (!isDisabled(this) && !isSpinning(this)) {
-                    customEvent.on("searchForItemsRequired");
+                    customEvent.fire("searchForItemsRequired");
                     //customEvent.fire("refreshBtnClick");
                     //do something
                     //return false;
