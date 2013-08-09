@@ -27,13 +27,20 @@ ul {
 }
 
 .module {
-    /*background-color: red;*/
+    background-color: #000;
     bottom: 44px;
+    color: #FFF;
     display: none;
     /*height: 100%;*/
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+.module a,
+.module a:hover,
+.module a:visited {
+    color: #FFF;
 }
 
 /*******************************************************************
@@ -171,7 +178,35 @@ ul {
 /**************************************************
  * Search Module
  *************************************************/
-#search {
-    background: #000;
-    color: #FFF;
+
+
+/**************************************************
+ * List Module
+ *************************************************/
+#list {
+    overflow-y: auto;
+}
+
+#list .items li {
+    border-bottom: 1px solid #FFF;
+    padding: 10px;
+    position: relative;
+}
+
+#list .items a {
+    text-decoration: none;
+}
+
+#list .items a.link {
+    display: inline-block;
+    width: 100%;
+}
+
+#list .items a.arrow {
+    background-color: red;
+    display: inline-block;
+    float: right;
+    position: absolute;
+    right: 0;
+    width: 50px;
 }

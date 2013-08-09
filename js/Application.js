@@ -339,7 +339,7 @@
 
             //request for default View
             customEvent.fire("moduleRequired", {
-                moduleName: "map"
+                moduleName: "list"//"map"
             });
         };
 
@@ -347,4 +347,4 @@
 
     };
 
-}(document, window, util.customEvent, service.geoLocation, window.messages, window.cashGroupDeUtil));
+}(document, window, util.customEvent, service.geoLocation, window.messages, window.dataUtil));

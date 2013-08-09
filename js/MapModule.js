@@ -252,22 +252,25 @@
 
                 item = items[i];
 
-                //console.log(item);
-                marker = createMarker({
-                    position: {
-                        latitude: item.position.latitude,
-                        longitude: item.position.longitude
-                    },
-                    text: i + 1,
-                    visibility: true,
-                    //icon: "img/user-marker.png",
-                    anchor: {
-                        top: 16,
-                        left: 16
-                    }
-                });
+                if (item.position) {
 
-                _resultsLayer.objects.add(marker);
+                    //console.log(item);
+                    marker = createMarker({
+                        position: {
+                            latitude: parseFloat(item.position.latitude),
+                            longitude: parseFloat(item.position.longitude)
+                        },
+                        text: i + 1,
+                        visibility: true,
+                        //icon: "img/user-marker.png",
+                        anchor: {
+                            top: 16,
+                            left: 16
+                        }
+                    });
+
+                    _resultsLayer.objects.add(marker);
+                }
             }
         };
 

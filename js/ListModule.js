@@ -93,7 +93,8 @@
 
             var item,
                 listItem,
-                link;
+                link,
+                linkA;
 
             for (var i = 0, len = items.length; i < len; i++) {
 
@@ -101,7 +102,13 @@
 
                 listItem = document.createElement("li");
                 link = document.createElement("a");
+                link.className = "link";
                 link.setAttribute("href", "#");
+
+                linkA = document.createElement("a");
+                linkA.innerHTML = "&nbsp;";
+                linkA.className = "arrow";
+                linkA.setAttribute("href", "#");
 
                 //temporary
                 link.innerHTML = dataUtil.getFullAddress(item);
@@ -112,6 +119,7 @@
                 }(item));
 
                 listItem.appendChild(link);
+                listItem.appendChild(linkA);
 
                 _resultsNode.appendChild(listItem);
             }
@@ -131,5 +139,5 @@
         initialize();
     };
 
-}(window, document, util.dom, util.customEvent, window.cashGroupDeUtil));
+}(window, document, util.dom, util.customEvent, window.dataUtil));
 

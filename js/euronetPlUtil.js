@@ -10,11 +10,11 @@
     NS.dataUtil = {
 
         getPath: function () {
-            return "http://services.karpicki.com/cashgroupde/get.php?client_type=web";
+            return "http://services.karpicki.com/euronetpl/get.php?client_type=web";
         },
 
         getFullAddress: function (item) {
-            return item.street + ", " + item.postCode + " " + item.city;
+            return item.name + ". " + item.street + ", " + " " + item.city;
         },
 
         getDistance: function (item) {
