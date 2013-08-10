@@ -93,33 +93,38 @@
 
             var item,
                 listItem,
-                link,
-                linkA;
+                linkInfo,
+                linkArrow;
 
             for (var i = 0, len = items.length; i < len; i++) {
 
                 item = items[i];
 
                 listItem = document.createElement("li");
-                link = document.createElement("a");
-                link.className = "link";
-                link.setAttribute("href", "#");
-
-                linkA = document.createElement("a");
-                linkA.innerHTML = "&nbsp;";
-                linkA.className = "arrow";
-                linkA.setAttribute("href", "#");
+                linkInfo = document.createElement("a");
+                linkInfo.className = "info";
+                linkInfo.setAttribute("href", "#");
 
                 //temporary
-                link.innerHTML = dataUtil.getFullAddress(item);
-                link.onclick = (function (item) {
+                linkInfo.innerHTML = dataUtil.getFullAddress(item);
+                linkInfo.onclick = (function (item) {
                     return function () {
                         console.log(item);
                     };
                 }(item));
 
-                listItem.appendChild(link);
-                listItem.appendChild(linkA);
+                linkArrow = document.createElement("a");
+                linkArrow.innerHTML = "&nbsp;";
+                linkArrow.className = "arrow";
+                linkArrow.setAttribute("href", "#");
+                linkArrow.onclick = (function (item) {
+                    return function () {
+                        console.log(item);
+                    };
+                }(item));
+
+                listItem.appendChild(linkInfo);
+                listItem.appendChild(linkArrow);
 
                 _resultsNode.appendChild(listItem);
             }
