@@ -234,10 +234,7 @@
 
             updateMapZoomLevel(16);
 
-            _infoBubbles.openBubble(dataUtil.getDetailsInfo(item), {
-                latitude: parseFloat(item.position.latitude),
-                longitude: parseFloat(item.position.longitude)
-            });
+            _infoBubbles.openBubble(dataUtil.getDetailsInfo(item), item.position);
 
         };
 
@@ -291,11 +288,14 @@
 
                 if (item.position) {
 
+                    item.position.latitude = parseFloat(item.position.latitude);
+                    item.position.longitude = parseFloat(item.position.longitude);
+
                     //console.log(item);
                     marker = createMarker({
                         position: {
-                            latitude: parseFloat(item.position.latitude),
-                            longitude: parseFloat(item.position.longitude)
+                            latitude: item.position.latitude,
+                            longitude: item.position.longitude
                         },
                         text: i + 1,
                         visibility: true,
@@ -347,10 +347,7 @@
         };
 
         updateMapPosition = function (coords) {
-            _map.set("center", {
-                latitude: parseFloat(coords.latitude),
-                longitude: parseFloat(coords.longitude)
-            });
+            _map.set("center", coords);
         };
 
         /**
