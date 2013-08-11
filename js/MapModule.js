@@ -314,22 +314,13 @@
 
                 if (position) {
 
-                    //position.latitude = parseFloat(position.latitude);
-                    //position.longitude = parseFloat(position.longitude);
-
-                    //console.log(item);
                     marker = createMarker({
                         position: {
                             latitude: position.latitude,
                             longitude: position.longitude
                         },
                         text: i + 1,
-                        visibility: true//,
-                        //icon: "img/user-marker.png",
-                        //anchor: {
-                        //    top: 16,
-                        //    left: 16
-                        //}
+                        visibility: true
                     });
 
                     marker.addListener("click", (function (item) {
