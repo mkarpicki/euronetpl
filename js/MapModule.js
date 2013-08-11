@@ -4,6 +4,7 @@
  * @param document - HTML Document Object
  * @param NS - {Object} namespace that module should live in
  * @param customEvent - object that delivers support for handling custom events
+ * @param dataUtil - customized object with implemented methods for proper displaying data info*
  *
  * @requires HERE JavaScript API (http://developer.here.com)
  * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
@@ -11,7 +12,7 @@
  * @todo move nokia's objects as a dependencies
  * @todo if browser supports touch events - hide controls*
  */
-(function (NS, domUtil, customEvent){
+(function (NS, domUtil, customEvent, dataUtil){
 
     /**
      * @param params {Object}
@@ -24,20 +25,19 @@
             _firstPositionUsage = true,
             _node = params.node,
             _mapContainer = _node.getElementsByClassName("map-container")[0],
+            _infoBubbles,
 
             _zoomLevelProp = "zoomLevel",
-            _zoomLevelVal,
 
             _map,
             _userMarker,
             _userLayer,
-
             _resultsLayer,
 
             createMarker,
             initializeUserMarker,
 
-            clearMap,
+            cleaSearchResults,
             renderMarkers,
 
             hide,
@@ -46,27 +46,33 @@
             zoomOut,
 
             initialize,
+            initializeBubble,
             initializeCustomListeners,
             initializeMap,
             initializeMapControls,
             initializeLayers,
 
+            markerClicked,
+
             userPositionRequired,
             updateUserMarker,
 
             updateMapPosition,
+            updateMapZoomLevel,
 
             onModuleRequired,
             onGeoLocationFound,
+            onItemDetailsRequired,
 
             onSearchItemsFound,
             onSearchItemsNotFound;
 
         /**
+         * todo - test me
          * clears map from all rendered markers
          */
-        clearMap = function () {
-            //console.log("mapview.clearmap");
+        cleaSearchResults = function () {
+            _resultsLayer.objects.removeAll(_resultsLayer.objects.asArray());
         };
 
         createMarker = function (params) {
@@ -98,7 +104,9 @@
                 searchItemsNotFound: onSearchItemsNotFound,
                 searchItemsFailed: onSearchItemsNotFound,
 
-                geoLocationFound: onGeoLocationFound
+                geoLocationFound: onGeoLocationFound,
+
+                itemDetailsRequired: onItemDetailsRequired
             });
         };
 
@@ -106,17 +114,19 @@
          * creates and return map object
          * @return nokia.maps.map.Display
          */
-        initializeMap = function () {
+        initializeMap = function (components) {
             return new nokia.maps.map.Display(_mapContainer, {
 
                 // initial center and zoom level of the map
                 center: [52.51, 13.4],
-                components: [
-                    new nokia.maps.map.component.Behavior()
-                ],
+                components: components,
                 zoomLevel: 10
 
             });
+        };
+
+        initializeBubble = function () {
+            return new nokia.maps.map.component.InfoBubbles();
         };
 
         /**
@@ -200,13 +210,34 @@
          */
         initialize = function () {
 
-            _map = initializeMap();
+            _infoBubbles = initializeBubble();
+
+            _map = initializeMap([_infoBubbles, new nokia.maps.map.component.Behavior()]);
 
             initializeLayers(_map);
 
             initializeMapControls(_map);
 
             initializeCustomListeners();
+
+        };
+
+        onItemDetailsRequired = function (event) {
+
+            var item = event.params.item;
+
+            customEvent.fire("moduleRequired", {
+                moduleName: "map"
+            });
+
+            updateMapPosition(item.position);
+
+            updateMapZoomLevel(16);
+
+            _infoBubbles.openBubble(dataUtil.getDetailsInfo(item), {
+                latitude: parseFloat(item.position.latitude),
+                longitude: parseFloat(item.position.longitude)
+            });
 
         };
 
@@ -221,14 +252,14 @@
         };
 
         onSearchItemsFound = function (event) {
-            //clear container
-            var items = event.params.items;
+
+            cleaSearchResults();
 
             renderMarkers(event.params.items);
         };
 
         onSearchItemsNotFound = function () {
-            //clear container
+            cleaSearchResults();
         };
 
         onGeoLocationFound = function (event) {
@@ -241,6 +272,12 @@
                 updateMapPosition(coords);
             }
             userPositionRequired(coords);
+        };
+
+        markerClicked = function (item) {
+            customEvent.fire("itemDetailsRequired", {
+                item: item
+            });
         };
 
         renderMarkers = function (items) {
@@ -269,6 +306,13 @@
                         }
                     });
 
+                    marker.addListener("click", function () {
+                        markerClicked(item);
+                    });
+                    marker.addListener("tap", function () {
+                        markerClicked(item);
+                    });
+
                     _resultsLayer.objects.add(marker);
                 }
             }
@@ -293,8 +337,15 @@
             _userMarker.set("coordinate", coordinates)
         };
 
+        updateMapZoomLevel = function (level) {
+            _map.set(_zoomLevelProp, parseInt(level, 10));
+        };
+
         updateMapPosition = function (coords) {
-            _map.set("center", coords);
+            _map.set("center", {
+                latitude: parseFloat(coords.latitude),
+                longitude: parseFloat(coords.longitude)
+            });
         };
 
         /**
@@ -311,21 +362,17 @@
 
         zoomIn = function () {
 
-            _zoomLevelVal = _map.get(_zoomLevelProp);
-
-            _map.set(_zoomLevelProp, _zoomLevelVal + 1);
+            _map.set(_zoomLevelProp, _map.get(_zoomLevelProp) + 1);
 
         };
 
         zoomOut = function () {
 
-            _zoomLevelVal = _map.get(_zoomLevelProp);
-
-            _map.set(_zoomLevelProp, _zoomLevelVal - 1);
+            _map.set(_zoomLevelProp, _map.get(_zoomLevelProp) - 1);
 
         };
 
         initialize();
     };
 
-}(window, util.dom, util.customEvent));
+}(window, util.dom, util.customEvent, window.dataUtil));

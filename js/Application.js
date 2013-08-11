@@ -111,8 +111,8 @@
         };
 
         itemsSortHelper = function (item1, item2) {
-            var distance1 = dataUtil.getDistance(item1),
-                distance2 = dataUtil.getDistance(item2);
+            var distance1 = dataUtil.getDistance(item1, _currentPosition.coords),
+                distance2 = dataUtil.getDistance(item2, _currentPosition.coords);
 
             return distance1 > distance2;
         };
@@ -169,6 +169,17 @@
          * @param items
          */
         searchForItemsFinished = function (items) {
+
+            var properItems = [];
+
+            for (var i = 0, len = items.length, item; i < len; i++) {
+                item = items[i];
+                if (item.position) {
+                    properItems.push(item);
+                }
+            }
+
+            items = properItems;
 
             if (items.length > 0) {
 

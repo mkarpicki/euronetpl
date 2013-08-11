@@ -22,9 +22,12 @@
             _noResultsNode = _node.getElementsByClassName("no-items")[0],
 
             clearList,
+            itemClicked,
             renderList,
             showNode,
+            show,
             hideNode,
+            hide,
 
             initialize,
             initializeCustomListeners,
@@ -47,7 +50,8 @@
                 searchForItemsFired: onSearchItemsNotFound,
                 searchItemsFound: onSearchItemsFound,
                 searchItemsNotFound: onSearchItemsNotFound,
-                searchItemsFailed: onSearchItemsNotFound
+                searchItemsFailed: onSearchItemsNotFound,
+                itemDetailsRequired: hide
             });
         };
 
@@ -71,9 +75,9 @@
         onModuleRequired = function (event) {
 
             if (event.params.moduleName === "list") {
-                showNode(_node);
+                show();
             } else {
-                hideNode(_node);
+                hide();
             }
 
         };
@@ -93,45 +97,59 @@
 
             var item,
                 listItem,
-                linkInfo,
-                linkArrow;
+                addressLink,
+                arrowLink;
 
             for (var i = 0, len = items.length; i < len; i++) {
 
                 item = items[i];
 
                 listItem = document.createElement("li");
-                linkInfo = document.createElement("a");
-                linkInfo.className = "info";
-                linkInfo.setAttribute("href", "#");
+                addressLink = document.createElement("a");
+                addressLink.className = "info";
+                addressLink.setAttribute("href", "#");
 
                 //temporary
-                linkInfo.innerHTML = dataUtil.getFullAddress(item);
-                linkInfo.onclick = (function (item) {
+                addressLink.innerHTML = dataUtil.getFullAddress(item);
+                addressLink.onclick = (function (item) {
                     return function () {
-                        console.log(item);
+                        itemClicked(item);
                     };
                 }(item));
 
-                linkArrow = document.createElement("a");
-                linkArrow.innerHTML = "&nbsp;";
-                linkArrow.className = "arrow";
-                linkArrow.setAttribute("href", "#");
-                linkArrow.onclick = (function (item) {
+                arrowLink = document.createElement("a");
+                arrowLink.innerHTML = "&nbsp;";
+                arrowLink.className = "arrow";
+                arrowLink.setAttribute("href", "#");
+                arrowLink.onclick = (function (item) {
                     return function () {
-                        console.log(item);
+                        itemClicked(item);
                     };
                 }(item));
 
-                listItem.appendChild(linkInfo);
-                listItem.appendChild(linkArrow);
+                listItem.appendChild(addressLink);
+                listItem.appendChild(arrowLink);
 
                 _resultsNode.appendChild(listItem);
             }
         };
 
+        itemClicked = function (item) {
+            customEvent.fire("itemDetailsRequired", {
+                item: item
+            });
+        };
+
+        hide = function () {
+            hideNode(_node);
+        };
+
         hideNode = function (node) {
             domUtil.hideNode(node);
+        };
+
+        show = function () {
+            showNode(_node);
         };
 
         /**

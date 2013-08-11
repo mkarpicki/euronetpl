@@ -15,6 +15,8 @@ body {
     max-height: 100%;
     padding: 0;
     position: relative;
+
+    counter-reset:section;
 }
 
 button {
@@ -192,6 +194,11 @@ ul {
     /*padding: 10px;*/
     padding: 10px 10px 14px 10px;
     position: relative;
+}
+
+#list .items li:before {
+    counter-increment:section;
+    content: counter(section) ". ";
 }
 
 #list .items a {
