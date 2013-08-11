@@ -306,12 +306,17 @@
                         }
                     });
 
-                    marker.addListener("click", function () {
-                        markerClicked(item);
-                    });
-                    marker.addListener("tap", function () {
-                        markerClicked(item);
-                    });
+                    marker.addListener("click", (function (item) {
+                        return function () {
+                            markerClicked(item);
+                        };
+                    }(item)));
+                    
+                    marker.addListener("tap", (function (item) {
+                        return function () {
+                            markerClicked(item);
+                        };
+                    }(item)));
 
                     _resultsLayer.objects.add(marker);
                 }
