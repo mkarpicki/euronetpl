@@ -81,7 +81,8 @@
         };
 
         createMarker = function (params) {
-            var Marker = params.icon ? nokia.maps.map.Marker : nokia.maps.map.StandardMarker;
+            var Marker = params.icon ? nokia.maps.map.Marker : nokia.maps.map.StandardMarker,
+                anchor = params.anchor || {};
 
             return new Marker(
                 new nokia.maps.geo.Coordinate(params.position.latitude, params.position.longitude),{
@@ -90,7 +91,7 @@
                 icon: params.icon,
                 // Offset the top left icon corner so that it's
                 // Centered above the coordinate
-                anchor: new nokia.maps.util.Point(params.anchor.left || 12, params.anchor.top || 32)
+                anchor: new nokia.maps.util.Point(anchor.left || 12, anchor.top || 32)
             });
         };
 
@@ -253,16 +254,21 @@
 
         onSearchItemsFound = function (event) {
 
-            var items = event.params.items,
+            var items = event.params.items || [],
                 points = [];
 
             cleaSearchResults();
 
             renderMarkers(items);
 
-            //if users position set join position with results
-            //to have one array and position map to them
             if (_currentUserPosition) {
+                /**
+                 * @reamde
+                 * if users position set : join position with nearest results
+                 * to have one array and position map to them
+                 * Assumption: items are sorted already !!!
+                 */
+                items = items.slice(0,2);
                 points = items.concat({
                     position: _currentUserPosition
                 });
@@ -318,12 +324,12 @@
                             longitude: position.longitude
                         },
                         text: i + 1,
-                        visibility: true,
+                        visibility: true//,
                         //icon: "img/user-marker.png",
-                        anchor: {
-                            top: 16,
-                            left: 16
-                        }
+                        //anchor: {
+                        //    top: 16,
+                        //    left: 16
+                        //}
                     });
 
                     marker.addListener("click", (function (item) {
