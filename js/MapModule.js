@@ -22,6 +22,7 @@
 
         var JUMP = 50,
 
+            _currentUserPosition = null,
             _firstPositionUsage = true,
             _node = params.node,
             _mapContainer = _node.getElementsByClassName("map-container")[0],
@@ -57,9 +58,12 @@
             userPositionRequired,
             updateUserMarker,
 
-            updateMapPosition,
+            updateMapCenter,
             updateMapZoomLevel,
 
+            zoomMapToItems,
+
+            onMapFocusRequired,
             onModuleRequired,
             onGeoLocationFound,
             onItemDetailsRequired,
@@ -72,7 +76,8 @@
          * clears map from all rendered markers
          */
         cleaSearchResults = function () {
-            _resultsLayer.objects.removeAll(_resultsLayer.objects.asArray());
+            var objects = _resultsLayer.objects;
+            objects.removeAll(objects.asArray());
         };
 
         createMarker = function (params) {
@@ -94,18 +99,14 @@
          */
         initializeCustomListeners = function () {
             customEvent.addListeners({
-
                 moduleRequired: onModuleRequired,
-
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
-
+                mapFocusRequired: onMapFocusRequired,
                 searchItemsFound: onSearchItemsFound,
                 searchItemsNotFound: onSearchItemsNotFound,
                 searchItemsFailed: onSearchItemsNotFound,
-
                 geoLocationFound: onGeoLocationFound,
-
                 itemDetailsRequired: onItemDetailsRequired
             });
         };
@@ -212,6 +213,7 @@
 
             _infoBubbles = initializeBubble();
 
+            //that params are ugly here
             _map = initializeMap([_infoBubbles, new nokia.maps.map.component.Behavior()]);
 
             initializeLayers(_map);
@@ -226,16 +228,17 @@
 
             var item = event.params.item;
 
-            customEvent.fire("moduleRequired", {
-                moduleName: "map"
-            });
-
-            updateMapPosition(item.position);
-
-            updateMapZoomLevel(16);
-
             _infoBubbles.openBubble(dataUtil.getDetailsInfo(item), item.position);
 
+        };
+
+        onMapFocusRequired = function (event) {
+            var zoomLevel = event.params.zoomLevel,
+                position = event.params.position;
+
+            updateMapCenter(position);
+
+            updateMapZoomLevel(zoomLevel);
         };
 
         onModuleRequired = function (event) {
@@ -250,9 +253,24 @@
 
         onSearchItemsFound = function (event) {
 
+            var items = event.params.items,
+                points = [];
+
             cleaSearchResults();
 
-            renderMarkers(event.params.items);
+            renderMarkers(items);
+
+            //if users position set join position with results
+            //to have one array and position map to them
+            if (_currentUserPosition) {
+                points = items.concat({
+                    position: _currentUserPosition
+                });
+            } else {
+                points = items;
+            }
+
+            zoomMapToItems(points);
         };
 
         onSearchItemsNotFound = function () {
@@ -266,7 +284,7 @@
             if (_firstPositionUsage) {
                 _firstPositionUsage = false;
                 
-                updateMapPosition(coords);
+                updateMapCenter(coords);
             }
             userPositionRequired(coords);
         };
@@ -280,22 +298,24 @@
         renderMarkers = function (items) {
 
             var item,
-                marker;
+                marker,
+                position;
 
             for (var i = 0, len = items.length; i < len; i++) {
 
                 item = items[i];
+                position = item.position;
 
-                if (item.position) {
+                if (position) {
 
-                    item.position.latitude = parseFloat(item.position.latitude);
-                    item.position.longitude = parseFloat(item.position.longitude);
+                    //position.latitude = parseFloat(position.latitude);
+                    //position.longitude = parseFloat(position.longitude);
 
                     //console.log(item);
                     marker = createMarker({
                         position: {
-                            latitude: item.position.latitude,
-                            longitude: item.position.longitude
+                            latitude: position.latitude,
+                            longitude: position.longitude
                         },
                         text: i + 1,
                         visibility: true,
@@ -309,14 +329,17 @@
                     marker.addListener("click", (function (item) {
                         return function () {
                             markerClicked(item);
+                            return false;
                         };
                     }(item)));
                     
                     marker.addListener("tap", (function (item) {
                         return function () {
                             markerClicked(item);
+                            return false;
                         };
                     }(item)));
+
 
                     _resultsLayer.objects.add(marker);
                 }
@@ -346,8 +369,24 @@
             _map.set(_zoomLevelProp, parseInt(level, 10));
         };
 
-        updateMapPosition = function (coords) {
+        /**
+         *
+         * @param coords
+         */
+        updateMapCenter = function (coords) {
             _map.set("center", coords);
+
+        };
+
+        zoomMapToItems = function (items) {
+
+            var points = [];
+
+            for (var i = 0, len = items.length; i < len; i++) {
+                points.push(items[i].position);
+            }
+            
+            _map.zoomTo(nokia.maps.geo.BoundingBox.coverAll(points), false, "none");
         };
 
         /**
@@ -360,6 +399,8 @@
             }
 
             updateUserMarker(coords);
+
+            _currentUserPosition = coords;
         };
 
         zoomIn = function () {

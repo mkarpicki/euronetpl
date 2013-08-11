@@ -109,11 +109,11 @@
                 addressLink.className = "info";
                 addressLink.setAttribute("href", "#");
 
-                //temporary
                 addressLink.innerHTML = dataUtil.getFullAddress(item);
                 addressLink.onclick = (function (item) {
                     return function () {
                         itemClicked(item);
+                        return false;
                     };
                 }(item));
 
@@ -124,6 +124,7 @@
                 arrowLink.onclick = (function (item) {
                     return function () {
                         itemClicked(item);
+                        return false;
                     };
                 }(item));
 
@@ -135,9 +136,20 @@
         };
 
         itemClicked = function (item) {
+
+            customEvent.fire("moduleRequired", {
+                moduleName: "map"
+            });
+
+            customEvent.fire("mapFocusRequired", {
+                zoomLevel: 16,
+                position: item.position
+            });
+
             customEvent.fire("itemDetailsRequired", {
                 item: item
             });
+
         };
 
         hide = function () {

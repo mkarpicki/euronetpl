@@ -172,9 +172,18 @@
 
             var properItems = [];
 
-            for (var i = 0, len = items.length, item; i < len; i++) {
+            for (var i = 0, len = items.length, item, position; i < len; i++) {
+
                 item = items[i];
-                if (item.position) {
+                position = item.position;
+                
+                //limit results to those which we got with geo position object
+                if (position) {
+
+                    //make sure positions we get are float (here's library does not accept using strings)
+                    position.latitude = parseFloat(position.latitude);
+                    position.longitude = parseFloat(position.longitude);
+
                     properItems.push(item);
                 }
             }
@@ -214,6 +223,10 @@
             //city = "Berlin";
             //street = "Simon-Dach-Str";
             //postalCode = "10245";
+
+            //city = "stargard";
+            //street = "Nowakowskiego";
+            //postalCode = "73-110";
 
             customEvent.fire("searchForItemsFired");
 
@@ -350,7 +363,7 @@
 
             //request for default View
             customEvent.fire("moduleRequired", {
-                moduleName: "list"//"map"
+                moduleName: "map"//"map"
             });
         };
 
