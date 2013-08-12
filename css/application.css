@@ -222,7 +222,7 @@ form {
 
 .last-row {
     border: 0;
-    margin-top: 20px;
+    margin: 20px 0 50px 0;
     padding: 10px;
     font-size: 1.1em;
 }
