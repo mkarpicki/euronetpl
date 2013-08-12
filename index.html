@@ -27,19 +27,19 @@
         <h1>eBankomaty</h1>
         <form action="/search" method="get" onsubmit="return false;">
             <fieldset>
-                <legend>Wyszukiwanie:</legend>
+                <legend>Wyszukiwanie</legend>
                 <input type="radio" id="search-gps" name="search-type" checked>
                 <label for="search-gps">za pomocą GPS:</label>
                 <p id="search-gps-status">
                     wyszukiwanie ...
                 </p>
                 <input type="radio" id="search-manual"  name="search-type">
-                <label for="search-manual">ręczne</label>
+                <label for="search-manual">ręczne (podaj miasto):</label>
 
-                    <label for="city">podaj miasto:</label>
-                    <input type="text" name="city" id="city" value="" />
+                <!--<label for="city">podaj miasto:</label>-->
+                <input type="text" name="city" id="city" value="" class="last-row" />
                 
-                <button>
+                <button class="last-row">
                     <span>szukaj</span>
                 </button>
             </fieldset>
@@ -53,7 +53,6 @@
         <a href="#" class="map-control move right"></a>
         <a href="#" class="map-control move bottom"></a>
         <a href="#" class="map-control move left"></a>
-
     </section>
 
     <section id="list" class="module">

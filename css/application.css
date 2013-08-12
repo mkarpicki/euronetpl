@@ -190,11 +190,17 @@ h1 {
     line-height: 60px;
     margin: 30px auto;
     padding-left: 60px;
-    width: 200px;
+    width: 230px;
 }
 
 fieldset {
-    border:  0;
+    border: 0;
+    padding-top: 30px;
+}
+
+legend {
+    font-size: 24px;
+    padding-top: 28px;
 }
 
 fieldset label {
@@ -202,6 +208,7 @@ fieldset label {
 }
 
 form {
+    border-top: 2px solid #373a3f;
     width: 90%;
     margin: 0 auto;
 }
@@ -209,6 +216,13 @@ form {
 #search-gps-status {
     color: #4292de;
     font-style: italic;
+    min-height: 40px;
+}
+
+.last-row {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1.1em;
 }
 
 /**************************************************
