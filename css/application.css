@@ -19,14 +19,17 @@ body {
     counter-reset:section;
 }
 
-button {
-    border: 1px solid gray;
-}
-
 ul {
     margin: 0;
     padding: 0;
 }
+
+button {
+    background-color: #4292de;
+    border: 0;
+    color: #FFF;
+}
+
 
 .module {
     background-color: #000;
@@ -180,7 +183,33 @@ ul {
 /**************************************************
  * Search Module
  *************************************************/
+h1 {
+    background: url(../img/app-ico.png) no-repeat;
+    font-size: 2em;
+    font-style: italic;
+    line-height: 60px;
+    margin: 30px auto;
+    padding-left: 60px;
+    width: 200px;
+}
 
+fieldset {
+    border:  0;
+}
+
+fieldset label {
+    font-weight: bold;
+}
+
+form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+#search-gps-status {
+    color: #4292de;
+    font-style: italic;
+}
 
 /**************************************************
  * List Module

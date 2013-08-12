@@ -24,6 +24,7 @@
 <body onload="init();">
 
     <section id="search" class="module">
+        <h1>eBankomaty</h1>
         <form action="/search" method="get" onsubmit="return false;">
             <fieldset>
                 <legend>Wyszukiwanie:</legend>
@@ -34,10 +35,10 @@
                 </p>
                 <input type="radio" id="search-manual"  name="search-type">
                 <label for="search-manual">ręczne</label>
-                <div>
+
                     <label for="city">podaj miasto:</label>
                     <input type="text" name="city" id="city" value="" />
-                </div>
+                
                 <button>
                     <span>szukaj</span>
                 </button>

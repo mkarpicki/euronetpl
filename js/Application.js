@@ -363,7 +363,7 @@
 
             //request for default View
             customEvent.fire("moduleRequired", {
-                moduleName: "map"//"map"
+                moduleName: "search"//"map"
             });
         };
 
