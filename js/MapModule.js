@@ -25,7 +25,7 @@
             _currentUserPosition = null,
             _firstPositionUsage = true,
             _node = params.node,
-            _mapContainer = _node.getElementsByClassName("map-container")[0],
+            _mapContainer = _node.querySelectorAll(".map-container")[0],
             _infoBubbles,
 
             _zoomLevelProp = "zoomLevel",
@@ -138,10 +138,10 @@
          */
         initializeMapControls = function (map) {
 
-            var moveTop = _node.getElementsByClassName("move top")[0],
-                moveRight = _node.getElementsByClassName("move right")[0],
-                moveBottom = _node.getElementsByClassName("move bottom")[0],
-                moveLeft = _node.getElementsByClassName("move left")[0],
+            var moveTop = _node.querySelectorAll(".move.top")[0],
+                moveRight = _node.querySelectorAll(".move.right")[0],
+                moveBottom = _node.querySelectorAll(".move.bottom")[0],
+                moveLeft = _node.querySelectorAll(".move.left")[0],
                 panType = "default";
 
             moveTop.onclick = function () {

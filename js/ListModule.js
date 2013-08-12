@@ -18,8 +18,8 @@
     NS.ListModule = function (params) {
 
         var _node = params.node,
-            _resultsNode = _node.getElementsByClassName("items")[0],
-            _noResultsNode = _node.getElementsByClassName("no-items")[0],
+            _resultsNode = _node.querySelectorAll(".items")[0],
+            _noResultsNode = _node.querySelectorAll(".no-items")[0],
 
             clearList,
             itemClicked,

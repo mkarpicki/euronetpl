@@ -18,12 +18,12 @@
 
         var _node = params.node,
 
-            _zoomInBtn = _node.getElementsByClassName("zoom-in-button")[0],
-            _zoomOutBtn = _node.getElementsByClassName("zoom-out-button")[0],
-            _listBtn = _node.getElementsByClassName("list-button")[0],
-            _searchBtn = _node.getElementsByClassName("search-button")[0],
-            _mapBtn = _node.getElementsByClassName("map-button")[0],
-            _refreshBtn = _node.getElementsByClassName("refresh-button")[0],
+            _zoomInBtn = _node.querySelectorAll(".zoom-in-button")[0],
+            _zoomOutBtn = _node.querySelectorAll(".zoom-out-button")[0],
+            _listBtn = _node.querySelectorAll(".list-button")[0],
+            _searchBtn = _node.querySelectorAll(".search-button")[0],
+            _mapBtn = _node.querySelectorAll(".map-button")[0],
+            _refreshBtn = _node.querySelectorAll(".refresh-button")[0],
 
             _itemsFound = false,
 
