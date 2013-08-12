@@ -9,6 +9,7 @@ html {
 }
 
 body {
+    background-color: #000;
     font-family: 'Verdana', 'Arial';
     height:100%;
     margin: 0;
@@ -109,7 +110,7 @@ button {
     width: 100%;
     text-align: center;
 
-    position: absolute;
+    position: fixed;
     bottom: 0
 }
 
@@ -220,6 +221,7 @@ form {
 }
 
 .last-row {
+    border: 0;
     margin-top: 20px;
     padding: 10px;
     font-size: 1.1em;
