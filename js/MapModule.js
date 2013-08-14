@@ -117,6 +117,9 @@
          * @return nokia.maps.map.Display
          */
         initializeMap = function (components) {
+            console.log('createDisplay');
+            console.log(_mapContainer);
+            
             return new nokia.maps.map.Display(_mapContainer, {
 
                 // initial center and zoom level of the map
