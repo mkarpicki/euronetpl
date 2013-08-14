@@ -300,6 +300,8 @@
 
                 var address = event.params.address || _currentAddress;
 
+                console.log(address);
+
                 useService(address, false, {});
             });
         };

@@ -19,8 +19,17 @@
         var _node = params.node,
             _geoAddressNode = document.getElementById("search-gps-status"),
 
+            _button = _node.querySelectorAll("button")[0],
+            _radioSearchGps = _node.querySelectorAll("#search-gps")[0],
+            _radioSearchManual = _node.querySelectorAll("#search-manual")[0],
+
+            _cityField = _node.querySelectorAll("#city")[0],
+            _postCodeField = _node.querySelectorAll("#post-code")[0],
+            _streetField = _node.querySelectorAll("#street")[0],
+
             initialize,
             initializeCustomListeners,
+            initializeSearchHandling,
             insertHtml,
 
             onModuleRequired,
@@ -36,6 +45,48 @@
         initialize = function () {
 
             initializeCustomListeners();
+
+            initializeSearchHandling();
+        };
+
+        initializeSearchHandling = function () {
+
+            _cityField.onfocus = function () {
+                _radioSearchManual.checked = true;
+            };
+
+            _button.onclick = function () {
+
+                var params = null,
+                    city,
+                    street,
+                    postalCode;
+
+                if (_radioSearchManual.checked) {
+
+                    city = _cityField ? _cityField.value : null;
+                    street = _streetField ? _streetField.value : null;
+                    postalCode = _postCodeField ? _postCodeField.value : null;
+
+                    if (city || (city && postalCode) || (city && street)) {
+                        params = {};
+                        params.address = {
+                            city: city,
+                            postalCode: postalCode,
+                            street: street
+                        };
+                    }
+
+                //} else if (_radioSearchGps.checked) {
+                //    console.log("gps");
+                }
+
+                customEvent.fire("searchForItemsRequired", {
+                    address: params
+                });
+
+                return false;
+            };
         };
 
         /**
