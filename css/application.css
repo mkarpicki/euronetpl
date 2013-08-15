@@ -188,7 +188,7 @@ button {
     overflow-y: auto;
 }
 
-h1 {
+#search h1 {
     background: url(../img/app-ico.png) no-repeat;
     font-size: 2em;
     font-style: italic;
@@ -198,24 +198,28 @@ h1 {
     width: 230px;
 }
 
-fieldset {
+#search fieldset {
     border: 0;
     padding-top: 30px;
 }
 
-legend {
+#search legend {
     font-size: 24px;
     padding-top: 28px;
 }
 
-fieldset label {
+#search fieldset label {
     font-weight: bold;
 }
 
-form {
+#search form {
     border-top: 2px solid #373a3f;
     width: 90%;
     margin: 0 auto;
+}
+
+#search button {
+    display: block;
 }
 
 #search-gps-status {
@@ -224,7 +228,7 @@ form {
     min-height: 40px;
 }
 
-.last-row {
+#search .last-row {
     border: 0;
     margin: 20px 0;
     padding: 10px;

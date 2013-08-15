@@ -248,9 +248,6 @@
                             useService({address: address }, true, userPosition);
 
                         } else {
-                            /**
-                             * todo remove me
-                             */
                             showError(messages.error.serviceError);
                             customEvent.fire("searchItemsFailed");
                         }
@@ -347,7 +344,7 @@
         /**
          * @constructor
          * Initializes Modules
-         * Initialize matches between custom events and listeners (@todo re think that idea)
+         * Initialize matches between custom events and listeners
          * Initialize searching for user's position
          * Requests for default module
          */
@@ -367,6 +364,7 @@
             customEvent.fire("moduleRequired", {
                 moduleName: "search"//"map"
             });
+
         };
 
         init();

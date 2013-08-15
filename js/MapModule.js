@@ -38,7 +38,7 @@
             createMarker,
             initializeUserMarker,
 
-            cleaSearchResults,
+            clearSearchResults,
             renderMarkers,
 
             hide,
@@ -72,10 +72,9 @@
             onSearchItemsNotFound;
 
         /**
-         * todo - test me
          * clears map from all rendered markers
          */
-        cleaSearchResults = function () {
+        clearSearchResults = function () {
             var objects = _resultsLayer.objects;
             objects.removeAll(objects.asArray());
         };
@@ -104,6 +103,7 @@
                 mapZoomInRequired: zoomIn,
                 mapZoomOutRequired: zoomOut,
                 mapFocusRequired: onMapFocusRequired,
+                searchForItemsFired: clearSearchResults,
                 searchItemsFound: onSearchItemsFound,
                 searchItemsNotFound: onSearchItemsNotFound,
                 searchItemsFailed: onSearchItemsNotFound,
@@ -117,9 +117,7 @@
          * @return nokia.maps.map.Display
          */
         initializeMap = function (components) {
-            console.log('createDisplay');
-            console.log(_mapContainer);
-            
+
             return new nokia.maps.map.Display(_mapContainer, {
 
                 // initial center and zoom level of the map
@@ -260,7 +258,7 @@
             var items = event.params.items || [],
                 points = [];
 
-            cleaSearchResults();
+            clearSearchResults();
 
             renderMarkers(items);
 
@@ -283,7 +281,7 @@
         };
 
         onSearchItemsNotFound = function () {
-            cleaSearchResults();
+            clearSearchResults();
         };
 
         onGeoLocationFound = function (event) {
