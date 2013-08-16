@@ -20,6 +20,7 @@
             _geoAddressNode = document.getElementById("search-gps-status"),
 
             _button = _node.querySelectorAll("button")[0],
+            _searchInProgress = false,
             _radioSearchGps = _node.querySelectorAll("#search-gps")[0],
             _radioSearchManual = _node.querySelectorAll("#search-manual")[0],
 
@@ -33,6 +34,7 @@
             insertHtml,
 
             onModuleRequired,
+            onSearchForItemsFired,
             onSearchByPositionSucceed,
             onSearchByPositionFailed,
 
@@ -96,6 +98,7 @@
 
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
+                searchForItemsFired: onSearchForItemsFired,
                 searchByPositionSucceed: onSearchByPositionSucceed,
                 searchByPositionFailed: onSearchByPositionFailed
             });
@@ -124,6 +127,10 @@
 
         };
 
+        onSearchForItemsFired = function () {
+            _searchInProgress = true;
+        };
+
         onSearchByPositionSucceed = function (event) {
 
             var location = event.params.location;
@@ -133,10 +140,13 @@
             } else {
                 insertHtml(_geoAddressNode, messages.saerchModule.geoLocationNotFound);
             }
+
+            _searchInProgress = false;
         };
 
         onSearchByPositionFailed = function () {
             insertHtml(_geoAddressNode, messages.saerchModule.geoLocationFailed);
+            _searchInProgress = false;
         };
 
         /**

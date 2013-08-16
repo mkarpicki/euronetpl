@@ -27,6 +27,7 @@
             _node = params.node,
             _mapContainer = _node.querySelectorAll(".map-container")[0],
             _infoBubbles,
+            _shown = false,
 
             _zoomLevelProp = "zoomLevel",
 
@@ -260,6 +261,14 @@
 
             clearSearchResults();
 
+            //this is stupid
+            //should call show
+            //and show should fire event sayin "module opened" and all should listen to that instead of required
+            //for hidding them self
+            customEvent.fire("moduleRequired", {
+                moduleName: "map"
+            });
+
             renderMarkers(items);
 
             if (_currentUserPosition) {
@@ -278,6 +287,7 @@
             }
 
             zoomMapToItems(points);
+
         };
 
         onSearchItemsNotFound = function () {
@@ -349,6 +359,7 @@
          */
         hide = function () {
             domUtil.hideNode(_node);
+            _shown = false;
         };
 
         /**
@@ -357,6 +368,7 @@
         show = function () {
             domUtil.showNode(_node);
             //customEvent.fire("mapModuleOpened");
+            _shown = true;
         };
 
         updateUserMarker = function (coordinates) {
@@ -383,8 +395,16 @@
             for (var i = 0, len = items.length; i < len; i++) {
                 points.push(items[i].position);
             }
-            
-            _map.zoomTo(nokia.maps.geo.BoundingBox.coverAll(points), false, "none");
+
+            /**
+             * todo - reomve me someday ?
+             * @workaround
+             * map is not setting proper zoom when not displayd (need to verify with api.here.com team)
+             */
+            setTimeout(function () {
+                _map.zoomTo(nokia.maps.geo.BoundingBox.coverAll(points), false, "none");
+            }, 500);
+
         };
 
         /**

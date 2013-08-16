@@ -198,12 +198,13 @@
                     items: items
                 });
             } else {
+                showError(messages.error.noResults);
                 customEvent.fire("searchItemsNotFound");
             }
         };
 
         showError = function (message) {
-            console.log(message);
+            alert(message);
         };
 
         /**
@@ -257,6 +258,7 @@
                 },
                 onError: function (error) {
                     showError(messages.error.serviceError);
+                    customEvent.fire("searchItemsFailed");
                 }
             });
 
@@ -296,8 +298,6 @@
             customEvent.on("searchForItemsRequired", function (event) {
 
                 var address = event.params.address || _currentAddress;
-
-                console.log(address);
 
                 useService(address, false, {});
             });
