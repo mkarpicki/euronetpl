@@ -20,7 +20,7 @@
             _geoAddressNode = document.getElementById("search-gps-status"),
 
             _button = _node.querySelectorAll("button")[0],
-            _searchInProgress = false,
+            _searchInProgress = true, //should be false and some onReady handling
             _radioSearchGps = _node.querySelectorAll("#search-gps")[0],
             _radioSearchManual = _node.querySelectorAll("#search-manual")[0],
 
@@ -35,8 +35,10 @@
 
             onModuleRequired,
             onSearchForItemsFired,
+            onSearchItemsFailed,
             onSearchByPositionSucceed,
             onSearchByPositionFailed,
+            onSearchItemsFinished,
 
             hide,
             show;
@@ -63,6 +65,10 @@
                     city,
                     street,
                     postalCode;
+
+                if (_searchInProgress) {
+                    return;
+                }
 
                 if (_radioSearchManual.checked) {
 
@@ -99,6 +105,8 @@
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
                 searchForItemsFired: onSearchForItemsFired,
+                searchItemsFailed: onSearchItemsFailed,
+                searchItemsFinished: onSearchItemsFinished,
                 searchByPositionSucceed: onSearchByPositionSucceed,
                 searchByPositionFailed: onSearchByPositionFailed
             });
@@ -131,6 +139,14 @@
             _searchInProgress = true;
         };
 
+        onSearchItemsFailed = function () {
+            _searchInProgress = false;
+        };
+
+        onSearchItemsFinished = function () {
+            _searchInProgress = false;
+        };
+
         onSearchByPositionSucceed = function (event) {
 
             var location = event.params.location;
@@ -141,12 +157,10 @@
                 insertHtml(_geoAddressNode, messages.saerchModule.geoLocationNotFound);
             }
 
-            _searchInProgress = false;
         };
 
         onSearchByPositionFailed = function () {
             insertHtml(_geoAddressNode, messages.saerchModule.geoLocationFailed);
-            _searchInProgress = false;
         };
 
         /**

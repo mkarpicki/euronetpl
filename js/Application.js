@@ -214,11 +214,13 @@
          */
         useService = function (locationObject, stopOnError, userPosition) {
 
-            var address = locationObject.address,
-                city = encodeURI(address.city),
-                postalCode = encodeURI(address.postalCode),
+            locationObject = locationObject || {};
+
+            var address = locationObject.address || {},
+                city = encodeURI(address.city) || "",
+                postalCode = encodeURI(address.postalCode) || "",
                 request,
-                street = encodeURI(address.street),
+                street = encodeURI(address.street) || "",
                 params;
 
             //city = "Berlin";
@@ -253,6 +255,7 @@
                             customEvent.fire("searchItemsFailed");
                         }
                     } else {
+                        customEvent.fire("searchItemsFinished");
                         searchForItemsFinished(items);
                     }
                 },
