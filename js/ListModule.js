@@ -20,6 +20,7 @@
         var _node = params.node,
             _resultsNode = _node.querySelectorAll(".items")[0],
             _noResultsNode = _node.querySelectorAll(".no-items")[0],
+            _searchingNode = _node.querySelectorAll(".searching")[0],
 
             clearList,
             itemClicked,
@@ -32,6 +33,7 @@
             initialize,
             initializeCustomListeners,
 
+            onSearchItemsFired,
             onSearchItemsFound,
             onSearchItemsNotFound,
             onModuleRequired;
@@ -39,6 +41,10 @@
         initialize = function () {
 
             initializeCustomListeners();
+
+            showNode(_noResultsNode);
+            hideNode(_resultsNode);
+            hideNode(_searchingNode);
         };
 
         /**
@@ -47,7 +53,7 @@
         initializeCustomListeners = function () {
             customEvent.addListeners({
                 moduleRequired: onModuleRequired,
-                searchForItemsFired: onSearchItemsNotFound,
+                searchForItemsFired: onSearchItemsFired,
                 searchItemsFound: onSearchItemsFound,
                 searchItemsNotFound: onSearchItemsNotFound,
                 searchItemsFailed: onSearchItemsNotFound,
@@ -55,10 +61,21 @@
             });
         };
 
+        onSearchItemsFired = function () {
+
+            hideNode(_noResultsNode);
+            hideNode(_resultsNode);
+            showNode(_searchingNode);
+
+            clearList();
+
+        };
+
         onSearchItemsFound = function (event) {
 
             showNode(_resultsNode);
             hideNode(_noResultsNode);
+            hideNode(_searchingNode);
 
             clearList();
             renderList(event.params.items);
@@ -68,6 +85,7 @@
 
             showNode(_noResultsNode);
             hideNode(_resultsNode);
+            hideNode(_searchingNode);
 
             clearList();
         };

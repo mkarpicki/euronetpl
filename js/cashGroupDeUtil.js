@@ -18,7 +18,7 @@
         },
         
         getDetailsInfo: function (item) {
-            return this.getFullAddress(item);
+            return item.street + ",<br>" + item.postCode + " " + item.city;
         },
 
         getDistance: function (item, position) {

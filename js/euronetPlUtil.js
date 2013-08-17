@@ -22,7 +22,7 @@
         },
 
         /**
-         * @fixme - calculation seems to not work
+         * fixme - calculation seems to not work
          * @param item
          * @param position
          */

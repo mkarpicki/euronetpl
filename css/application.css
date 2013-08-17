@@ -272,3 +272,10 @@ button {
     right: 0;
     width: 40px;
 }
+
+#list .searching,
+#list .no-items {
+    margin: 15% auto 0 auto;
+    text-align: center;
+    width: 200px;
+}
