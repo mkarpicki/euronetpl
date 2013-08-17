@@ -78,6 +78,7 @@
         clearSearchResults = function () {
             var objects = _resultsLayer.objects;
             objects.removeAll(objects.asArray());
+            _infoBubbles.closeAll();
         };
 
         createMarker = function (params) {
