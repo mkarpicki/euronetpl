@@ -365,7 +365,7 @@
 
             //request for default View
             customEvent.fire("moduleRequired", {
-                moduleName: "search"//"map"
+                moduleName: "map"//"map"
             });
 
         };
