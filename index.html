@@ -15,6 +15,15 @@
     <link rel="stylesheet" type="text/css" href="css/application.css" />
 
     <!--[if lt IE 9]>
+    <style>
+        label.placeholder {
+            display: block;
+        }
+    </style>
+    <![endif]-->
+
+
+    <!--[if lt IE 9]>
     <script type="text/javascript" src="../../common.karpicki.com/front/lib/html5shiv.js"></script>
     <![endif]-->
 
@@ -37,9 +46,12 @@
                 <label for="search-manual">ręczne:</label>
 
                 <div>
+                    <label for="city" class="placeholder">podaj miasto:</label>
                     <input type="text" name="city" id="city" value="" placeholder="podaj miasto" class="last-row" />
-                    <input type="text" name="city" id="post-code" value="" placeholder="podaj zip" class="last-row" />
-                    <input type="text" name="city" id="street" value="" placeholder="podaj ulice" class="last-row" />
+                    <label for="post-code" class="placeholder">podaj zip:</label>
+                    <input type="text" name="post-code" id="post-code" value="" placeholder="podaj zip" class="last-row" />
+                    <label for="street" class="placeholder">podaj ulice:</label>
+                    <input type="text" name="street" id="street" value="" placeholder="podaj ulice" class="last-row" />
                 </div>
 
                 <button type="button" class="last-row">
@@ -79,5 +91,8 @@
 
     <script charset="utf-8" type="text/javascript" src="http://api.maps.nokia.com/2.2.4/jsl.js?routing=none&positioning=none" ></script>
     <script charset="utf-8" type="text/javascript" src="application.js.php"></script>
+
+    <!--<script charset="utf-8" type="text/javascript" src="js/placeholderPatch.js"></script>-->
+
 </body>
 </html>

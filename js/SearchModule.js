@@ -33,6 +33,8 @@
             initializeSearchHandling,
             insertHtml,
 
+            letElementSetgManualSearch,
+
             onModuleRequired,
             onSearchForItemsFired,
             onSearchItemsFailed,
@@ -55,9 +57,18 @@
 
         initializeSearchHandling = function () {
 
-            _cityField.onfocus = function () {
-                _radioSearchManual.checked = true;
-            };
+            if (_cityField) {
+                letElementSetgManualSearch(_cityField);
+            }
+
+            if (_postCodeField) {
+                letElementSetgManualSearch(_postCodeField);
+            }
+
+            if (_streetField) {
+                letElementSetgManualSearch(_streetField);
+            }
+            
 
             _button.onclick = function () {
 
@@ -161,6 +172,12 @@
 
         onSearchByPositionFailed = function () {
             insertHtml(_geoAddressNode, messages.saerchModule.geoLocationFailed);
+        };
+
+        letElementSetgManualSearch = function (elem) {
+            domUtil.addEventHandler(elem, "focus", function () {
+                _radioSearchManual.checked = true;
+            });
         };
 
         /**

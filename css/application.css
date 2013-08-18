@@ -31,6 +31,9 @@ button {
     color: #FFF;
 }
 
+label.placeholder {
+    display: none;
+}
 
 .module {
     background-color: #000;
@@ -233,6 +236,10 @@ button {
     margin: 20px 0;
     padding: 10px;
     font-size: 1.1em;
+}
+
+#search input.last-row {
+    margin-right: 20px;
 }
 
 /**************************************************
