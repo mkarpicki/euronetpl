@@ -8,7 +8,7 @@
  * @require util.dom (http://common.karpicki.com/front/util/dom.js)
  * @require util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (NS, domUtil, customEvent) {
+(function (NS, domUtil, customEvent, browser) {
 
     /**
      * @param params {Object}
@@ -58,6 +58,10 @@
 
             initializeNodeListeners();
             initializeCustomListeners();
+
+            if (browser.isMeego() || (browser.isIOS() && browser.getIOSVersion() < 5)) {
+                domUtil.hideNode(_searchBtn);
+            }
         };
 
         initializeCustomListeners = function (){
@@ -232,4 +236,4 @@
         initialize();
     };
 
-}(window, util.dom, util.customEvent));
+}(window, util.dom, util.customEvent, util.browser));

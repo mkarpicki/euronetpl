@@ -45,4 +45,4 @@
         return new  NS.Application(config);
     };
 
-}(window, window.util.browser, window.dataUtil));
+}(window, util.browser, window.dataUtil));
