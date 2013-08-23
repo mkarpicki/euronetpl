@@ -3,7 +3,7 @@
  * defines configuration and should be executed by body.onload
  * @param NS {Object} - namespace object
  */
-(function (NS, browser, dataUtil) {
+(function (NS, dataUtil) {
 
     var config = {
         //clientId: "euronetpl",
@@ -19,30 +19,7 @@
 
     NS.init = function () {
 
-        var scrollOptions = {
-                hScroll: true,
-                hScrollbar: true,
-                vScrollbar: false
-            },
-            isAndroidOrOldIOS = !!(browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5));
-
-        /**
-         * @readme
-         * using iScroll lib for fixing missing scroll functionality for some browsers
-         * currently library is not lazy loaded but just used (will eedto think if better to lazy load or
-         * have in manifest file anyway
-         */
-        if (browser.isMeego() || isAndroidOrOldIOS) {
-
-            var listScroll = new iScroll('list', scrollOptions);
-        }
-
-        if (isAndroidOrOldIOS) {
-           
-            var searchScroll = new iScroll('search', scrollOptions);
-        }
-
         return new  NS.Application(config);
     };
 
-}(window, util.browser, window.dataUtil));
+}(window, window.dataUtil));

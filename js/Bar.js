@@ -59,7 +59,7 @@
             initializeNodeListeners();
             initializeCustomListeners();
 
-            if (browser.isMeego() || (browser.isIOS() && browser.getIOSVersion() < 5)) {
+            if (browser.isMeego() || browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5)) {
                 domUtil.hideNode(_searchBtn);
             }
         };

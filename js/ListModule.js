@@ -9,7 +9,14 @@
  * @require util.dom (http://common.karpicki.com/front/util/dom.js)
  * @require util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (NS, document, domUtil, customEvent, dataUtil) {
+(function (NS, document, domUtil, customEvent, browser, dataUtil) {
+
+    var scrollOptions = {
+            hScroll: true,
+            hScrollbar: true,
+            vScrollbar: false
+        },
+        isAndroidOrOldIOS = !!(browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5));
 
     /**
      * @param params {Object}
@@ -39,6 +46,17 @@
             onModuleRequired;
 
         initialize = function () {
+
+            /**
+             * @readme
+             * using iScroll lib for fixing missing scroll functionality for some browsers
+             * currently library is not lazy loaded but just used (will eedto think if better to lazy load or
+             * have in manifest file anyway
+             */
+            if (browser.isMeego() || isAndroidOrOldIOS) {
+
+                var listScroll = new iScroll(_node.getAttribute("id"), scrollOptions);
+            }            
 
             initializeCustomListeners();
 
@@ -192,5 +210,5 @@
         initialize();
     };
 
-}(window, document, util.dom, util.customEvent, window.dataUtil));
+}(window, document, util.dom, util.customEvent, util.browser, window.dataUtil));
 
