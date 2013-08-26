@@ -9,8 +9,8 @@
 
     require_once("../../common.karpicki.com/front/lib/iscroll-lite.js");
 
-    //require_once("js/cashGroupDeUtil.js");
-    require_once("js/euronetPlUtil.js");
+    require_once("js/cashGroupDeUtil.js");
+    //require_once("js/euronetPlUtil.js");
 
     require_once("js/messages.js");
     require_once("js/MapModule.js");
