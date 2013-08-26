@@ -114,7 +114,7 @@
             var distance1 = dataUtil.getDistance(item1, _currentPosition.coords),
                 distance2 = dataUtil.getDistance(item2, _currentPosition.coords);
 
-            return distance1 > distance2;
+            return (distance1 > distance2) ? 1 : -1;
         };
 
         /**
