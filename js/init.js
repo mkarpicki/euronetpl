@@ -9,8 +9,7 @@
         //clientId: "euronetpl",
         clientId: "web-client-app-refactoring",
         lang: "pl-PL",
-        serviceUrl: dataUtil.getPath(),
-        //serviceUrl: "http://services.karpicki.com/cashgroupde/get.php?client_type=web",
+        serviceUrl: dataUtil.getPath(), 
         hereCom: {
             appId: "AEhWqyOrNFeSEuZR13yC",
             authToken: "I5XkyHg6aLM_8w_a346hPA"

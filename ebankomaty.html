@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Aplikacja umożliwia wyszukanie bankomatów sieci Euronet na terenie podanego lub znalezionego za pomocą nadajnika GPS miasta na terenie Polski. Mariusz Karpicki" />
+    <meta name="keywords" content="eBankomaty, Euronet, ATM, bankomaty, mBank, Multibank, ATM Poland" />
+
+    <meta name="MobileOptimized" content="width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!--[if IE 8]>
+    <meta http-equiv="refresh" content="0; url=http://apps.karpicki.com/ebankomaty-archive/">
+    <![endif]-->
+
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9" />
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="css/application.css" />
+
+    <!--[if lt IE 10]>
+    <style>
+        label.placeholder {
+            display: block;
+        }
+    </style>
+    <![endif]-->
+
+
+    <!--[if lt IE 10]>
+    <script type="text/javascript" src="../../common.karpicki.com/front/lib/html5shiv.js"></script>
+    <![endif]-->
+
+    <title>Euronet Bankomaty</title>
+
+</head>
+<body onload="init();">
+
+    <section id="search" class="module">
+        <div id="scroller">
+            <h1>eBankomaty</h1>
+            <form action="/search" method="get" onsubmit="return false;">
+                <fieldset>
+                    <legend>Wyszukiwanie</legend>
+                    <input type="radio" id="search-gps" name="search-type" checked>
+                    <label for="search-gps">za pomocą GPS:</label>
+                    <p id="search-gps-status">
+                        wyszukiwanie ...
+                    </p>
+                    <input type="radio" id="search-manual"  name="search-type">
+                    <label for="search-manual">ręczne:</label>
+
+                    <div>
+                        <label for="city" class="placeholder">podaj miasto:</label>
+                        <input type="text" name="city" id="city" value="" placeholder="podaj miasto" class="last-row" />
+                    </div>
+
+                    <button type="button" class="last-row">
+                        <span>szukaj</span>
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+
+    <section id="map" class="module">
+        <div class="map-container"></div>
+
+        <a href="#" class="map-control move top"></a>
+        <a href="#" class="map-control move right"></a>
+        <a href="#" class="map-control move bottom"></a>
+        <a href="#" class="map-control move left"></a>
+    </section>
+
+    <section id="list" class="module">
+        <ul class="items"></ul>
+        <p class="no-items">
+            Brak rezultatów.
+        </p>
+        <p class="searching">wyszukiwanie ...</p>
+    </section>
+
+    <nav id="bar">
+        <ul>
+            <li><a href="#" class="zoom-in-button" title="Przybliż">Przybliź</a></li>
+            <li><a href="#" class="list-button" title="Lista">Lista</a></li>
+            <li><a href="#" class="refresh-button disabled">Odśwież</a></li>
+            <li><a href="#" class="search-button" title="Wyszukiwanie">Wyszukiwanie</a></li>
+            <li><a href="#" class="zoom-out-button" title="Oddal">Oddal</a></li>
+            <li><a href="#" class="map-button" title="Mapa">Mapa</a></li>
+        </ul>
+    </nav>
+
+    <script charset="utf-8" type="text/javascript" src="http://api.maps.nokia.com/2.2.4/jsl.js?routing=none&positioning=none" ></script>
+    <script charset="utf-8" type="text/javascript" src="application.js.php"></script>
+
+</body>
+</html>

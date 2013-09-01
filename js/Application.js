@@ -15,7 +15,7 @@
  * @require {service.geoLocation} common.karpicki.com/front/service/mobileGeoLocation.js
  * @requires HERE JavaScript API (http://developer.here.com)*
  */
-(function (document, NS, customEvent, geoLocationService, messages, dataUtil) {
+(function (document, NS, customEvent, browser, geoLocationService, messages, dataUtil) {
 
     /**
      * Main Class. Controller that connects to external search services and set state via custom events
@@ -374,4 +374,4 @@
 
     };
 
-}(document, window, util.customEvent, service.geoLocation, window.messages, window.dataUtil));
+}(document, window, util.customEvent, util.browser, service.geoLocation, window.messages, window.dataUtil));

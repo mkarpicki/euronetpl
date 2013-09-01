@@ -8,7 +8,7 @@
  * @require util.dom (http://common.karpicki.com/front/util/dom.js)
  * @require util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (NS, domUtil, customEvent, browser) {
+(function (NS, domUtil, customEvent, browser, pathName) {
 
     /**
      * @param params {Object}
@@ -77,7 +77,7 @@
 
         initializeNodeListeners = function () {
 
-            _zoomInBtn.onclick = function () {
+            _zoomInBtn.onclick = function (e) {
                 if (!isDisabled(this)) {
                     //customEvent.fire("zoomInBtnClick");
                     customEvent.fire("mapZoomInRequired");
@@ -85,7 +85,7 @@
                 return false;
             };
 
-            _zoomOutBtn.onclick = function () {
+            _zoomOutBtn.onclick = function (e) {
                 if (!isDisabled(this)) {
                     //customEvent.fire("zoomOutBtnClick");
                     customEvent.fire("mapZoomOutRequired");
@@ -93,31 +93,46 @@
                 return false;
             };
 
-            _searchBtn.onclick = function () {
+            _searchBtn.onclick = function (e) {
                 if (!isDisabled(this)) {
                     //customEvent.fire("searchBtnClick");
                     moduleRequired("search");
                 }
+
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+
                 return false;
             };
 
-            _listBtn.onclick = function () {
+            _listBtn.onclick = function (e) {
                 if (!isDisabled(this)) {
                     //customEvent.fire("listBtnClick");
                     moduleRequired("list");
                 }
+
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+
                 return false;
             };
 
-            _mapBtn.onclick = function () {
+            _mapBtn.onclick = function (e) {
                 if (!isDisabled(this)) {
                     //customEvent.fire("mapBtnClick");
                     moduleRequired("map");
                 }
+
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+
                 return false;
             };
 
-            _refreshBtn.onclick = function () {
+            _refreshBtn.onclick = function (e) {
 
                 if (!isDisabled(this) && !isSpinning(this)) {
                     customEvent.fire("searchForItemsRequired");
@@ -212,9 +227,16 @@
         };
 
         moduleRequired = function (moduleName) {
-            customEvent.fire("moduleRequired", {
-                moduleName: moduleName
-            });
+
+            var path = pathName + moduleName + "/";
+
+            //if (browser.isHistorySupported()) {
+            //    history.pushState(null, null, path);
+            //} else {
+                customEvent.fire("moduleRequired", {
+                    moduleName: moduleName
+                });
+            //}
         };
 
         /**
@@ -236,4 +258,4 @@
         initialize();
     };
 
-}(window, util.dom, util.customEvent, util.browser));
+}(window, util.dom, util.customEvent, util.browser, window.location.pathname));

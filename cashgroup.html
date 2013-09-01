@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="CashGroup ATM Finder for Germany. Web based application allows find ATMs near to your location." />
+    <meta name="keywords" content="cash machines, cashgroup, ATM, atm germany, bank germany" />
+
+    <meta name="MobileOptimized" content="width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!--[if IE 8]>
+    <meta http-equiv="refresh" content="0; url=http://apps.karpicki.com/cashgroup-archive/">
+    <![endif]-->
+
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9" />
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="css/application.css" />
+
+    <!--[if lt IE 10]>
+    <style>
+        label.placeholder {
+            display: block;
+        }
+    </style>
+    <![endif]-->
+
+
+    <!--[if lt IE 10]>
+    <script type="text/javascript" src="../../common.karpicki.com/front/lib/html5shiv.js"></script>
+    <![endif]-->
+
+    <title>Euronet Bankomaty</title>
+
+</head>
+<body id="cashgroup" onload="init();">
+
+    <section id="search" class="module">
+        <div id="scroller">
+            <h1>CashGroup ATMs</h1>
+            <form action="/search" method="get" onsubmit="return false;">
+                <fieldset>
+                    <legend>Search</legend>
+                    <input type="radio" id="search-gps" name="search-type" checked>
+                    <label for="search-gps">via GPS:</label>
+                    <p id="search-gps-status">
+                        searching ...
+                    </p>
+                    <input type="radio" id="search-manual"  name="search-type">
+                    <label for="search-manual">manual:</label>
+
+                    <div>
+                        <label for="city" class="placeholder">city:</label>
+                        <input type="text" name="city" id="city" value="" placeholder="city" class="last-row" />
+                        <label for="post-code" class="placeholder">postal code:</label>
+                        <input type="text" name="post-code" id="post-code" value="" placeholder="postal code" class="last-row" />
+                        <label for="street" class="placeholder">street:</label>
+                        <input type="text" name="street" id="street" value="" placeholder="street" class="last-row" />
+                    </div>
+
+                    <button type="button" class="last-row">
+                        <span>search</span>
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+
+    <section id="map" class="module">
+        <div class="map-container"></div>
+
+        <a href="#" class="map-control move top"></a>
+        <a href="#" class="map-control move right"></a>
+        <a href="#" class="map-control move bottom"></a>
+        <a href="#" class="map-control move left"></a>
+    </section>
+
+    <section id="list" class="module">
+        <ul class="items"></ul>
+        <p class="no-items">
+            No results.
+        </p>
+        <p class="searching">searching ...</p>
+    </section>
+
+    <nav id="bar">
+        <ul>
+            <li><a href="#" class="zoom-in-button" title="Zoom In">Zoom In</a></li>
+            <li><a href="#" class="list-button" title="List">List</a></li>
+            <li><a href="#" class="refresh-button disabled" title="Refresh">Refresh</a></li>
+            <li><a href="#" class="search-button" title="Search">Search</a></li>
+            <li><a href="#" class="zoom-out-button" title="Zoom Out">Zoom Out</a></li>
+            <li><a href="#" class="map-button" title="Map">Map</a></li>
+        </ul>
+    </nav>
+
+    <script charset="utf-8" type="text/javascript" src="http://api.maps.nokia.com/2.2.4/jsl.js?routing=none&positioning=none" ></script>
+    <script charset="utf-8" type="text/javascript" src="application.js.php"></script>
+
+</body>
+</html>
