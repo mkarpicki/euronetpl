@@ -1,6 +1,13 @@
 folder_name=$(basename $PWD)
 target_path=$PWD\_target
 
+if [ -z "$1" ]
+  then
+    template=index.html
+  else
+    template=$1
+fi
+
 rm -r $target_path
 mkdir $target_path
 cp -R $PWD/* $target_path
@@ -9,7 +16,7 @@ grep -o -P '\".*?\"' $target_path/application.js.php | grep -o -P '[a-zA-Z0-9\-.
 
 java -jar $HOME/Closure-compiler/compiler.jar --js $target_path/application.js --js_output_file $target_path/application.min.js
 
-cp $target_path/index.html $target_path/index.html.tmp
+cp $target_path/$template $target_path/index.html.tmp
 sed 's/application.js.php/application.min.js/g' $target_path/index.html.tmp > $target_path/index.html
 
 
