@@ -7,8 +7,9 @@
 
     var config = {
         //clientId: "euronetpl",
-        clientId: "web-client-app-refactoring",
-        lang: "pl-PL",
+        clientId: "cashgroup-web",
+        //lang: "pl-PL",
+        lang: "de-DE",
         serviceUrl: dataUtil.getPath(), 
         hereCom: {
             appId: "AEhWqyOrNFeSEuZR13yC",
