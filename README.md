@@ -37,5 +37,9 @@ Having that it will replace using of original file in main template with new one
 Backlog:
 
 * Plan to add yahoo ui compressor to minify css file
+* make customized build cleaner because currently we need:
+- call script with template param
+- change init.js
+- change application.js.php (messages, dataUtil)
 
 
