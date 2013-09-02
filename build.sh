@@ -8,6 +8,11 @@ if [ -z "$1" ]
     template=$1
 fi
 
+if [ ! -z "$2" ]
+  then
+    target_path="${target_path/$folder_name/$2}"
+fi
+
 rm -r $target_path
 mkdir $target_path
 cp -R $PWD/* $target_path
