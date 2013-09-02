@@ -9,11 +9,11 @@
 
     require_once("../../common.karpicki.com/front/lib/iscroll-lite.js");
 
-    require_once("js/dataUtil-cashGroup.js");
-    //require_once("js/dataUtil-ebankomaty.js");
+    //require_once("js/dataUtil-cashGroup.js");
+    require_once("js/dataUtil-ebankomaty.js");
 
-    //require_once("js/messages-pl.js");
-    require_once("js/messages-en.js");
+    require_once("js/messages-pl.js");
+    //require_once("js/messages-en.js");
 
     require_once("js/MapModule.js");
     require_once("js/ListModule.js");

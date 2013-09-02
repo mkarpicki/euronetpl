@@ -6,10 +6,10 @@
 (function (NS, dataUtil) {
 
     var config = {
-        //clientId: "euronetpl",
-        clientId: "cashgroup-web",
-        //lang: "pl-PL",
-        lang: "de-DE",
+        clientId: "ebankomaty-web",
+        //clientId: "cashgroup-web",
+        lang: "pl-PL",
+        //lang: "de-DE",
         serviceUrl: dataUtil.getPath(), 
         hereCom: {
             appId: "AEhWqyOrNFeSEuZR13yC",
