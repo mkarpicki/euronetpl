@@ -9,8 +9,8 @@
 
     require_once("../../common.karpicki.com/front/lib/iscroll-lite.js");
 
-    require_once("js/dataUtil-cashGroup.js");
     //require_once("js/dataUtil-ebankomaty.js");
+    require_once("js/dataUtil-cashGroup.js");
 
     //require_once("js/messages-pl.js");
     require_once("js/messages-en.js");
@@ -20,5 +20,8 @@
     require_once("js/SearchModule.js");
     require_once("js/Bar.js");
     require_once("js/Application.js");
-    require_once("js/init.js");
+
+    //require_once("js/init-ebankomaty.js");
+    require_once("js/init-cashGroup.js");
+
 ?>
