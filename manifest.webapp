@@ -1,0 +1,29 @@
+{
+    "version": "1.0",
+    "name": "eBankomaty",
+    "description": "Aplikacja umożliwia wyszukanie bankomatów sieci Euronet na terenie podanego lub znalezionego za pomocą nadajnika GPS miasta na terenie Polski.",
+    "launch_path": "/index.html",
+
+    "developer": {
+        "name": "Mariusz Karpicki",
+        "url": "http://www.linkedin.com/in/mkarpicki"
+    },
+
+    "icons": {
+        "48": "/img/app-icons/48x48.png",
+        "128": "/img/app-icons/128x128.png"
+    },
+
+    "default_locale": "pl",
+
+    "fullscreen": "true",
+    "permissions": {
+        "systemXHR": {
+            "description": "Required to search for ATMs"
+        },
+        "geolocation": {
+            "description": "Required if user would like to use own position for searching ATMs",
+            "access": "readonly"
+        }
+    }
+}
