@@ -59,9 +59,9 @@
             initializeNodeListeners();
             initializeCustomListeners();
 
-            if (browser.isMeego() || browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5)) {
-                domUtil.hideNode(_searchBtn);
-            }
+            //if (browser.isMeego() || browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5)) {
+            //    domUtil.hideNode(_searchBtn);
+            //}
         };
 
         initializeCustomListeners = function (){

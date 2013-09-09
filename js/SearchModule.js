@@ -8,7 +8,21 @@
  * @require {util.dom} (http://common.karpicki.com/front/util/dom.js)
  * @require {util.customEvent} (http://common.karpicki.com/front/util/customEvent.js)
  */
-(function (document, NS, domUtil, customEvent, messages) {
+(function (document, NS, domUtil, customEvent, messages, browser) {
+
+       var scrollOptions = {
+            //hScroll: true,
+            //hScrollbar: true,
+            //vScrollbar: false
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+                }
+            },
+        isAndroidOrOldIOS = !!(browser.isAndroid() || (browser.isIOS() && browser.getIOSVersion() < 5));
 
     /**
      * @param params {Object}
@@ -18,6 +32,8 @@
 
         var _node = params.node,
             _geoAddressNode = document.getElementById("search-gps-status"),
+
+            _searchScroll = null,
 
             _button = _node.querySelectorAll("button")[0],
             _searchInProgress = true, //should be false and some onReady handling
@@ -42,6 +58,8 @@
             onSearchByPositionFailed,
             onSearchItemsFinished,
 
+            refreshIScroll,
+
             hide,
             show;
 
@@ -53,6 +71,10 @@
             initializeCustomListeners();
 
             initializeSearchHandling();
+
+            if (isAndroidOrOldIOS || browser.isMeego()) {
+                _searchScroll = new iScroll(_node.getAttribute("id"), scrollOptions);
+            }
         };
 
         initializeSearchHandling = function () {
@@ -140,6 +162,7 @@
 
             if (event.params.moduleName === "search") {
                 show();
+                refreshIScroll();
             } else {
                 hide();
             }
@@ -194,8 +217,14 @@
             domUtil.hideNode(_node);
         };
 
+        refreshIScroll = function () {
+            if (_searchScroll) {
+                _searchScroll.refresh();
+            }
+        };
+
         initialize();
 
     };
 
-} (document, window, util.dom, util.customEvent, window.messages));
+} (document, window, util.dom, util.customEvent, window.messages, util.browser));
