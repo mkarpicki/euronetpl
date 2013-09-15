@@ -373,7 +373,7 @@
         };
 
         updateUserMarker = function (coordinates) {
-            _userMarker.set("coordinate", coordinates)
+            _userMarker.set("coordinate", coordinates);
         };
 
         updateMapZoomLevel = function (level) {

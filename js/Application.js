@@ -111,6 +111,11 @@
         };
 
         itemsSortHelper = function (item1, item2) {
+
+            if (!_currentPosition) {
+                return -1;
+            }
+
             var distance1 = dataUtil.getDistance(item1, _currentPosition.coords),
                 distance2 = dataUtil.getDistance(item2, _currentPosition.coords);
 
