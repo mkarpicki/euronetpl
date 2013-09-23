@@ -9,8 +9,8 @@
  * @requires HERE JavaScript API (http://developer.here.com)
  * @requires util.customEvent (http://common.karpicki.com/front/util/customEvent.js)
  *
- * @todo move nokia's objects as a dependencies
- * @todo if browser supports touch events - hide controls*
+ * @fixme - improve zoom / bbox handling and fix a bug for zoom in when img requested by bbox
+ * @fixme - clean code
  */
 (function (NS, domUtil, customEvent, dataUtil){
 
@@ -34,8 +34,6 @@
             _default = {
                 latitude: 53.33952,
                 longitude: 15.0369,
-                width: 400,
-                height: 300,
                 zoom: 10,
                 nodot: true,
                 pois: null,
@@ -111,14 +109,13 @@
         getIndex = function (params, useBoundingBox) {
 
             var bbox = serializePois(params.bbox),
+
                 index = "&lat=" + params.latitude +
                 "&lon=" + params.longitude +
-                //"&z=" + params.zoom +
-                "&w=" + params.width +
-                "&h=" + params.height +
-                //"&bbox=" + serializePois(params.bbox) +
+                "&w=" + _node.offsetWidth +
+                "&h=" + _node.offsetHeight +
                 "&nodot=" + params.nodot +
-                "&poi=" + serializePois(params.pois); //add some serialize method to get pois by coma
+                "&poi=" + serializePois(params.pois);
 
             if (bbox && useBoundingBox) {
                 index += "&bbox=" + bbox;
@@ -227,8 +224,6 @@
                     _current = {
                         latitude: _results.latitude,
                         longitude: _results.longitude,
-                        width: _results.width,
-                        height: _results.height,
                         zoom: _results.zoom,
                         nodot: _results.nodot,
                         pois: _results.pois,
@@ -285,8 +280,6 @@
                 _results = {
                     latitude: _current.latitude,
                     longitude: _current.longitude,
-                    width: _current.width,
-                    height: _current.height,
                     zoom: _current.zoom,
                     nodot: _current.nodot,
                     pois: _current.pois,
