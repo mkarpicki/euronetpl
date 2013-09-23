@@ -327,7 +327,8 @@
             });
 
             _mapModule = new NS.MapModule({
-                node: document.getElementById("map")
+                node: document.getElementById("map"),
+                hereConfig: params.hereCom
             });
 
             _listModule = new NS.ListModule({

@@ -146,23 +146,23 @@
                 addressLink.setAttribute("href", "#");
 
                 addressLink.innerHTML = dataUtil.getFullAddress(item);
-                addressLink.onclick = (function (item) {
+                addressLink.onclick = (function (item, itemPosition) {
                     return function () {
-                        itemClicked(item);
+                        itemClicked(item, itemPosition);
                         return false;
                     };
-                }(item));
+                }(item, i));
 
                 arrowLink = document.createElement("a");
                 arrowLink.innerHTML = "&nbsp;";
                 arrowLink.className = "arrow";
                 arrowLink.setAttribute("href", "#");
-                arrowLink.onclick = (function (item) {
+                arrowLink.onclick = (function (item, itemPosition) {
                     return function () {
-                        itemClicked(item);
+                        itemClicked(item, itemPosition);
                         return false;
                     };
-                }(item));
+                }(item, i));
 
                 listItem.appendChild(addressLink);
                 listItem.appendChild(arrowLink);
@@ -171,7 +171,7 @@
             }
         };
 
-        itemClicked = function (item) {
+        itemClicked = function (item, itemPosition) {
 
             customEvent.fire("moduleRequired", {
                 moduleName: "map"
@@ -183,7 +183,8 @@
             });
 
             customEvent.fire("itemDetailsRequired", {
-                item: item
+                item: item,
+                itemPosition: itemPosition
             });
 
         };

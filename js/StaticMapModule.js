@@ -38,6 +38,7 @@
                 height: 300,
                 zoom: 10,
                 nodot: true,
+                pois: null,
                 bbox: ""
             },
 
@@ -48,9 +49,11 @@
                 height: _default.height,
                 zoom: _default.zoom,
                 nodot: _default.nodot,
+                pois: _default.pois,
                 bbox: _default.bbox
             },
 
+            _results = null,
 
             _service = "http://image.maps.cit.api.here.com/mia/1.6/mapview?app_id=" + _appId + "&app_code=" + _appCode,
 
@@ -216,7 +219,25 @@
 
             if (event.params.moduleName === "map") {
 
-                loadImage(_current, true);
+                //loadImage(_current, true);
+                //loadDefaultImage();
+                if (_results) {
+                    loadImage(_results, true);
+
+                    _current = {
+                        latitude: _results.latitude,
+                        longitude: _results.longitude,
+                        width: _results.width,
+                        height: _results.height,
+                        zoom: _results.zoom,
+                        nodot: _results.nodot,
+                        pois: _results.pois,
+                        bbox: _results.bbox
+                    };
+
+                } else {
+                    loadDefaultImage();
+                }
                 show();
             } else {
                 hide();
@@ -256,6 +277,22 @@
             }
 
             zoomMapToItems(points);
+
+            _results = null;
+
+            if (points.length > 0) {
+
+                _results = {
+                    latitude: _current.latitude,
+                    longitude: _current.longitude,
+                    width: _current.width,
+                    height: _current.height,
+                    zoom: _current.zoom,
+                    nodot: _current.nodot,
+                    pois: _current.pois,
+                    bbox: _current.bbox
+                }
+            }
 
             loadImage(_current, true);
 
