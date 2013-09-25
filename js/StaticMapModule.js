@@ -284,7 +284,7 @@
                     nodot: _current.nodot,
                     pois: _current.pois,
                     bbox: _current.bbox
-                }
+                };
             }
 
             loadImage(_current, true);
@@ -292,7 +292,7 @@
         };
 
         onSearchItemsNotFound = function () {
-            loadDefaultImage()
+            loadDefaultImage();
         };
 
         onGeoLocationFound = function (event) {
