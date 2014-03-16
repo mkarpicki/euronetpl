@@ -238,7 +238,7 @@
 
             customEvent.fire("searchForItemsFired");
 
-            params = "&client_id="+ _clientId + "&callback=fake&street=" + street + "&postcode=" + postalCode + "&city=" + city;
+            params = "&client_id="+ _clientId + "&street=" + street + "&postcode=" + postalCode + "&city=" + city;
 
             request = new util.Request({
                 dataType: "jsonp",

@@ -18,8 +18,8 @@
     //require_once("js/init-ebankomaty.js");
     require_once("js/init-cashGroup.js");
 
-    require_once("js/StaticMapModule.js");
-    //require_once("js/MapModule.js");
+    //require_once("js/StaticMapModule.js");
+    require_once("js/MapModule.js");
     require_once("js/ListModule.js");
     require_once("js/SearchModule.js");
     require_once("js/Bar.js");

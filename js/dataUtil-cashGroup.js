@@ -11,6 +11,7 @@
 
         getPath: function () {
             return "http://services.karpicki.com/cashgroupde/get.php?client_type=web";
+            //return "http://localhost:8080/cashgroupde/get?client_type=web";
         },
 
         getFullAddress: function (item) {
