@@ -8,7 +8,7 @@ fi
 
 folder=firefox-os
 
+zip -r ebankomaty.zip *
+
 sh ./build.sh $template $folder
 
-cd $folder
-zip -r ebankomaty.zip *

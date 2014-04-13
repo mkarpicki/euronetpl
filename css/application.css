@@ -136,6 +136,14 @@ label.placeholder {
     width: 24px;
 }
 
+#bar a:link,
+#bar a:visited,
+#bar a:hover,
+#bar a:active {
+    border-width: 0;
+    outline-width: 0;
+}
+
 #bar .zoom-in-button {
     background-position: 0 0;
 }

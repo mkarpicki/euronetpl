@@ -9,7 +9,8 @@ Refactoring of existing web application used for finding Polish Euronet ATMs
 Application can be extended to be used with different web services (example: German CashGroup ATM finder)
 * "http://apps.karpicki.com/cashgroup"
 
-To use application with own service go to application.js.php and replace current data file with own copy that will implement the same interface
+To use application with own service go to application.js.php and replace current data file with own copy that will
+ implement the same interface
 
 buil.sh script
 
