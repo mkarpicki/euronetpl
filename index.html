@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl-PL">
 <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="eBankomaty, euronet, ATM" />
+    <meta name="description" content="Aplikacja umożliwia wyszukanie bankomatów sieci Euronet na terenie podanego lub znalezionego za pomocą nadajnika GPS miasta na terenie Polski. Mariusz Karpicki" />
+    <meta name="keywords" content="eBankomaty, Euronet, ATM, bankomaty, mBank, Multibank, ATM Poland" />
 
     <meta name="MobileOptimized" content="width" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!--[if IE 8]>
+    <meta http-equiv="refresh" content="0; url=http://apps.karpicki.com/ebankomaty-archive/">
+    <![endif]-->
 
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9" />
@@ -49,10 +53,6 @@
                     <div>
                         <label for="city" class="placeholder">podaj miasto:</label>
                         <input type="text" name="city" id="city" value="" placeholder="podaj miasto" class="last-row" />
-                        <label for="post-code" class="placeholder">podaj zip:</label>
-                        <input type="text" name="post-code" id="post-code" value="" placeholder="podaj zip" class="last-row" />
-                        <label for="street" class="placeholder">podaj ulice:</label>
-                        <input type="text" name="street" id="street" value="" placeholder="podaj ulice" class="last-row" />
                     </div>
 
                     <button type="button" class="last-row">
@@ -82,16 +82,16 @@
 
     <nav id="bar">
         <ul>
-            <li><a href="#" class="search-button" title="Search">Search</a></li>
-            <li><a href="#" class="refresh-button disabled" title="Refresh">Refresh</a></li>
-            <li><a href="#" class="list-button" title="List">List</a></li>
-            <li><a href="#" class="zoom-out-button" title="Zoom Out">Zoom Out</a></li>
-            <li><a href="#" class="map-button" title="Map">Map</a></li>
-            <li><a href="#" class="zoom-in-button" title="Zoom In">Zoom In</a></li>
+            <li><a href="#" class="search-button" title="Szukaj">Szukaj</a></li>
+            <li><a href="#" class="refresh-button disabled" title="Odświerz">Odświerz</a></li>
+            <li><a href="#" class="list-button" title="Lista">Lista</a></li>
+            <li><a href="#" class="zoom-out-button" title="Oddal">Oddal</a></li>
+            <li><a href="#" class="map-button" title="Mapa">Mapa</a></li>
+            <li><a href="#" class="zoom-in-button" title="Przybliż">Przybliż</a></li>
         </ul>
     </nav>
 
-    <script charset="utf-8" type="text/javascript" src="http://js.api.here.com/se/2.5.3/jsl.js?routing=none&positioning=none" ></script>
+    <script charset="utf-8" type="text/javascript" src="http://js.api.here.com/se/2.5.4/jsl.js?routing=none&positioning=none" ></script>
     <script charset="utf-8" type="text/javascript" src="application.js.php"></script>
 
 </body>

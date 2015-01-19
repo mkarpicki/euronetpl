@@ -2,7 +2,7 @@
     "version": "1.2",
     "name": "eBankomaty",
     "description": "Aplikacja umożliwia wyszukanie bankomatów sieci Euronet na terenie podanego lub znalezionego za pomocą nadajnika GPS miasta na terenie Polski.",
-    "launch_path": "/ebankomaty.html",
+    "launch_path": "/index.html",
 
     "developer": {
         "name": "Mariusz Karpicki",
