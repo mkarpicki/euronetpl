@@ -10,9 +10,11 @@
     },
 
     "permissions": {
-        "systemXHR": {},
+        "systemXHR": {
+            "description": "Połączenie się z serwerem w celu pobrania listy bankomatów"
+        },
         "geolocation": {
-            "description": "Needed to tell the user where they are"
+            "description": "Ustalenie pozycji użytkownika w celu wyszukania bankomatów w pobliżu"
         }
     },
 
